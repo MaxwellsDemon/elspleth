@@ -1,0 +1,6 @@
+# TEMPLATE specific .bashrc settings
+# Should be sourced by .bashrc
+
+# Directories
+_code="/code"
+

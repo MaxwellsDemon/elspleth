@@ -1,0 +1,25 @@
+# Kenzan laptop specific .bashrc settings
+# Should be sourced by .bashrc
+
+# Directories
+_notes=~/Documents/notes
+_code="/code"
+
+# Places
+alias training='cd ~/Documents/projects/training'
+
+# Early days at Kenzan
+alias accounts="vi '${_notes}/accounts.txt'"
+alias todo="vi '${_notes}/todo.txt'"
+
+# Added by MVN installation
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# docker auto-complete
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+. $(brew --prefix)/etc/bash_completion
+fi
+
+

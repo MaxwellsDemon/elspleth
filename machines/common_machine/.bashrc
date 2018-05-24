@@ -22,6 +22,11 @@ alias l='ls -laG'
 
 # Git
 alias status='git status'
+alias list='git config --list'
+alias gall='git add --all .'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias clean='git checkout .;git clean -d -x'
 
 # Maven
 alias mci='mvn clean install'

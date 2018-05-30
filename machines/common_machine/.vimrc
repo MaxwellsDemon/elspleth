@@ -7,6 +7,7 @@ autocmd Filetype java setlocal softtabstop=4 shiftwidth=4 expandtab
 " NodeJS
 autocmd Filetype javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
+set smartindent
 set number
 syntax enable
 

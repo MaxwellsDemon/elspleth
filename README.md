@@ -1,5 +1,6 @@
 # elspleth
 
-Common and specific settings to my various machines.
-Like .bashrc and other rc files.
+Machine settings Like .bashrc and other rc files.
+
+A repository of idea tidbits.
 

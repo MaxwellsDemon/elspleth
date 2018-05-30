@@ -10,6 +10,7 @@ set -o vi
 # Places
 alias code='cd "${_code}"'
 alias down='cd ~/Downloads'
+alias helper='"${_code}/elspleth/helper-scripts'
 
 # Reload bashrc
 alias bashrc='vi ~/.bashrc; source ~/.bashrc'
@@ -17,16 +18,28 @@ alias bashrc='vi ~/.bashrc; source ~/.bashrc'
 # Vim
 alias vimrc='vim ~/.vimrc'
 
-# Bash builtin
+# Navigation
 alias l='ls -laG'
+alias cls='clear'
+alias ce='cd'
+alias f='find . -iname' # The perl support allows for look-ahead and shorthand classes: "foo(?!\w)"
+alias g='grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp'
+alias gr='g --exclude-dir=target'
 
 # Git
 alias status='git status'
+alias checkout='git checkout'
 alias list='git config --list'
 alias gall='git add --all .'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias clean='git checkout .;git clean -d -x'
+alias fetch='git fetch --prune; echo REMOTE:; git branch --remotes; echo LOCAL:; git branch; echo STATUS:; git status'
+alias list='git config --list'
+alias master='git checkout master'
+alias dev='git checkout develop'
+alias agit='"${_code}"/elspleth/helper-scripts/git/generic_all_git.sh'
+alias qgit='"${_code}"/elspleth/helper-scripts/git/qgit.sh'
 
 # Maven
 alias mci='mvn clean install'
@@ -47,7 +60,7 @@ alias dl='docker container ls -a'
 alias dex='docker exec -it'
 
 # Settings specific to this machine
-source ~/.bashrc_local
-# ^^^ assumes .bashrc_local set these variables:
+# 	Assumes .bashrc_local set these variables:
 #	$_code
+source ~/.bashrc_local
 

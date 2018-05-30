@@ -1,0 +1,73 @@
+
+Header for oXygen to correctly validate document
+
+<?xml version="1.0" ?> 
+<html xmlns=	 "http://www.w3.org/2002/06/xhtml2/" 
+    xmlns:xforms=	"http://www.w3.org/2002/xforms" 
+    xmlns:xsi=	"http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation=	"http://www.w3.org/2002/06/xhtml2/ http://www.w3.org/MarkUp/SCHEMA/xhtml2.xsd 
+    http://www.w3.org/2002/xforms http://www.w3.org/MarkUp/Forms/2002/XForms-Schema.xsd"	>
+
+
+	
+	
+	
+	
+Runtime research of events, here are ALL events in the spec.  Copy and paste all into an item.	
+
+                                <td colspan="1" class="field-label">AllScripts MRN:</td>
+                                <td colspan="1" class="medium-text-field">
+                                    <xforms:input id="mrn" bind="mrnBind">
+                                        <xforms:label/>
+                                        <!-- PASTE HERE -->
+                                    </xforms:input>
+                                </td>
+
+<xforms:action ev:event="xforms-model-construct"><xforms:message>xforms-model-construct</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-model-construct-done"><xforms:message>xforms-model-construct-done</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-ready"><xforms:message>xforms-ready</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-model-destruct"><xforms:message>xforms-model-destruct</xforms:message></xforms:action>
+<xforms:action ev:event="Processing Events"><xforms:message>Processing Events</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-rebuild"><xforms:message>xforms-rebuild</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-recalculate"><xforms:message>xforms-recalculate</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-revalidate"><xforms:message>xforms-revalidate</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-refresh"><xforms:message>xforms-refresh</xforms:message></xforms:action>
+<xforms:action ev:event="Interaction Events"><xforms:message>Interaction Events</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-previous"><xforms:message>xforms-previous</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-next"><xforms:message>xforms-next</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-focus"><xforms:message>xforms-focus</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-help"><xforms:message>xforms-help</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-hint"><xforms:message>xforms-hint</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-reset"><xforms:message>xforms-reset</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-submit"><xforms:message>xforms-submit</xforms:message></xforms:action>
+<xforms:action ev:event="DOMActivate"><xforms:message>DOMActivate</xforms:message></xforms:action>
+<xforms:action ev:event="Notification Events"><xforms:message>Notification Events</xforms:message></xforms:action>
+<xforms:action ev:event="DOMFocusIn"><xforms:message>DOMFocusIn</xforms:message></xforms:action>
+<xforms:action ev:event="DOMFocusOut"><xforms:message>DOMFocusOut</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-value-changed"><xforms:message>xforms-value-changed</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-select"><xforms:message>xforms-select</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-deselect"><xforms:message>xforms-deselect</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-scroll-first"><xforms:message>xforms-scroll-first</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-scroll-last"><xforms:message>xforms-scroll-last</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-insert"><xforms:message>xforms-insert</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-delete"><xforms:message>xforms-delete</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-valid"><xforms:message>xforms-valid</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-invalid"><xforms:message>xforms-invalid</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-in-range"><xforms:message>xforms-in-range</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-out-of-range"><xforms:message>xforms-out-of-range</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-readonly"><xforms:message>xforms-readonly</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-readwrite"><xforms:message>xforms-readwrite</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-required"><xforms:message>xforms-required</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-optional"><xforms:message>xforms-optional</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-enabled"><xforms:message>xforms-enabled</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-disabled"><xforms:message>xforms-disabled</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-submit-done"><xforms:message>xforms-submit-done</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-submit-error"><xforms:message>xforms-submit-error</xforms:message></xforms:action>
+<xforms:action ev:event="Error Notifications"><xforms:message>Error Notifications</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-binding-exception"><xforms:message>xforms-binding-exception</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-link-exception"><xforms:message>xforms-link-exception</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-link-error"><xforms:message>xforms-link-error</xforms:message></xforms:action>
+<xforms:action ev:event="xforms-compute-exception"><xforms:message>xforms-compute-exception</xforms:message></xforms:action>
+
+
+

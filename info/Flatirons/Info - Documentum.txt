@@ -1,0 +1,73 @@
+
+
+
+Set Documentum max sessions:
+concurrent_sessions=200
+history_cutoff=5     (minutes)
+C:\Documentum\dba\config\cadev\server.ini
+
+The xDB Admin for Explorer
+C:\xPlore\dsearch\xhive\admin\XHAdmin.bat
+need Documentum PrimaryDsearch service
+
+Two Webapps for Documentum Indexing:
+http://localhost:9200/IndexAgent/login_dss.jsp
+http://localhost:9300/dsearchadmin/#home
+
+Be able to debug a workflow from Eclipse using a remote debugger
+-Copy/rename startMethodServer.cmd.txt to C:\Documentum\jboss5.1.0\server\startMethodServer.cmd
+-Then in eclipse select the Project that has the workflow code you want to test
+-Navigate to Debug Configurations
+-Find Remote Java Application
+-Create a new Remote Java Application
+-The config should already have the selected project name
+-Change the port number to 8787 (which is defined by the above script)
+-If a breakpoints hits and Eclipse throws up a special page complaining about no source, there should
+ be a button on the page to attach source, just browse to the project and find it.
+
+***startMethodServer.cmd.txt***
+set NOPAUSE=true
+set USER_MEM_ARGS=-Xms1024m -Xmx1024m -XX:PermSize=64m -XX:MaxPermSize=256m -Xss256k -XX:+DisableExplicitGC -Xrs -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8787
+set JAVA_OPTIONS=-Duser.name=dmadmin
+C:\Documentum\jboss5.1.0\bin\run -c DctmServer_MethodServer -b 0.0.0.0 %JAVA_OPTIONS%
+*** end ***
+
+Another flavor from Kostas for a different attempt:
+# Sample JPDA settings for remote socket debugging
+#JAVA_OPTS="$JAVA_OPTS -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n"
+ 
+This will start the method server in debug mode.  Then you can attach eclipse to that port and debug the code.  You can add this directly to the sh method server script.
+As far as logging, I can’t remember exactly which log4j file to change but it’s one of the files in Dctm_MethodServer.  It’s been a while since I touched pre D7.
+-Kostas
+*** ***
+
+
+
+Hi Everyone
+ 
+I'm coming to this a bit late, but is the problem DFC not giving new sessions - sometimes seemingly randomly?
+ 
+Back in 2008 I was working on a Java app that ran continuously and connected to Documentum every 5mins or so 
+to check a few things - and then would report back the information to a monitoring tool called Nagios. 
+ 
+Once it had gone live we kept seeing session errors - DFC would seemingly randomly stop giving new ones out. 
+We checked all the connects and they all have equal disconnects so we knew it wasn't actually running out of 
+sessions. As a work-around we tried each login 10 times - randomly putting the thread to sleep for 
+5-20 seconds each time.
+ 
+That sorta worked, but we still saw the issue.
+ 
+8 months later I finally saw what the problem was - there were a couple of DQL queries where the collection 
+wasn't being closed. Instead of reporting back a "no more collections" error like it did in the good old 
+dmcl40.dll days, it just stopped giving out sessions.
+ 
+As soon as we fixed all the queries to close the collections - the session problem never happened again.
+ 
+I think a way you can test if this is the problem is by bumping up the number of collections allowed to be 
+open in dfc.properties. If memory serves - it is something like 1000 by default. If you bump this up to 
+100,000 - and you still get the same problem, just much later than before - then that is the issue.
+ 
+Cheers
+Glen.
+
+****

@@ -1,0 +1,13 @@
+Xopus lessons learned.
+
+XopusBeforeAttrInserted is misleading because the attribute has already been cleared and .cancelEvent will not prevent 
+the clear, only prevent the assignment to the new value.
+
+
+Fault 1
+Instantiating <x:template> and surfacing that in the events.  As a library user I am not expecting this and it effectively
+causes incorrect events to fire.
+
+Fault 2
+Having the element created and stomped on by <x:template> without a cancelable event, which means I cannot enforce
+a set-once pattern for attributes.

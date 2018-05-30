@@ -1,0 +1,7 @@
+COBOL stories
+-Handle DAG (direct acyclic graph) of redefinitions, in addition to the existing case where all redefinitions in a group point to the head item.
+-Possibly a feature to automate providing names for nameless items.
+
+
+XML Writing Library stories
+-Some sort of XML element hierarchy flattening. Need rules on near-root elements.

@@ -1,0 +1,7 @@
+
+Apparently the linux application "xorg-x11-xauth" was needed for the Catholic Health VMs
+to be able to forward a display, so:
+yum xorg-x11-xauth
+
+
+

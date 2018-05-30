@@ -1,0 +1,91 @@
+Date normalizer for US and Best formats (untested)
+
+
+declare function report:normalizeDate($date?)
+as xs:date?
+{
+    let $dateAsText := xs:string($date)
+    return
+        if (string-length($dateAsText) eq 0)
+        then ()
+        else
+            (: Replace common separators as hyphen :)
+            let $dateAsText := translate($dateAsText, "/\. ", "----")
+            return
+                if (matches($dateAsText, "\d{4}-\d{2}-\d{2}"))
+                then xs:date($dateAsText)
+                else if (matches($dateAsText, "\d{2}-\d{2}-\d{4}")) (: US date format, MM-DD-YYYY :)
+                then 
+                    let $dateAsText := string-join( (substring($dateAsText, 7, 4), substring($dateAsText, 1, 5)), "-")
+                    return xs:date($dateAsText)
+                else ()
+};
+
+
+
+(: If there was a way to serialize an XML fragment to a local XQuery string, then a
+sequence of XML can correctly and easily be made distinct :)
+
+(: Counter example :)
+let $a := <a>z<b>a</b></a>
+let $b := <a/>
+return deep-equal($a, $b)
+(: NOT CORRECT because deep-equal is misleading :)
+declare function local:distinct-nodes-stable($arg as node()*) as node()* 
+{ 
+   for $a at $apos in $arg 
+   let $before_a := fn:subsequence($arg, 1, $apos - 1) 
+   where every $ba in $before_a satisfies not(deep-equal($ba, $a)) 
+   return $a 
+};
+
+
+
+
+(: 'Wut' :)
+let $foo := (<foo>bar</foo>)
+let $bar := ($foo, $foo)
+return $bar/.
+
+(: vs :)
+let $foo := (<foo>bar</foo>)
+let $bar := ($foo, $foo)
+return $bar
+
+
+
+
+
+
+(: Print MAHP AREA/ACCOUNT.SUBACCOUNT :)
+let $names := ('CODE', 'VENDOR')
+for $root in doc('/DATA/mahp/Collection/')/*
+let $name := string($root/@filename)
+where exists($name) and exists(index-of($names, $name))
+return concat($name, ' ', $root/@area, '/', $root/@subaccount)
+
+
+(: Search for files that have a target filename :)
+let $yourSearch := ()
+for $search in $yourSearch,
+    $a in doc("/DATA")
+let $target := lower-case($search)
+let $uri := lower-case(base-uri($a))
+where contains($uri, lower-case($target))
+return base-uri($a)
+
+
+
+
+(: text search XML content :)
+let $text := "enrollee" (: keep lower case, I suspect :)
+for $record in doc('//')/*/*
+where xhive:fts($record, $text)
+return $record
+
+(: This query solves the question “I wonder what files in this database have a field named containing ‘PAYEE’” :)
+let $target := 'PROV'
+for $field in doc('//')/*/*[1]/*
+let $elemName := string(node-name($field))
+where contains($elemName, $target)
+return concat($elemName, ' is in ', base-uri($field))

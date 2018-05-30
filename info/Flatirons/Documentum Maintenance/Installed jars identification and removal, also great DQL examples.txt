@@ -1,0 +1,24 @@
+// GOOD, see summary of just the CURRENT version of all jars
+select r_object_id, object_name, owner_name, r_version_label, r_full_content_size from dmc_jar
+
+// GOOD, see the worst offenders. Each row is a jar name and its byte total for all versions
+select object_name, sum(r_full_content_size) as total_bytes from dmc_jar (ALL) group by object_name order by 2 DESC
+
+// GOOD, see all versions of a named jar
+select r_object_id, object_name, owner_name, r_version_label, r_full_content_size from dmc_jar (ALL) where object_name='CCMSCommon.jar'
+
+// GOOD, byte count of the versions of a named jar
+select sum(r_full_content_size) from dmc_jar (ALL) where object_name='CCMSCommon.jar'
+112 068 255
+
+// GOOD, byte count of all jars and all their versions
+select sum(r_full_content_size) from dmc_jar (ALL)
+5 090 216 568
+
+// GOOD, delete all non-CURRENT jars for the given name
+delete dmc_jar (ALL) objects where object_name='CCMSCommon.jar' AND NOT(ANY r_version_label='CURRENT')
+
+
+Run the Documentum Job 'DM Clean' to release space back to the OS:
+	Open DA > Administration > Job Management > Jobs > 
+	right-click on 'dm_DMClean' > Run (it takes a few minutes, check job's properties for completion)

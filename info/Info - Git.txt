@@ -1,0 +1,9 @@
+# Essential Git configuration that must be setup for every Windows box:
+
+# Git auto-converting CRLF line endings into LF when you add a file to the index, and vice versa when it checks out code onto your filesystem.
+git config --global core.autocrlf true
+
+# Disables the annoying message
+git config --global core.safecrlf false
+
+# https://stackoverflow.com/questions/5834014/lf-will-be-replaced-by-crlf-in-git-what-is-that-and-is-it-important

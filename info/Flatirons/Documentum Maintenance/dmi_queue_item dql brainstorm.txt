@@ -1,0 +1,132 @@
+select count(*) from dmi_queue_item
+
+select count(*) from dmi_queue_item where item_name='ca_WFMonitor'
+
+select * from dmi_queue_item where r_object_id='1b45689d800d41db'
+
+select distinct(item_name) from dmi_queue_item
+
+select * from dmi_queue_item where message like '%Error processing CDM%'
+
+select * from dmi_queue_item where event='Job_Failure' and name!='dmadmin'
+
+select * from dmi_queue_item where date_sent > DATE('05/19/2014 9:46:00', 'mm/dd/yyyy hh:mi:ss')
+
+select r_object_id,date_sent, due_date, delete_flag from dmi_queue_item where date_sent > DATE('05/19/2014 9:46:00', 'mm/dd/yyyy hh:mi:ss')
+
+
+// tentative
+delete dmi_queue_item objects where r_object_id='1b45689d801009c2'
+select * from dmi_queue_item where event='Job_Failure' and name='dmadmin'
+delete dmi_queue_item objects where event='Job_Failure' and name='dmadmin'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

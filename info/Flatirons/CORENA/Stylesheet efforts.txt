@@ -1,0 +1,22 @@
+
+[‎3/‎14/‎2018 2:53 PM]  
+Do you know the <dtm:doc> elements before some templates do?
+Like this:
+  <dtm:doc dtm:status="testing" dtm:elements="personSkill|timeLimitInfo" dtm:priority="low" dtm:idref="getSkill"/>
+  <xsl:template name="getSkill" dtm:id="getSkill"> 
+ 
+[‎3/‎14/‎2018 2:54 PM]  Josiane Seumo:  
+i believe it is a namespace either for Studio or the very old version of the tool 
+it is not used anymore 
+today
+ 
+-----------------------------------------------------------------------------------------------------------------------
+There are 13,593 <dtm:doc> elements.  They might all be dead.
+
+Developer@CURTIS-C-SERIES MINGW64 /c/code/stylesheets (feature/DALBCI-309)
+$ grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp --exclude-dir=target 'dtm:doc' | wc -l
+13593
+
+-----------------------------------------------------------------------------------------------------------------------
+
+

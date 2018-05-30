@@ -1,0 +1,17 @@
+// Cool: "instance.new" syntax
+public class Parent {
+
+    public static Child produceChild() {
+        Parent parent = new Parent();
+        return parent.new Child();
+    }
+    
+    public class Child {
+        
+    }
+}
+
+
+
+
+

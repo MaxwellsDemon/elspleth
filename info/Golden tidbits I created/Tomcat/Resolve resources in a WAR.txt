@@ -1,0 +1,35 @@
+
+In short, start your path with '/'.
+
+	If you are in a war, and the desired path starts with "/", then the
+	path is relative to "WEB-INF/classes"
+
+THE TRICK IS STARTING THE PATH WITH "/" EVEN FOR PARENT "../" REFERENCES!
+	
+Otherwise, a path that doesn't start with "/" I believe will be relative
+to the class's package path (the class used in MyFoo.class.getResource(path))
+
+Examples:
+
+webapps
+	MyExplodedWar
+		A.properties
+		WEB-INF
+			B.properties
+			web.xml
+			classes
+				C.properties
+				log4j.properties
+
+With the above folder structure, all of the following should work
+
+
+// Unverified
+URI a = AnyClassLiteral.class.getResource("/../../A.properties");
+// Verified
+URI b = AnyClassLiteral.class.getResource("/../B.properties");
+// Verified
+URI c = AnyClassLiteral.class.getResource("/C.properties");
+
+					
+			

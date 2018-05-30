@@ -1,0 +1,39 @@
+--- Answer ---
+
+.parentDiv {
+	position: relative;
+}
+
+.childDiv {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+
+--- Discussion ---
+
+
+Say you have lots of divs containing divs. 
+
+
+You want to position a small div in a corner of its parent div like so:
+
+
++---------+
+|         |
+|         |
+|         |
+|     +--+|
+|     |  ||
+|     +--+|
++---------+
+
+Usually the small div will be relative to the body or some ancestor, ignoring the parent div. <-- UNDESIRABLE
+
+This happens because the parent div is statically positioned, which is the default.
+To keep the parent div in the document flow but it have it act like a true container, 
+use position: relative on the parent div.
+
+
+

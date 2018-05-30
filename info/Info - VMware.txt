@@ -1,0 +1,21 @@
+To reclaim VMDK space on the host for a linux gest OS, do these steps:
+
+https://www.howtoforge.com/how-to-shrink-vmware-virtual-disk-files-vmdk
+
+In short:
+
+Run this on the guest linux OS to create a big file of all zeros, to clean empty space:
+cat /dev/zero > zero.fill;sync;sleep 1;sync;rm -f zero.fill
+
+Shut down VM
+
+Then something like this:
+
+"C:\Program Files (x86)\VMware\VMware Workstation\vmware-vdiskmanager.exe" -k <path to VMDK>
+
+It performs a shrink.
+
+
+Historical values: CentOS7 image where host reported 43 GB and guest reported 21 GB
+Result was 27GB.
+

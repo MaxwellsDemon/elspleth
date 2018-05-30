@@ -1,0 +1,125 @@
+*** Curt's explanation of "this" ***
+
+"The 'this' variable inside of function foo() is the calling object and not the declaration object."
+
+This makes sense because a single function can be passed around and shared between many objects,
+allowing that single function to have interchangable state.
+
+Otherwise variables behave according to the declaration scope of nesting functions.
+
+*** Internet explanation of "this" ***
+
+ <script type="text/javascript"> 
+  var deep_thought = { 
+   the_answer: 42, 
+   ask_question: function () { 
+    return this.the_answer; 
+   } 
+  }; 
+  
+  var the_meaning = deep_thought.ask_question(); 
+ </script>
+
+ When deep_thought.ask_question() is executed, JavaScript establishes an execution 
+ context for the function call, setting this to the object referenced by whatever 
+ came before the last ”.”, in this case: deep_thought. The method can then look in 
+ the mirror via this to examine its own properties, returning the value stored in 
+ this.the_answer: 42.
+ 
+ 
+*** Example 2 ***
+ 
+ 
+makePink = function() {
+    this.color = "pink";
+};
+
+warm = {
+    color : "red",
+    update : makePink
+};
+
+cool = {
+    color : "blue",
+    update : makePink
+};
+
+print = function() {
+    alert("warm " + warm.color);
+    alert("cool " + cool.color);
+    alert("window " + window.color);
+};
+
+print();
+warm.update();
+print();
+cool.update();
+print();
+makePink();
+print();
+
+*** Example 3 ***
+
+procure = function() {
+    var color = "green";
+    var f = function() {
+        return this.color;
+    };
+    return f;
+};
+
+color = "white";
+
+var getter = procure();
+
+warm = {
+    color : "red",
+    getter : getter
+};
+
+alert(getter());
+alert(warm.getter());
+
+// Run as-is to get "white" and "red"
+// remove the this reference to get "green" and "green"
+
+***
+
+
+// Fire up jsfiddle.net and try out these examples!
+
+
+// Proof that variable declarations are implicitly carried to the top of 
+// the current scope, but leave the assignment in-order.
+var foo = 2;
+(function() {
+    alert(foo + foo);
+    foo = 3; // Execute a second time as a redeclaration, 'var foo = 3;'
+    alert(foo + foo);
+})();
+ 
+ 
+// It is not possible to guarantee sibling references inside an object, 
+// demonstrated using the getter pattern.  Solution is to use an external
+// scope reference by replacing this.color with eye.color.
+var color = "green";
+var eye = {
+    color : "blue",
+    getColor : function() {
+        return this.color;
+    }
+};
+var hair = {
+    color : "red",
+    theEyeFunction : eye.getColor,
+    theEyeValue : eye.getColor()
+};
+alert(hair.theEyeValue);
+alert(hair.theEyeFunction());
+
+
+
+*** MISC ***
+
+// Remove class (remove a token from space-separated list)
+var regex = new RegExp("(?:^|\\s)" + clazz + "(?!\\S)", "g");

@@ -1,0 +1,24 @@
+We found this "resolution path" is used by Class.getResouce():
+
+"C:\code\CCMSCommon\test\java"
+
+Which happens to be one of the two paths specificed in Eclipse > Java Build Path > Source tab > the root entries.
+	Happy coincidence? I'm not sure.
+The two source folders are in Eclipse are:
+
+CCMSCommon/src/java
+CCMSCommon/test/java
+
+Thoughts:
+-I'm unsure if both source paths are scanned, which is a different approach than using exactly one path for resolution
+
+-Definitely the resolution path is the parent directory of the root package directory. So if "com" is your root package, it is "com/.."
+	-This rule suggests the resolution path ends with the directory name "src", "test", or "classes"
+	-This rule produces these possible resolution paths:
+		CCMSCommon/src/java
+		CCMSCommon/test/java
+		CCMSCommon/bin/classes
+		CCMSCommon/bin/test/classes
+
+-Through trial and error the root directory is not in the output "/bin" directory. This is weird
+	because the running JUnit uses compiled .class files under the output "/bin" directory

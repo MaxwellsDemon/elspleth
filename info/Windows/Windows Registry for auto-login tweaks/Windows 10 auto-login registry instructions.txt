@@ -1,0 +1,76 @@
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+								Quick update!
+
+
+
+Change password registry key:
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\DefaultPassword
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+Windows 10 Auto-login when on a domain
+
+General guide
+http://www.winhelponline.com/blog/how-to-automatically-login-to-windows-and-then-lock-the-workstation/
+
+	Press WinKey + R, and type the following and press ENTER:
+	control userpasswords2
+	Uncheck "Users must enter a user name and password to use this computer"
+
+This guide
+https://www.itsupportguides.com/windows-7/windows-7-auto-logon-with-domain-computer/
+
+
+
+Problem
+
+After a workstation is added to an Active Directory domain you are unable to 
+set the computer to automatically logon using the control userpasswords2 
+(User Accounts) tool.
+
+When you open the tool you find the ‘Users must enter a user name and password 
+to use this computer’ option is missing.
+
+MSWindows7-AutoLogonDomain
+
+Solution
+
+NOTE: Passwords for domain accounts typically expire and are changed regularly.
+ If the password for the domain account changes you will need to update the 
+ settings in the registry.
+
+You will need to configure the automatic logon through the registry editor.
+
+Open the registry editor (regedit)
+Navigiate to HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+Open the ‘AutoAdminLogon’ key and change it’s value to “1”
+MSWindows7-AutoLogonDomain2
+Open the ‘DefaultDomainName’ key and set the value to your domain name (or the computers name if using a local account)
+Open the ‘DefaultUserName’ key and set the value to the user name for the auto logon
+Create a new STRING (REG_SZ) value called ‘DefaultPassword’ and set the value to the user account password.
+
+NOTE:
+
+If you’re unsure what the ‘DefaultDomainName’ field needs, you can open the 
+command prompt (Windows + R, enter cmd and hit enter) and enter
+
+echo %userdomain%
+If you’re unsure what the ‘DefaultUserName’ field needs, you can open the 
+command prompt (Windows + R, enter cmd and hit enter) and enter
+
+echo %username%
+The output (in this case “DEV” needs to be the same as the ‘DefaultDomainName’ 
+value as indicated in the picture below).

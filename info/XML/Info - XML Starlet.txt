@@ -1,0 +1,13 @@
+==== NAMESPACE WORKING EXAMPLE =========
+$ xml sel -T -N w=http://java.sun.com/xml/ns/javaee -t -v 'count(w:web-app)' '/c/Program Files (x86)/CORENA_KCT/apache-tomcat-7.0.79/webapps/docato-composer/WEB-INF/web.xml'
+1
+
+=== For ===
+   2
+   3 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
+   4          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   5          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+   6          version="3.0">
+   7
+
+==========

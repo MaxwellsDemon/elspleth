@@ -1,0 +1,65 @@
+1) Set place holder Git name/email
+from:
+git config --global user.name "Curtis Fleming"
+git config --global user.email "Curtis.Fleming@flatironssolutions.com"
+
+to:
+git config --global user.name "John Doe"
+git config --global user.email "John.Doe@flatironssolutions.com"
+
+
+2) Editor cleanup
+Oxygen: close all open files (so they do not reopen)
+Eclipse: close file editors, clear breakpoints, clear expressions
+Eclipse: change Javadoc @author to "Flatirons Developer" from "Curtis Fleming"
+
+
+3) Desktop cleanup
+Clean desktop by moving custom files to the sandbox directory
+
+
+
+4) Steps to create a smaller VM
+
+--- Most important step -----------------------
+
+	Delete ALL VM snapshots. Little point in any of this space cleanup
+		if keeping a snapshot, becuase they prevent VM compact...
+
+--- File cleanup ------------------------------
+
+	Clear Chrome history
+	Clear Firefox history
+
+	Empty recycling bin
+
+	Run "git gc" for each git repository
+	Run "mvn clean" for each Maven project
+		See script tidy.sh to find such projects and clean them
+
+	Run The IAUtils GWT cleanup script
+
+	As developer	delete ~/.cache/
+	As root		delete ~/.cache/
+
+	Occasionally run "sudo baobab /" to graphically review disk usage
+		for unneeded large files and directories to delete.
+		(A lot like the Windows equivalent of "WinDirStat" tool)
+
+--- Reclaim freed space -----------------------
+
+	As root run ~/linux-vm-compact-prep_zero-out-empty-space.sh
+		Only run this if all VM snapshots are deleted
+
+	"Compact" (VMware utility) the POWERED DOWN image's volume.
+		Only run this if all VM snapshots are deleted
+
+--- Compress the VM ---------------------------
+
+	On the host OS, use 7-Zip to archive the VM directory
+	Settings:
+		Archive format:		7z
+		Compression level:	Ultra
+		Compression method:	LZMA2
+		
+		(remaining settings use default values)

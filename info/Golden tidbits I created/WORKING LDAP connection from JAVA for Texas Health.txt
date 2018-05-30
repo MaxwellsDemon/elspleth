@@ -1,0 +1,28 @@
+package com.flatironssolutions.ldap;
+
+import java.util.Hashtable;
+
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
+
+public class TexasLdapBinding {
+	
+	public static void main(String[] args) throws NamingException {
+		Hashtable<String, Object> env = new Hashtable<String, Object>();
+		//env.put(Context.SECURITY_AUTHENTICATION, "none"/"simple"/"strong");
+		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+		env.put(Context.PROVIDER_URL, "ldap://ldap.txhealth.org");
+		env.put(Context.SECURITY_PRINCIPAL, "ve.FlemiCu");
+		env.put(Context.SECURITY_CREDENTIALS, ""); // Add a password here
+		env.put("java.naming.ldap.attributes.binary", "objectSID");
+
+		//LDAPTokenAuthProperties.INSTANCE.getLdapBase();
+
+		DirContext ctx = new InitialDirContext(env);
+		
+		System.out.println("Do we have a context?: " + (ctx != null));
+	}
+
+}

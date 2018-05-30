@@ -1,0 +1,9 @@
+I thought of another performance enhancement feature for the Indexer relating to Multi-Path indexes.  I suspect this one does not exist yet.
+
+For multi-path indexes, if there are only changes to one of the sub-paths (additions/changes/deletions), then those can be individually added/deleted without having to rebuild the entire multi-path index.
+
+Hence, the main use case is if someone has  multi-path index (Paul had one today for this situation) where he wanted to just add an additional couple of paths, then the indexer would only need to add those paths.
+
+Just a thought for the future.
+
+Brad Rix | Technical Lead

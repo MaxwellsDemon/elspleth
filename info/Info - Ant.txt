@@ -1,0 +1,4 @@
+Console text highlighting
+Sent env variable, like this for linux, in ~/.profile
+export ANT_ARGS='-logger org.apache.tools.ant.listener.AnsiColorLogger'
+

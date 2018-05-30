@@ -1,0 +1,71 @@
+package com.emc.csdb.engine.api.dm;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
+import static org.junit.Assert.*;
+
+import java.util.Arrays;
+
+@RunWith(Parameterized.class)
+public class CrossRefTablesTest {
+
+    @Parameters
+    public static Iterable<? extends Object> data() {
+        return Arrays.asList(Boolean.TRUE, Boolean.FALSE);
+    }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    private boolean preload;
+
+    public CrossRefTablesTest(boolean preload) {
+        this.preload = preload;
+    }
+
+    @Test
+    public void TestGettersWithNullActPctCct() {
+        CrossRefTables crossRefTables = new CrossRefTables(null, null, null, preload);
+
+        assertEquals(null, crossRefTables.getAct());
+        assertEquals(null, crossRefTables.getCct());
+        assertEquals(null, crossRefTables.getPct());
+        assertEquals(null, crossRefTables.getCondition("1"));
+        assertEquals("1", crossRefTables.getConditionName("1"));
+        assertEquals(null, crossRefTables.getConditionType("1"));
+        assertEquals(null, crossRefTables.getConditionsByType("1"));
+        assertEquals(null, crossRefTables.getModelIdentCode());
+        assertEquals("1", crossRefTables.getProductAttributeName("1"));
+        assertEquals(null, crossRefTables.getProductAttributeEntry("1"));
+    }
+
+    @Test
+    public void testProductListWithNullActPctCct() {
+        CrossRefTables crossRefTables = new CrossRefTables(null, null, null, preload);
+        assertTrue(crossRefTables.resolveProductList().isEmpty());
+    }
+
+    @Test
+    public void testInvalidateCacheWithNullActPctCct() {
+        CrossRefTables crossRefTables = new CrossRefTables(null, null, null, preload);
+        // test for no NPE
+        crossRefTables.invalidatePctCache();
+    }
+
+    @Test
+    public void testRequiredIssue() {
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("ProductLookupIssue is required to determine assignment name");
+        thrown.reportMissingExceptionWithMessage("Exception expected for missing issue");
+
+        CrossRefTables crossRefTables = new CrossRefTables(null, null, null, preload);
+        // The "issue" version is required.
+        assertEquals(null, crossRefTables.getAssignName("1", "1", null));
+    }
+
+}

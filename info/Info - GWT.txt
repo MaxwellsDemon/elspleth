@@ -1,0 +1,6 @@
+I think this is how to create a [Java interface]-[property file] mapping in GWT:
+In the java file, import this type:
+	import com.google.gwt.i18n.client.Constants;
+Then extend it as an interface:
+	public interface CcmsProperties extends Constants { ... }
+There is still gray area around the package of the java file and the property file.

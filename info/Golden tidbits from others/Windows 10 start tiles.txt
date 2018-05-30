@@ -1,0 +1,19 @@
+Right click shortcut or exe file and Pin to Start.
+It might not appear as a tile, so:
+
+Administrator Power Shell:
+Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+-Wait for it to finish
+-Ignore the several red warnings
+
+-When done click Start and tiles should be fixed
+
+https://answers.microsoft.com/en-us/windows/forum/windows_10-start/pinunpin-to-start-menu-not-working-in-windows-10/2d5507fb-939b-4d53-98a8-78e1ab93adde?auth=1
+
+
+MAYBE
+C:\Users\cfleming\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\StartMenu
+C:\Users\cfleming\AppData\Roaming\Microsoft\Windows\Start Menu\Programs
+
+PROMISING
+https://www.eightforums.com/tutorials/15624-pin-start-files-windows-8-a.html

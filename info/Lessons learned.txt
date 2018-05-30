@@ -1,0 +1,12 @@
+2016-03-29 (Two days before Markel condo neighbor dinner)
+When jumping into a story with many tasks, start development at the boundary of existing/new code.
+This way, interfaces and framework can be improved, including Javadoc before new code accumulates.
+(History: COBOL Data Translator IDMS first attempt had to be scrapped because I forgot to use 
+existing code to do translation, not leveraging an important and flexible layer.)
+
+If starting to code something is hard enough that paper/pen brainstorming is happening, consider
+refactoring some code.
+(e.g. COBOL Data Translator: Refactor several complicated constructors into a builder pattern to 
+make things flexible. See InfoBuilder.java)
+
+

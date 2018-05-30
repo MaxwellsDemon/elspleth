@@ -1,0 +1,29 @@
+DELETE ALL LINES THAT DO NOT CONTAIN SPECIFIC WORD:
+^((?!problem).)+$[\r\n]*
+
+Find lines that do not contain a word
+This works when the target work is isolated, leading, or trailing the line.
+The trick is having the direction of the "look" be toward the dot.
+^(.(?<!problem))+$
+or
+^((?!problem).)+$
+
+Positive/Negative look ahead/behind in BNF
+'(?' + ('<')? + ('=' | '!') + [regex] + ')'
+Remembering the *optional* look-behind character '<' is a bitch
+Also, if in look-behind mode, [regex] cannot have expansion.
+
+
+
+Format code to not have more than one consecutive blank line:
+Search:
+(\R[ \t]*){2,}\R
+Replace:
+\R\R
+
+Excessive (two or more) trailing whitespace.  Ignores whitespace-only lines.
+(?<=\S)[ \t]{2,}$
+
+Casting to A particular generic type:
+\(\s*ArrayList\s*(<[^>]+>)?\s*\)
+

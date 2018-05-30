@@ -1,0 +1,204 @@
+My personal handy scripts project is here:
+https://bitbucket.flatironssolutions.com/scm/ocssandbox/helper-scripts.git
+
+
+
+
+/WEB-INF/web.xml file = the Web Application Deployment Descriptor for your application
+
+
+When text searching in Eclipse, here are file-names to avoid binary files and images
+*.*, !*.bin, !*.cab, !*.class, !*.dar, !*.gif, !*.jar, !*.jpeg, !*.jpg, !*.png, !*.svg, !*.war, !*.zip
+
+
+The Windows lock screen background
+C:\Windows\System32\oobe\info\backgrounds
+http://www.askvg.com/windows-7-supports-login-screen-customization-without-3rd-party-software-how-to-instructions-inside/
+
+Eclipse 3.5 > 3.6 "Unchecked" vs "rawtypes" incompatibilities
+http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Fporting%2F3.6%2Fincompatibilities.html
+
+Chrome, "Java was blocked because it is out of date"
+--allow-outdated-plugins
+
+From Karka, the 'credits' as it were, for working at United Health Group.
+George F- Is our EMC Senior Architect helped perform the POC on MAHP and also assisted on the initial App design.
+Bill Tarket - Is our Senior EMC developer performing insightful analysis on various MAHP issues and responsible for the completion for all MAHP projects with major contributions in EOB's-PRA's.
+Curtis Flemming - Is our EMC SME playing a major role in the completion of the toughest screens in EMC
+Greg Smith -  Is our EMC SME performing various automation and development activities and also responsible for creating the reporting framework for MAHP.
+
+
+Original xCP image memory setting (MB): 11264
+Original Lexipol image memory setting (MB): 6144
+
+NetExtender Sonicwall
+Instead try in IE, and something about settings being cached afterward
+https://vpn.flatironssolutions.com
+
+
+
+Problem: Duplicate Windows 7 taskbar app icon (e.g. eclipse)
+Solution: Add lines similiar to these two to the START of the .ini file
+-vm
+C:\Program Files (x86)\Java\jdk1.6.0_31\bin\
+
+
+
+(?=foo)		Positive lookahead
+(?!foo)		Negative lookahead
+(?<=foo)	Positive lookbehind
+(?<!foo)	Negative lookbehind
+
+
+
+Goth-influenced "symphonic" metal bands with female vocalists
+
+Main Decompiler
+http://java.decompiler.free.fr/
+
+The fix installation instructions
+http://java.decompiler.free.fr/?q=node/464
+Download the fix
+http://java.decompiler.free.fr/jd-eclipse/downloads/realignment.jd.ide.eclipse_1.0.1.jar
+
+
+
+Disable Windows hibernation
+powercfg.exe /hibernate off
+
+Original value before disabling flashing taskbar icons
+HKEY_CURRENT_USER\Control Panel\Desktop\ForegroundLockTimeout
+30d40
+(count->1 timeout->0)
+
+com.xhive.adminclient.treenodes.XhiveLibraryChildTreeNode.updateValues(XhiveLibraryChildIf)
+
+Whoa, "break label;" is CRAZY!!!, just decompile String.toLowerCase()
+
+curtisfleming
+qky87pfq
+
+/mamsi_r2/MAMSI.PROGS/MDIPA.BP/MDIPA.BP/FM.GENERATOR
+
+Where Will You Go
+
+
+Bash select the 9th column of text
+textSource | awk '{ print $9; }'
+
+
+ftp://ftp.documentum.com/X-Hive/XMLArchiving10.2.0/xmlarchiving-10.2.0.zip
+
+
+
+	Customer Language :)
+"take responsibility" -> "let us know if you are comfortable"
+"please" -> ""
+"we will" -> "we are"
+"to be implemented by" -> "do the bulk of"
+
+
+
+java.lang.ThreadLocal<T>
+
+
+Documentum Java version issues
+Some known Java / JRE issues with Sun JRE 1.6.0 builds
+https://solutions.emc.com/emcsolutionview.asp?id=esg115644
+
+
+
+Logging in GWT
+GWT.log("User Pressed a button.", null); // Added debugging message
+
+Disable GWT byte cache.  The -D is a Java flag to set system variables
+-Dgwt.persistentunitcache=false
+
+Anywhere Is
+
+
+Backus–Naur Form
+
+
+joe.furtado@emc.com
+
+  <target name="load-data-sets" depends="-init-anttasks" unless="dontLoad">
+    <!-- Set the name of the dataset. For this template, we use the application name as dataset name -->
+    <dirname property="application.bin.dir" file="${ant.file.xmlarchiving}"/>
+
+    <xdb:database id="database" bootstrap="${xdb.bootstrap}" name="${xdb.databasename}" user="${xdb.username}" password="${xdb.password}"/>
+
+    <dds:import-data dataset="Paris" databaseref="database" overwrite="true" quiet="false">
+      <!-- import xml -->
+      <dds:xmlfileset dir="${application.bin.dir}/../data/repository/Paris">
+        <include name="**/*.xml"/>
+      </dds:xmlfileset>
+    </dds:import-data>
+
+    <xdb:closedriver bootstrap="${xdb.bootstrap}" quiet="true"/>
+  </target>
+
+
+
+
+
+
+Zipping 21.5GB VMWare image took 40 minutes resulting in 10.0GB file.
+
+
+Command line ant is used like "ant -Dprop=val" where D is the flag for ant, and
+prop is a business logic value specified in the local build.xml file.
+
+
+http://localhost:8080/manager/html
+
+
+http://eclipseone.wordpress.com/2010/02/15/the-fastest-ways-to-navigate-views-in-eclipse-using-the-keyboard/
+Eclipse ctrl shift L
+
+
+Checksum:
+fciv fileName
+[Location independent]
+
+
+Help Desk x100
+
+5		hours PTO per pay period
+6.67	hours PTO when vested (5 years)
+120		hour PTO cap. Hours always rolls over.
+
+Floating holiday will reset to 24 hours at
+the beginning of the calandar year.
+
+
+
+iCMS SVN Repo
+https://10.1.1.93/svn/iPhoneDctmResearch/trunk/EclipseProject
+
+
+Downloading Image
+(Use these numbers for future testing/better speed)
+Copied 5GB image to local (Fast, many MB/sec)
+Extracted image from zip (Slow, 9-22 MB/sec)
+->Next time, try unzipping from remote to local
+
+Applications of XML include XHTML, XQuery, XSLT, XForms, XPointer, JSP, SVG, RSS, Atom, XML-RPC, Semantic Web, and SOAP.
+Taken from SGML:
+http://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language
+
+
+
+*****Hard/obscure Java questions*****
+
+What is the descriptor of the type Object[][], in JVM internal form?
+
+[[Ljava/lang/Object;
+
+
+What is the method descriptor of the max method (below) of class java.util.Collections?
+public static <T extends Object & Comparable<? super T>> T max(Collection<? extends T> coll)
+
+(Ljava/util/Collection;)Ljava/lang/Object;
+
+***** ********************************

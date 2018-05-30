@@ -1,0 +1,25 @@
+To see a whole bunch of ports and status:
+netstat -an
+
+Test if something is listening on a port
+telnet 127.0.0.1 8000
+Something is there:
+	Screen will clear and you will get a blinking input cursor. esc to get back.
+Nothing on port looks like this:
+	Connecting To 127.0.0.1...Could not open connection to the host, on port 8000: Connect failed
+
+Deletes all byte cache files older than 2 days
+forfiles /P C:\Users\dmadmin\AppData\Local\Temp\ /S /M "gwt*byte-cache" /D -2 /C "cmd /c del @path"
+
+Create hardlink
+fsutil hardlink create newFileName existingFileName
+
+
+
+Disable Windows hibernation
+powercfg.exe /hibernate off
+
+
+
+Print complete list of processes including full command line
+WMIC /OUTPUT:C:\Desired_location_here.txt PROCESS get Caption,Commandline,Processid

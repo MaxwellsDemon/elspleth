@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<server version="xDB 10.5" lsn="252" pagesize="4096" license="025GJMJA6x1xyN#TYyPQPYTSPPSyYvX9hOYBSSTT2" passwd="pqmf/c9xmNB20pgh29rZuAwK7FisCaddiASStaWT" id="8e1b78fc-00e3-4212-a26d-2f41e8e57e75">
+    <node name="primary" port="0">
+        <log path="log" usable="true" primary="true" id="1476562035657" keep-log-files="false"/>
+    </node>
+    <database name="Copia">
+        <segment id="default" temp="false" version="1" state="read_write" usage="non_detachable" usable="true" reserved="false">
+            <file path="Copia-default-0.XhiveDatabase.DB" id="0"/>
+            <binding-server name="primary"/>
+        </segment>
+        <segment id="temporary" temp="true" version="1" state="read_write" usage="non_detachable" usable="true" reserved="false">
+            <file path="Copia-temporary-0.XhiveDatabase.DB" id="1"/>
+            <binding-server name="primary"/>
+        </segment>
+    </database>
+</server>

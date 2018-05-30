@@ -1,0 +1,77 @@
+To compact an Oracle database, open the Enterprise Manager (EM) browser-based client:
+
+
+First ensure the Windows Service is running:
+Name has DBConsole in it
+e.g. OracleDBConsoleorcl
+
+
+Then from the windows start menu, follow a path like this one:
+Start > Oracle - OraDb11g_home1 > Database Control - orcl
+
+
+The link should open the web browser with a URL ending with "/em", e.g.
+https://localhost:1158/em
+
+
+The username and password (for the Cambridge Assessment image):
+
+[Insufficient privileges]
+Username: cadev
+Password: [usual]
+
+[GOD MODE]
+Username: system
+Password: [usual]
+
+
+Drill down to find the Segement Advisor:
+Upper-right corner "Database" tab > Home tab > Space Summary section > Segment Advisor Recommendations
+
+?
+[omitting some steps here] I ran a job via EM to alter things via the Segment Advisor,
+I watched the job run until it finished, the history said it was successful, but the 
+dashboard alerts didn't decrease...
+
+?
+
+
+
+
+
+
+
+To connect using the Oracle SQL Developer client:
+
+Windows start button > Oracle - OraDb11g_home1 > Application Development > SQL Developer
+
+Press the New Connection icon/button.
+Give it the creds:
+Username: system
+Password: [usual]
+The SID: to locate the SID, open Windows Services, locate the service starting with OracleDBConsole
+	The SID is the suffix. e.g. "OracleDBConcsoleorcl" has an SID of "orcl"
+-That should be it!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--- Scratch work
+
+Job Task Name SEGMENTADV_2248858
+	
+	
+alter table "CADEV"."DMI_QUEUE_ITEM_S" enable row movement
+alter table "CADEV"."DMI_QUEUE_ITEM_S" shrink space
+

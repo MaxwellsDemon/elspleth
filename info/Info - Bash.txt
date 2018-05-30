@@ -1,0 +1,110 @@
+"this" script parent dir
+SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+
+Command line XPath
+xmlstarlet sel -N pom=http://maven.apache.org/POM/4.0.0 -t -v '/pom:project/pom:version' pom.xml
+xmlstarlet ed -P -N pom=http://maven.apache.org/POM/4.0.0 --update '/pom:project/pom:version' -v '1.2' pom.xml > pom2.xml
+
+
+Find substring in files
+grep "some string" . -R
+
+
+Get the directory of the script. It looks like this wonderful code uses the current working directory as a fallback
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+# Set the bash prompt to current directory
+PS1="\w \\$ "
+
+
+Both ls and sed have good manual pages
+
+
+Soft (normal) links
+ln -s targetPath shortcutName
+
+
+
+# The required unintuitive chars are:
+#   The {} is like %ARG% replacement
+#   The \; is find-specific logic, required
+find -wholename '*foo*' -exec ls -lt {} \;
+
+
+if [ -z "${1}" ] || [ -z "${2}" ] ; then
+echo "Please provide an application & environment name, example: $0 oasis DEV"
+exit -1
+fi
+
+
+zip -r oasis.zip ./oasis
+
+Stop a rogue process, e.g. java
+ps -eaf | grep "java"
+Locate the PID
+kill -9 PID
+
+Previous commands
+history 9
+!1234
+
+
+File system disk space
+df -h
+
+Child directories space usage
+du -sh .
+s for summarize, h for human readable
+
+Machine 32 or 64 bit
+eh, it is uname, but I forget the flag, so, man uname
+
+Processor count and stats
+cat /proc/cpuinfo
+http://www.richweb.com/cpu_info
+
+Is something listening on a port?
+telnet foo_address port
+If the command hangs waiting for more input, likely something is listening
+
+
+When an installer (Tomcat, xDB, others) needs Java home,
+use this, which bounces around links a few times:
+JAVA_HOME="/usr/lib/jvm/java-openjdk"
+https://www.rosehosting.com/blog/installing-tomcat-8-on-a-centos-7-linux-vps/
+
+Linux services:
+"systemd" command
+Location to put service destination, using Tomcat as an example:
+/etc/systemd/system/tomcat8.service
+
+
+# *****Bash exit hooks (similar to Java finally statement)******************************
+#!/bin/bash
+
+declare -a on_exit_items
+
+function on_exit()
+{
+    for i in "${on_exit_items[@]}"
+    do
+        echo "on_exit: $i"
+        eval $i
+    done
+}
+
+function add_on_exit()
+{
+    local n=${#on_exit_items[*]}
+    on_exit_items[$n]="$*"
+    if [[ $n -eq 0 ]]; then
+        echo "Setting trap"
+        trap on_exit EXIT
+    fi
+}
+
+touch $$-1.tmp
+add_on_exit rm -f $$-1.tmp
+
+# **************************************************************************************

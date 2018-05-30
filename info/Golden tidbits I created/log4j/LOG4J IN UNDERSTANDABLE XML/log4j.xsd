@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!-- Authors: Chris Taylor, Ceki Gulcu. -->
+<!-- Version: 1.2 -->
+<!--
+  A configuration element consists of optional renderer
+  elements,appender elements, categories and an optional root
+  element.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <xs:import namespace="http://jakarta.apache.org/log4j/" schemaLocation="log4j-library.xsd"/>
+
+  <!-- The "threshold" attribute takes a level value below which -->
+  <!-- all logging statements are disabled. -->
+  <!-- Setting the "debug" enable the printing of internal log4j logging -->
+  <!-- statements. -->
+  <!-- By default, debug attribute is "null", meaning that we not do touch -->
+  <!-- internal log4j logging settings. The "null" value for the threshold -->
+  <!-- attribute can be misleading. The threshold field of a repository -->
+  <!-- cannot be set to null. The "null" value for the threshold attribute -->
+  <!-- simply means don't touch the threshold field, the threshold field -->
+  <!-- keeps its old value. -->
+  <xs:attributeGroup name="attlist.log4j.configuration">
+    <xs:attribute name="threshold" default="null">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="all"/>
+          <xs:enumeration value="trace"/>
+          <xs:enumeration value="debug"/>
+          <xs:enumeration value="info"/>
+          <xs:enumeration value="warn"/>
+          <xs:enumeration value="error"/>
+          <xs:enumeration value="fatal"/>
+          <xs:enumeration value="off"/>
+          <xs:enumeration value="null"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+
+    <xs:attribute name="debug" default="null">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="true"/>
+          <xs:enumeration value="false"/>
+          <xs:enumeration value="null"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+
+    <xs:attribute name="reset" default="false">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="true"/>
+          <xs:enumeration value="false"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+
+  <!-- renderer elements allow the user to customize the conversion of -->
+  <!-- message objects to String. -->
+  <xs:element name="renderer">
+    <xs:complexType>
+      <xs:attributeGroup ref="attlist.renderer"/>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:attributeGroup name="attlist.renderer">
+    <xs:attribute name="renderedClass" use="required"/>
+    <xs:attribute name="renderingClass" use="required"/>
+  </xs:attributeGroup>
+
+  <!-- Appenders must have a name and a class. -->
+  <!-- Appenders may contain an error handler, a layout, optional parameters -->
+  <!-- and filters. They may also reference (or include) other appenders. -->
+  <xs:element name="appender">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="errorHandler"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+        <xs:element minOccurs="0" ref="rollingPolicy"/>
+        <xs:element minOccurs="0" ref="triggeringPolicy"/>
+        <xs:element minOccurs="0" ref="connectionSource"/>
+        <xs:element minOccurs="0" ref="layout"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="filter"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="appender-ref"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.appender"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.appender">
+    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="class" use="required"/>
+  </xs:attributeGroup>
+
+  <xs:element name="layout">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.layout"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.layout">
+    <xs:attribute name="class" use="required"/>
+  </xs:attributeGroup>
+  
+  <xs:element name="filter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.filter"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="attlist.filter">
+    <xs:attribute name="class" use="required"/>
+  </xs:attributeGroup>
+
+  <!-- ErrorHandlers can be of any class. They can admit any number of -->
+  <!-- parameters. -->
+  <xs:element name="errorHandler">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+        <xs:element minOccurs="0" ref="root-ref"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="logger-ref"/>
+        <xs:element minOccurs="0" ref="appender-ref"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.errorHandler"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.errorHandler">
+    <xs:attribute name="class" use="required"/>
+  </xs:attributeGroup>
+  <xs:element name="root-ref">
+    <xs:complexType/>
+  </xs:element>
+
+  <xs:element name="logger-ref">
+    <xs:complexType>
+      <xs:attributeGroup ref="attlist.logger-ref"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="attlist.logger-ref">
+    <xs:attribute name="ref" use="required"/>
+  </xs:attributeGroup>
+
+  <xs:element name="param">
+    <xs:complexType>
+      <xs:attributeGroup ref="attlist.param"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="attlist.param">
+    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="value" use="required"/>
+  </xs:attributeGroup>
+
+  <!-- The priority class is org.apache.log4j.Level by default -->
+  <xs:element name="priority">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.priority"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="attlist.priority">
+    <xs:attribute name="class"/>
+    <xs:attribute name="value" use="required"/>
+  </xs:attributeGroup>
+
+  <!-- The level class is org.apache.log4j.Level by default -->
+  <xs:element name="level">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.level"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.level">
+    <xs:attribute name="class"/>
+    <xs:attribute name="value" use="required"/>
+  </xs:attributeGroup>
+
+  <!-- If no level element is specified, then the configurator MUST not -->
+  <!-- touch the level of the named category. -->
+  <xs:element name="category">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+        <xs:choice minOccurs="0">
+          <xs:element ref="priority"/>
+          <xs:element ref="level"/>
+        </xs:choice>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="appender-ref"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.category"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.category">
+    <xs:attribute name="class"/>
+    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="additivity" default="true">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="true"/>
+          <xs:enumeration value="false"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+
+  <!-- If no level element is specified, then the configurator MUST not -->
+  <!-- touch the level of the named logger. -->
+  <xs:element name="logger">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="level"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="appender-ref"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.logger"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.logger">
+    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="additivity" default="true">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="true"/>
+          <xs:enumeration value="false"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+
+  <xs:element name="categoryFactory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.categoryFactory"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.categoryFactory">
+    <xs:attribute name="class" use="required"/>
+  </xs:attributeGroup>
+
+  <xs:element name="loggerFactory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.loggerFactory"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.loggerFactory">
+    <xs:attribute name="class" use="required"/>
+  </xs:attributeGroup>
+
+  <xs:element name="appender-ref">
+    <xs:complexType>
+      <xs:attributeGroup ref="attlist.appender-ref"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.appender-ref">
+    <xs:attribute name="ref" use="required"/>
+  </xs:attributeGroup>
+
+  <!-- plugins must have a name and class and can have optional parameters -->
+  <xs:element name="plugin">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+        <xs:element minOccurs="0" ref="connectionSource"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.plugin"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.plugin">
+    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="class" use="required"/>
+  </xs:attributeGroup>
+
+  <xs:element name="connectionSource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="dataSource"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.connectionSource"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.connectionSource">
+    <xs:attribute name="class" use="required"/>
+  </xs:attributeGroup>
+
+  <xs:element name="dataSource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.dataSource"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.dataSource">
+    <xs:attribute name="class" use="required"/>
+  </xs:attributeGroup>
+
+  <xs:element name="triggeringPolicy">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="param"/>
+        <xs:element ref="filter"/>
+      </xs:choice>
+      <xs:attributeGroup ref="attlist.triggeringPolicy"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.triggeringPolicy">
+    <xs:attribute name="name"/>
+    <xs:attribute name="class" use="required"/>
+  </xs:attributeGroup>
+
+  <xs:element name="rollingPolicy">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.rollingPolicy"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attributeGroup name="attlist.rollingPolicy">
+    <xs:attribute name="name"/>
+    <xs:attribute name="class" use="required"/>
+  </xs:attributeGroup>
+
+  <!-- If no priority element is specified, then the configurator MUST not -->
+  <!-- touch the priority of root. -->
+  <!-- The root category always exists and cannot be subclassed. -->
+  <xs:element name="root">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param"/>
+        <xs:choice minOccurs="0">
+          <xs:element ref="priority"/>
+          <xs:element ref="level"/>
+        </xs:choice>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="appender-ref"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ==================================================================== -->
+  <!-- A logging event -->
+  <!-- ==================================================================== -->
+  <xs:attributeGroup name="attlist.log4j.eventSet">
+
+    <xs:attribute name="version" default="1.2">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="1.1"/>
+          <xs:enumeration value="1.2"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+
+    <xs:attribute name="includesLocationInfo" default="true">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="true"/>
+          <xs:enumeration value="false"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+
+  </xs:attributeGroup>
+
+  <!-- The timestamp format is application dependent. -->
+  <xs:attributeGroup name="attlist.log4j.event">
+    <xs:attribute name="logger" use="required"/>
+    <xs:attribute name="level" use="required"/>
+    <xs:attribute name="thread" use="required"/>
+    <xs:attribute name="timestamp" use="required"/>
+    <xs:attribute name="time"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="attlist.log4j.locationInfo">
+    <xs:attribute name="class" use="required"/>
+    <xs:attribute name="method" use="required"/>
+    <xs:attribute name="file" use="required"/>
+    <xs:attribute name="line" use="required"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="attlist.log4j.data">
+    <xs:attribute name="name" use="required"/>
+    <xs:attribute name="value" use="required"/>
+  </xs:attributeGroup>
+
+</xs:schema>

@@ -1,0 +1,27 @@
+Global environment variables were setup by adding
+application-specific scripts here:
+/etc/profile.d/tomcat.sh
+	CATALINA_HOME
+/etc/profile.d/xdb.sh
+	XDB_HOME
+
+Developer-specific variables were setup here:
+/home/developer/.profile
+
+Install new things from decompressed files without yum. Command "alternatives".
+ mv jdk1.8.0_91 /opt
+ cd /opt/jdk1.8.0_91/
+# alternatives --install /usr/bin/java java /opt/jdk1.8.0_91/bin/java 2
+# alternatives --config java
+
+
+There are 3 programs which provide 'java'.
+
+  Selection    Command
+-----------------------------------------------
+*  1           /opt/jdk1.7.0_71/bin/java
+ + 2           /opt/jdk1.8.0_45/bin/java
+   3           /opt/jdk1.8.0_77/bin/java
+   4           /opt/jdk1.8.0_91/bin/java
+
+Enter to keep the current selection[+], or type selection number: 4

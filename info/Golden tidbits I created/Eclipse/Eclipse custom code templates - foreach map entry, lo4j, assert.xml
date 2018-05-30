@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="java" deleted="false" description="assert" enabled="true" name="assert">import static org.junit.Assert.*;</template><template autoinsert="true" context="java" deleted="false" description="foreach map entry" enabled="true" name="foreach map entry">for (${entrytype:newType(java.util.Map.Entry)}&lt;${keytype:argType(map, 0)}, ${valuetype:argType(map, 1)}&gt; ${entry:newName(java.util.Map.Entry)} : ${map:localVar(java.util.Map)}.entrySet()) {
+    ${keytype} ${keyname:newName(keytype)} = ${entry}.getKey(); 
+    ${valuetype} ${valuename:newName(valuetype)} = ${entry}.getValue();
+    ${cursor}
+}</template><template autoinsert="true" context="java" deleted="false" description="Log4J logger field" enabled="true" name="log4j">${:import(org.apache.log4j.Logger)}
+private static final Logger LOGGER = Logger.getLogger(${enclosing_type}.class);</template></templates>

@@ -1,0 +1,22 @@
+
+Eclipse on Linux the Javadoc popups have a black background, making text hard to read, 
+especially blue hyperlinks.  
+The solution is to change the popup rendered to Webkit (as an embedded browser in eclipse).
+Part of the problem is using the GTK3 widget library, which has more bugs and is slower than GTK2.
+
+1) Create a Bash startup script for Eclipse in its home directory:
+
+#!/bin/bash
+# Force Eclipse to use GWT2, to work around slow vertical scrolling bug
+export SWT_GTK3=0
+cd `dirname $0`
+./eclipse
+
+
+2) Add the following VM flag to <eclipse_home>/eclipse.ini
+	-Dorg.eclipse.swt.browser.DefaultType=webkit
+
+3) Install the webkitgtk package
+	sudo yum install webkitgtk
+
+Restart Eclipse and Javadoc popups should have a white background.

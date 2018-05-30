@@ -1,0 +1,23 @@
+
+
+http://java.sun.com/xml/ns/jaxb
+becomes
+http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/jaxb/index.html
+
+
+http://java.sun.com/   								xml/ns/jaxb
+
+http://www.oracle.com/webfolder/technetwork/jsc/	xml/ns/jaxb/index.html
+
+
+thus
+http://www.oracle.com/xml/ns/jaxb/bindingschema_1_0.xsd
+becomes
+
+http://www.oracle.com/webfolder/technetwork/jsc/	xml/ns/jaxb/bindingschema_1_0.xsd
+
+http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/jaxb/bindingschema_1_0.xsd
+^
+^
+^
+Here

@@ -1,0 +1,99 @@
+#!/bin/bash
+
+# [Documentum dmadmin@ccmstestcs ~]$ cat dctmContentServer1.sh
+
+. ./env_documentum.sh
+function mthd_srv_curl
+{
+  curl $MTHD_SRV > /dev/null 2>&1
+  RC=$?
+}
+START_REPO=$DOCUMENTUM/dba/dm_start_catest
+STOP_REPO=$DOCUMENTUM/dba/dm_shutdown_catest
+START_MTH=$DOCUMENTUM_SHARED/jboss5.1.0/server/startMethodServer.sh
+STOP_MTH=$DOCUMENTUM_SHARED/jboss5.1.0/server/stopMethodServer.sh
+START_DOCBROKER=$DOCUMENTUM/dba/dm_launch_All_Docbrokers
+STOP_DOCBROKER=$DOCUMENTUM/dba/dm_stop_All_Docbrokers
+START_THUMB=$DM_HOME/thumbsrv/container/bin/startup.sh
+STOP_THUMB=$DM_HOME/thumbsrv/container/bin/shutdown.sh
+MTHD_SRV="http://localhost:9080/DmMethods/servlet/DoMethod?"
+
+ACTIVE="0"
+
+if [ ! -f $START_REPO ]; then echo "$START_REPO does not exist!" ; exit 1 ; fi
+if [ ! -f $STOP_REPO ]; then echo "$STOP_REPO does not exist!" ; exit 1 ; fi
+if [ ! -f $START_MTH ]; then echo "$START_MTH does not exist!" ; exit 1 ; fi
+if [ ! -f $STOP_MTH ]; then echo "$STOP_MTH does not exist!" ;  exit 1 ; fi
+if [ ! -f $START_DOCBROKER ]; then echo "$START_DOCBROKER does not exist!" ; exi             t 1 ; fi
+if [ ! -f $STOP_DOCBROKER ]; then echo "$STOP_DOCBROKER does not exist!" ; exit              1 ; fi
+if [ ! -f $START_THUMB ]; then echo "$START_THUMB does not exist!" ; exit 1 ; fi
+if [ ! -f $STOP_THUMB ]; then echo "$STOP_THUMB does not exist!" ; exit 1 ; fi
+
+case "$1" in
+  start)
+  mthd_srv_curl
+  if [ "$RC" = $ACTIVE ]
+    then
+      echo "Content Server is already started!"
+      exit 1;
+  fi
+
+  echo "Starting the Docbrokers"
+  $START_DOCBROKER > /dev/null 2>&1
+  sleep 10
+
+  echo "Starting the Repository"
+  $START_REPO > /dev/null 2>&1
+  sleep 30
+
+  echo "Starting the Method Server"
+  nohup $START_MTH> /dev/null 2>&1 &
+  RC=-1
+  while [ "$RC" != $ACTIVE ]; do
+    echo "...Waiting on the Method Server"
+    sleep 10
+    mthd_srv_curl
+  done
+
+  echo "Starting the Thumbnail Server"
+  $START_THUMB > /dev/null 2>&1
+  echo "Documentum Content Server has been started."
+  ;;
+
+
+  stop)
+  echo "Stopping the Thumbnail Server"
+  $STOP_THUMB > /dev/null 2>&1
+
+  echo "Stopping the Method Server"
+  $STOP_MTH > /dev/null 2>&1
+  RC=0
+  while [ "$RC" = $ACTIVE ]; do
+    echo "...Waiting on the Method Server"
+    sleep 10
+    mthd_srv_curl
+  done
+
+  echo "Stopping the Repository"
+  $STOP_REPO > /dev/null 2>&1
+
+  echo "Stopping the Docbrokers"
+  $STOP_DOCBROKER > /dev/null 2>&1
+  echo "Documentum Content Server has been shut down."
+  ;;
+
+
+  status)
+  mthd_srv_curl
+  if [ "$RC" = $ACTIVE ]
+    then
+      echo "Content Server is active"
+    else
+      echo "Content Server is NOT active"
+  fi
+  ;;
+
+
+  *)
+  echo "usage: $0 (start|stop|status)"
+esac

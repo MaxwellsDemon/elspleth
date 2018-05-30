@@ -1,0 +1,20 @@
+Installing oracle by default does not reveal its port externally,
+which is a super duper feature.
+
+Jim Monaco gave me a file called "tnsnames.ora" for reference, and essentially
+just google the issue and in a similar or nearly similar file
+in the Oracle installation directory, add a config line with the static IP
+of the machine you want to be externally accessible.  There will already be a 
+line containing localhost.
+
+
+	tnsnames.ora:
+
+SISI =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 10.8.242.100)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = sisi)
+    )
+  )

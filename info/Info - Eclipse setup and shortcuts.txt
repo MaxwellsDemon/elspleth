@@ -1,0 +1,20 @@
+Eclipse "JVM Monitor 3.8.1" from the market place has it all (time spent in methods, java object memory allocation, thread info, more)
+Install it via Eclipse marketplace.
+Documentation: http://www.jvmmonitor.org/
+It comes with a View "JVM Explorer"
+
+
+Good file search (alt + a, f) extension filter
+*, !*.bin, !*.cab, !*.class, !*.dar, !*.eps, !*.gif, !*.jar, !*.jpeg, !*.jpg, !*.pdf, !*.png, !*.svg, !*.tif, !*.war, !*.zip
+
+Unnecessary Code Detector
+http://ucdetector.sourceforge.net/update
+
+ctrl+shift+L
+A list of all other shortcuts
+
+shift+alt, up/down
+EPIC construct selection
+
+Peek at an implementation: shift+hover
+

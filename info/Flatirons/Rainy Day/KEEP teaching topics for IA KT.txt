@@ -1,0 +1,13 @@
+
+KT needs specific, productive topics to absorb archecture and specific points:
+-Most obvious topic is to paired-program the start of a story the students are assigned
+-Paired-program and work sonar qube issues.  Sonar qube is a great source of teaching material.
+
+---------------- Tangent rainy day efforts ----------------
+
+-SonarQube pass
+-Support Windows as a launch environment
+-Support Windows as a development environment
+
+
+

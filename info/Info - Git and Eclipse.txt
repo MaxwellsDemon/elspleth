@@ -1,0 +1,17 @@
+Use Git global user name as Java class file @author tag in Eclipse:
+Preferences > Java > Code Style > Code Templates > Comments > Types
+
+Template:
+
+/**
+ * 
+ * @author ${name:git_config(user.name)}
+ */
+
+
+ 
+ 
+Delete branch, not sure if it is remote or remote+local... good luck.
+git push origin --delete <branchName>
+http://stackoverflow.com/questions/2003505/delete-a-git-branch-both-locally-and-remotely
+

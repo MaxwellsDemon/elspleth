@@ -11,6 +11,7 @@ set -o vi
 alias code='cd "${_code}"'
 alias down='cd ~/Downloads'
 alias helper='"${_code}/elspleth/helper-scripts'
+alias tmp='mkdir -p ~/tmp; cd ~/tmp'
 
 # Reload bashrc
 alias bashrc='vi ~/.bashrc; source ~/.bashrc'

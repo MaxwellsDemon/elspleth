@@ -7,6 +7,7 @@ _code="/code"
 
 # Places
 alias training='cd ~/Documents/projects/training'
+alias notes='cd "${_notes}"'
 
 # Early days at Kenzan
 alias accounts="vi '${_notes}/accounts.txt'"

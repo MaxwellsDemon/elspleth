@@ -14,6 +14,7 @@ alias helper='"${_code}/elspleth/helper-scripts'
 
 # Reload bashrc
 alias bashrc='vi ~/.bashrc; source ~/.bashrc'
+alias bashrclocal='vi ~/.bashrc_local; source ~/.bashrc_local'
 
 # Vim
 alias vimrc='vim ~/.vimrc'

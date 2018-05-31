@@ -1,0 +1,36 @@
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+::1             localhost
+
+
+# ------------------------------------------------------------------
+# From Darshan Rambhia (and Walter was in the conversation)
+# ------------------------------------------------------------------
+
+22.85.193.203    splunkweb.corp.chartercom.com
+127.0.0.1    KSTLMRADD01.dev.chartercom.com
+
+## Dev K8 clusters
+# 127.0.0.1        api.portal-k8s.dev-charter.net
+
+## Eng K8 clusters
+127.0.0.1        api.portals-k8s.engprod-charter.net
+127.0.0.1        api.portals-k8s-us-west-2.engprod-charter.net
+
+## Prod K8 clusters (probably dont have access to this one any more)
+127.0.0.1        api.kubernetes.prd-aws.charter.net
+
+## Scope API
+127.0.0.1        scope-api.charter.com
+
+## Nexus and other Platform IPs
+52.11.85.172    nexusnpm.dev-charter.net
+192.168.220.235 stash.dev-charter.net
+
+# ------------------------------------------------------------------

@@ -61,6 +61,15 @@ alias doker='docker'
 alias dl='docker container ls -a'
 alias dex='docker exec -it'
 
+function compare() {
+	if [ $# -ne 2 ]; then echo 'usage: compare old new' ; fi
+	if cmp --silent $1 $2 ; then
+		echo "Byte equivalent"
+	else
+		echo "Files differ"
+	fi
+}
+
 # Settings specific to this machine
 # 	Assumes .bashrc_local set these variables:
 #	$_code

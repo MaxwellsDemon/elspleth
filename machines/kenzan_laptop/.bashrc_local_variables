@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Directories
+notes=~/Documents/notes
+code="/code"
+

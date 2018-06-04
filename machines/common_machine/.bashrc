@@ -8,9 +8,9 @@ PS1='\[\e[0;32m\]\t \w \$\[\e[m\] '
 # All the Vi navigation magic, in Bash CLI!
 set -o vi 
 # Places
-alias code='cd "${_code}"'
+alias code='cd "${code}"'
 alias down='cd ~/Downloads'
-alias helper='"${_code}/elspleth/helper-scripts'
+alias helper='"${code}/elspleth/helper-scripts'
 alias tmp='mkdir -p ~/tmp; cd ~/tmp'
 
 # Reload bashrc
@@ -40,8 +40,8 @@ alias fetch='git fetch --prune; echo REMOTE:; git branch --remotes; echo LOCAL:;
 alias list='git config --list'
 alias master='git checkout master'
 alias dev='git checkout develop'
-alias agit='"${_code}"/elspleth/helper-scripts/git/generic_all_git.sh'
-alias qgit='"${_code}"/elspleth/helper-scripts/git/qgit.sh'
+alias agit='"${code}"/elspleth/helper-scripts/git/generic_all_git.sh'
+alias qgit='"${code}"/elspleth/helper-scripts/git/qgit.sh'
 
 # Maven
 alias mci='mvn clean install'
@@ -72,6 +72,6 @@ function compare() {
 
 # Settings specific to this machine
 # 	Assumes .bashrc_local set these variables:
-#	$_code
+#	$code
 source ~/.bashrc_local
 

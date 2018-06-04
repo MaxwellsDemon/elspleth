@@ -2,16 +2,15 @@
 # Should be sourced by .bashrc
 
 # Directories
-_notes=~/Documents/notes
-_code="/code"
+. ~/.bashrc_local_variables
 
 # Places
 alias training='cd ~/Documents/projects/training'
-alias notes='cd "${_notes}"'
+alias notes='cd "${notes}"'
 
 # Early days at Kenzan
-alias accounts="vi '${_notes}/accounts.txt'"
-alias todo="vi '${_notes}/todo.txt'"
+alias accounts="vi '${notes}/accounts.txt'"
+alias todo="vi '${notes}/todo.txt'"
 
 # Added by MVN installation
 export NVM_DIR="$HOME/.nvm"

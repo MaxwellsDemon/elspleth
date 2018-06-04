@@ -21,7 +21,7 @@ alias bashrclocal='vi ~/.bashrc_local; source ~/.bashrc_local'
 alias vimrc='vim ~/.vimrc'
 
 # Navigation
-alias l='ls -laG'
+alias l='ls -la --color=auto --group-directories-first'
 alias cls='clear'
 alias ce='cd'
 alias f='find . -iname' # The perl support allows for look-ahead and shorthand classes: "foo(?!\w)"

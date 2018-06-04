@@ -17,6 +17,7 @@ alias tmp='mkdir -p ~/tmp; cd ~/tmp'
 # Reload bashrc
 alias bashrc='vi ~/.bashrc; source ~/.bashrc'
 alias bashrclocal='vi ~/.bashrc_local; source ~/.bashrc_local'
+alias bashrcvariables='vi ~/.bashrc_local_variables; source ~/.bashrc_local_variables'
 
 # Vim
 alias vimrc='vim ~/.vimrc'

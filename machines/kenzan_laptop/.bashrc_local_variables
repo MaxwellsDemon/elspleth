@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# Directories
-notes=~/Documents/notes
+# Used by generic bashrc
 code="/code"
+
+# Local
+notes=~/Documents/notes
 

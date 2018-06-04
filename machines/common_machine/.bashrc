@@ -7,10 +7,11 @@ PS1='\[\e[0;32m\]\t \w \$\[\e[m\] '
 
 # All the Vi navigation magic, in Bash CLI!
 set -o vi 
+
 # Places
 alias code='cd "${code}"'
 alias down='cd ~/Downloads'
-alias helper='"${code}/elspleth/helper-scripts'
+alias helper='cd "${code}"/elspleth/helper-scripts'
 alias tmp='mkdir -p ~/tmp; cd ~/tmp'
 
 # Reload bashrc
@@ -60,6 +61,9 @@ alias dock='docker'
 alias doker='docker'
 alias dl='docker container ls -a'
 alias dex='docker exec -it'
+
+# Holistic
+alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
 
 function compare() {
 	if [ $# -ne 2 ]; then echo 'usage: compare old new' ; fi

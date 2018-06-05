@@ -34,7 +34,7 @@ do
 
 	# 93 Yellow
 	echo
-	echo -e "\e[93m${project}\e[0m"
+	echo -e "\x1B[93m${project}\x1B[0m"
 	echo
 	mvn "$@"
 done

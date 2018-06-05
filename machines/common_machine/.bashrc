@@ -23,7 +23,7 @@ alias bashrcvariables='vi ~/.bashrc_local_variables; source ~/.bashrc_local_vari
 alias vimrc='vim ~/.vimrc'
 
 # Navigation
-alias l='ls -la --color=auto --group-directories-first'
+alias l='ls -lah --color=auto --group-directories-first'
 alias cls='clear'
 alias ce='cd'
 alias f='find . -iname' # The perl support allows for look-ahead and shorthand classes: "foo(?!\w)"
@@ -53,6 +53,7 @@ alias mci='mvn clean install'
 alias mcis='mvn clean install -DskipTests'
 alias mciss='mvn clean install -Dmaven.test.skip=true -DskipTests'
 alias mcd='mvn clean deploy'
+alias amvn='"${code}"/elspleth/helper-scripts/maven/all_mvn.sh'
 
 # Google Cloud
 alias instances='gcloud compute instances'

@@ -8,8 +8,8 @@
 alias training='cd ~/Documents/projects/training'
 alias notes='cd "${notes}"'
 alias devolympus='ssh olympus.dev-charter.net'
-alias prodolympus='ssh olympus.engprod-charter.net'
-
+alias engprodolympus='ssh olympus.engprod-charter.net'
+alias engnewolympus='ssh 172.28.165.59'
 
 # Early days at Kenzan
 alias accounts="vi '${notes}/accounts.txt'"

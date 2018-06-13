@@ -32,6 +32,7 @@ alias gr='g --exclude-dir=target'
 
 # Git
 alias status='git status'
+alias s='status'
 alias statu='status'
 alias stauts='status'
 alias staut='status'

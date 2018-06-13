@@ -7,6 +7,7 @@
 # Places
 alias training='cd ~/Documents/projects/training'
 alias notes='cd "${notes}"'
+alias blue='cd ~/Documents/projects/blue-team'
 alias devolympus='ssh olympus.dev-charter.net'
 alias engprodolympus='ssh olympus.engprod-charter.net'
 alias engnewolympus='ssh 172.28.165.59'

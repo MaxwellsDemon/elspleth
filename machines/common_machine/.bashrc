@@ -48,6 +48,7 @@ alias master='git checkout master'
 alias dev='git checkout develop'
 alias agit='"${code}"/elspleth/helper-scripts/git/generic_all_git.sh'
 alias qgit='"${code}"/elspleth/helper-scripts/git/qgit.sh'
+alias smallcommit='"${code}"/elspleth/helper-scripts/git/small_commit.sh'
 
 # Maven
 alias mci='mvn clean install'

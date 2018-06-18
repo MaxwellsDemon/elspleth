@@ -11,6 +11,20 @@ if [ $# -ne 1 ]; then
 	usage
 fi
 
+echo "=== git diff ==="
+git diff
+echo
+echo "Press enter to continue or exit the command"
+echo
+read
+
+echo "=== git diff --staged ==="
+git diff --staged
+echo
+echo "Press enter to continue or exit the command"
+echo
+read
+
 if git branch | grep develop > /dev/null
 then
 	git checkout develop

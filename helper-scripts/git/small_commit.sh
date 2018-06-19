@@ -11,14 +11,18 @@ if [ $# -ne 1 ]; then
 	usage
 fi
 
-echo "=== git diff ==="
+echo
+echo "===== git diff ==================================================================================="
+echo
 git diff
 echo
 echo "Press enter to continue or exit the command"
 echo
 read
 
-echo "=== git diff --staged ==="
+echo
+echo "===== git diff --staged =========================================================================="
+echo
 git diff --staged
 echo
 echo "Press enter to continue or exit the command"
@@ -40,8 +44,7 @@ else
 fi
 git add .
 git commit
-# TODO add the extra stuff for a proper branch track
-git push
+git push --set-upstream origin "$1"
 echo
 echo "Small commit done"
 echo

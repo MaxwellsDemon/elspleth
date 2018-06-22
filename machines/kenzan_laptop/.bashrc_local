@@ -10,7 +10,6 @@ alias notes='cd "${notes}"'
 alias blue='cd ~/Documents/projects/blue-team'
 alias devolympus='ssh olympus.dev-charter.net'
 alias engprodolympus='ssh olympus.engprod-charter.net'
-alias engnewolympus='ssh 172.28.165.59'
 
 # Clear IntelliJ 'ignored files' list that's created when deleting an Intellij Maven module
 function restore_intellij_modules() {

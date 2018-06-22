@@ -20,6 +20,10 @@ function restore_intellij_modules() {
 alias accounts="vi '${notes}/accounts.txt'"
 alias todo="vi '${notes}/todo.txt'"
 
+function jenkins() {
+	open "https://jenkinsdocker.dev-charter.net/view/PC%20Equipment/job/SPC-$(basename $(pwd))/job/$(git rev-parse --abbrev-ref HEAD)"
+}
+
 # Added by NVM installation
 function nvmcli() {
 	export NVM_DIR="$HOME/.nvm"

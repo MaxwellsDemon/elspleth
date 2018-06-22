@@ -49,6 +49,7 @@ echo "g - scroll to top"
 echo "G - scroll to bottom"
 read -p '(continue)'
 git diff --staged
+read -p '(continue)'
 git commit
 git push --set-upstream origin "$1"
 echo

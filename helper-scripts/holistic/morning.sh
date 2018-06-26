@@ -19,6 +19,7 @@ echo
 echo 
 echo 
 echo "                             Fetching and pruning"
+echo "                             (If Charter repos hang, keep killing and retrying)"
 echo
 #realtime_git fetch --prune
 realtime_git pull --prune

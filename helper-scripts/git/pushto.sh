@@ -53,5 +53,5 @@ read -p '(continue)'
 git commit
 git push --set-upstream origin "$1"
 echo
-echo "Small commit done"
+echo "pushto $1 done"
 echo

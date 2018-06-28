@@ -29,7 +29,9 @@ if git branch | grep develop > /dev/null
 then
 	mute git checkout develop
 fi
+echo "Git pull..."
 mute git pull
+echo "Git pull done"
 if git branch | grep "$1" > /dev/null
 then
 	mute git checkout "$1"

@@ -1,10 +1,11 @@
 #!/bin/bash
 
 set -e
+branch_name="$1"
 
 function usage() {
 	echo "usage: $(basename $0) <destination branch name>"
-	echo "  Does: stash, develop pull, checkout/create branch, stash pop, add all, status/diff, commit, push"
+	echo "  Does: stash, a smart pull and checkout/create branch, stash pop, add all, status/diff, commit, push"
 	exit 1
 }
 
@@ -13,34 +14,44 @@ function mute() {
 	"$@" 2> /dev/null 1>&2
 }
 
+function branch_exists() {
+	return $(git branch | grep " $1\$" 1> /dev/null 2>&1)
+}
+
+function git_pull() {
+	echo "Git pull..."
+	mute git pull
+	echo "Git pull done"
+}
+
 if [ $# -ne 1 ]; then
 	usage
 fi
-
 if [ ! -d .git ]; then
 	echo "Change to root Git project directory"
 	exit 2
 fi
 
+# ---------- validation done ---------------------------------------------------
+
 mute git add --all .
 mute git stash
 
-if git branch | grep develop > /dev/null
-then
-	mute git checkout develop
-fi
-echo "Git pull..."
-mute git pull
-echo "Git pull done"
-if git branch | grep "$1" > /dev/null
-then
-	mute git checkout "$1"
-else
-	# git checkout returns 0 if already on branch
-	# git checkout returns 128 if branch already exists
-	mute git checkout -b "$1"
-fi
+# FYI
+# git checkout returns 0 if already on branch
+# git checkout returns 128 if branch already exists
 
+if branch_exists "${branch_name}" ; then
+	mute git checkout "${branch_name}"
+	git_pull
+elif branch_exists develop ; then
+	mute git checkout develop
+	git_pull
+	mute git checkout -b "${branch_name}"
+else
+	git_pull
+	mute git checkout -b "${branch_name}"
+fi
 mute git stash pop
 mute git add --all .
 git status

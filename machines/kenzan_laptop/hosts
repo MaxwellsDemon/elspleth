@@ -30,9 +30,15 @@
 127.0.0.1        scope-api.charter.com
 
 ## Nexus and other Platform IPs
-52.11.85.172    nexusnpm.dev-charter.net
 192.168.220.235 stash.dev-charter.net
 
-# ------------------------------------------------------------------
+# Version 1
+# 52.11.85.172    nexusnpm.dev-charter.net
+# Version 2
+192.168.220.229 nexusnpm.dev-charter.net
+192.168.220.229 nexus.global.dev-charter.net
+# Version 3
+# ?
 
-98.191.15.66	vpn.kenzanmedia.com ###Cisco AnyConnect VPN client modified this file. Please do not modify contents until this comment is removed.
+
+# ------------------------------------------------------------------

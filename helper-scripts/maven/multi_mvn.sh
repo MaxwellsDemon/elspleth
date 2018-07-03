@@ -21,12 +21,18 @@ if [[ $# -eq 0 ]]; then
 	exit 1
 fi
 
-
+if [ "${TRAVERSAL}" = deep ]; then
+	find_opts=''
+elif [ "${TRAVERSAL}" = shallow ]; then
+	find_opts='-maxdepth 2'
+else
+	echo "Set variable TRAVERSAL to either 'shallow' or 'deep'"
+	exit 2
+fi
 
 # Find mvn projects
 project_paths=()
-# Shallow and fast maxdepth=2 search
-for mvn_dir in $(find "${root_dir}" -name pom.xml | sort)
+for mvn_dir in $(find "${root_dir}" $find_opts -name pom.xml | sort)
 do
 	project_path=$(realpath $(dirname "${mvn_dir}"))
 	cd "${project_path}"

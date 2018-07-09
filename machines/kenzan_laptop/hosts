@@ -6,39 +6,41 @@
 ##
 127.0.0.1	localhost
 255.255.255.255	broadcasthost
-::1             localhost
+::1		localhost
 
 
 # ------------------------------------------------------------------
-# From Darshan Rambhia (and Walter was in the conversation)
+# Originally from Darshan Rambhia, Walter, AJ
 # ------------------------------------------------------------------
 
-22.85.193.203    splunkweb.corp.chartercom.com
-127.0.0.1    KSTLMRADD01.dev.chartercom.com
+22.85.193.203   splunkweb.corp.chartercom.com
+127.0.0.1	KSTLMRADD01.dev.chartercom.com
 
 ## Dev K8 clusters
-# 127.0.0.1        api.portal-k8s.dev-charter.net
+# 127.0.0.1	api.portal-k8s.dev-charter.net
 
 ## Eng K8 clusters
-127.0.0.1        api.portals-k8s.engprod-charter.net
-127.0.0.1        api.portals-k8s-us-west-2.engprod-charter.net
+127.0.0.1	api.portals-k8s.engprod-charter.net
+127.0.0.1	api.portals-k8s-us-west-2.engprod-charter.net
 
 ## Prod K8 clusters (probably dont have access to this one any more)
-127.0.0.1        api.kubernetes.prd-aws.charter.net
+127.0.0.1	api.kubernetes.prd-aws.charter.net
 
 ## Scope API
-127.0.0.1        scope-api.charter.com
+127.0.0.1	scope-api.charter.com
 
 ## Nexus and other Platform IPs
-192.168.220.235 stash.dev-charter.net
+192.168.220.235	stash.dev-charter.net
 
 # Version 1
-# 52.11.85.172    nexusnpm.dev-charter.net
+# 52.11.85.172	nexusnpm.dev-charter.net
 # Version 2
-192.168.220.229 nexusnpm.dev-charter.net
-192.168.220.229 nexus.global.dev-charter.net
+192.168.220.229	nexusnpm.dev-charter.net
+192.168.220.229	nexus.global.dev-charter.net
 # Version 3
 # ?
 
+# Mentioned by AJ in Webex Teams "BE Blue SQuad PR and Tech Chat" room on 2018-07-09
+172.28.165.59	olympus.engnew-charter.net
 
 # ------------------------------------------------------------------

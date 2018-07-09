@@ -25,6 +25,27 @@ function restore_intellij_modules() {
 alias accounts="vi '${notes}/accounts.txt'"
 alias todo="vi '${notes}/todo.txt'"
 
+function open_pages() {
+	echo "Opening..."
+	for i in "$@"; do
+		echo "${i}"
+		open "${i}"
+	done
+}
+
+function bitbucket() {
+	if [ ! -d .git ]; then echo "Change to root Git project directory"; return 1; fi
+	local repo_name="$(basename $(pwd))"
+	local bitbucket_base="https://stash.dev-charter.net"
+	local repo_base="${bitbucket_base}/stash/projects/SPC/repos"
+	# https://stash.dev-charter.net/stash/projects/SPC/repos/equipment-chtr-data-manager-config/browse
+	# https://stash.dev-charter.net/stash/projects/SPC/repos/equipment-chtr-data-manager-config/pull-requests?create
+	local pages=()
+	local pages+=("${repo_base}/${repo_name}/browse")
+	local pages+=("${repo_base}/${repo_name}/pull-requests?create")
+	open_pages "${pages[@]}"
+}
+
 function jenkins() {
 	if [ ! -d .git ]; then echo "Change to root Git project directory"; return 1; fi
 	local current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
@@ -47,11 +68,7 @@ function jenkins() {
 		local pages+=("${job_home}/job/${branch_name}")
 		local pages+=("${job_home}/job/${branch_name}/build?delay=0sec")
 	fi
-	echo "Opening..."
-	for i in "${pages[@]}"; do
-		echo "${i}"
-		open "${i}"
-	done
+	open_pages "${pages[@]}"
 }
 
 # auto-complete

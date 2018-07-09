@@ -20,8 +20,11 @@ function branch_exists() {
 
 function git_pull() {
 	echo "Git pull..."
-	mute git pull
-	echo "Git pull done"
+	if mute git pull ; then
+		echo "Git pull done"
+	else
+		echo "Pull didn't happen"
+	fi
 }
 
 if [ $# -ne 1 ]; then

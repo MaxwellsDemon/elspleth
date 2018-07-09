@@ -4,6 +4,11 @@
 # Directories
 . ~/.bashrc_local_variables
 
+# Caveats for "brew install coreutils"
+# If you really need to use these commands with their normal names, you
+# can add a "gnubin" directory to your PATH from your bashrc like:
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+
 # Places
 alias training='cd ~/Documents/projects/training'
 alias notes='cd "${notes}"'
@@ -21,14 +26,32 @@ alias accounts="vi '${notes}/accounts.txt'"
 alias todo="vi '${notes}/todo.txt'"
 
 function jenkins() {
-	open "https://jenkinsdocker.dev-charter.net/view/PC%20Equipment/job/SPC-$(basename $(pwd))/job/$(git rev-parse --abbrev-ref HEAD)"
-}
-
-# Added by NVM installation
-function nvmcli() {
-	export NVM_DIR="$HOME/.nvm"
-	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+	if [ ! -d .git ]; then echo "Change to root Git project directory"; return 1; fi
+	local current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
+	local job_name="SPC-$(basename $(pwd))"
+	echo "Opens Jenkins pages for ${job_name}"
+	echo
+	echo "Default : projects & job pages"
+	echo "[branch]: also pipeline & build pages"
+	echo "'branch': also pipeline & build pages: ${current_branch_name}"
+	echo
+	local jenkins_base="https://jenkinsdocker.dev-charter.net"
+	local project_home="${jenkins_base}/view/PC%20Equipment"
+	local job_home="${project_home}/job/${job_name}"
+	local pages=("${project_home}" "${job_home}")
+	if [ "$1" ]; then
+		case "$1" in
+			branch) local branch_name="${current_branch_name}" ;;
+			*)      local branch_name="$1" ;;
+		esac
+		local pages+=("${job_home}/job/${branch_name}")
+		local pages+=("${job_home}/job/${branch_name}/build?delay=0sec")
+	fi
+	echo "Opening..."
+	for i in "${pages[@]}"; do
+		echo "${i}"
+		open "${i}"
+	done
 }
 
 # auto-complete
@@ -36,21 +59,17 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
 . $(brew --prefix)/etc/bash_completion
 fi
 
-# Caveats for "brew install coreutils"
-# If you really need to use these commands with their normal names, you
-# can add a "gnubin" directory to your PATH from your bashrc like:
-
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-
-# Additionally, you can access their man pages with normal names if you add
-# the "gnuman" directory to your MANPATH from your bashrc as well:
-
+# Added by NVM installation
+function nvmcli() {
+	export NVM_DIR="$HOME/.nvm"
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 
-
-function changeJavaVersion() {
+function change_java_version() {
 	if [ $# -ne 1 ]; then
-		echo "Usage: changeJavaVersion <version number>"
+		echo "Usage: change_java_version <version number>"
 	else
 		sed -i bak -e 's/.*export JAVA_HOME=.*/export JAVA_HOME=\`\/usr\/libexec\/java_home -v '"$1"'\`/g' ~/.bash_profile
 		source ~/.bash_profile
@@ -58,7 +77,6 @@ function changeJavaVersion() {
 		java -version
 	fi
 }
-
-alias java8='changeJavaVersion 1.8'
-alias java10='changeJavaVersion 10'
+alias java8='change_java_version 1.8'
+alias java10='change_java_version 10'
 

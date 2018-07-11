@@ -35,6 +35,7 @@ function open_pages() {
 
 function bitbucket() {
 	if [ ! -d .git ]; then echo "Change to root Git project directory"; return 1; fi
+	local current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
 	local repo_name="$(basename $(pwd))"
 	local bitbucket_base="https://stash.dev-charter.net"
 	local repo_base="${bitbucket_base}/stash/projects/SPC/repos"
@@ -43,6 +44,7 @@ function bitbucket() {
 	local pages=()
 	local pages+=("${repo_base}/${repo_name}/browse")
 	local pages+=("${repo_base}/${repo_name}/pull-requests?create")
+	echo "On branch ${current_branch_name}"
 	open_pages "${pages[@]}"
 }
 
@@ -51,23 +53,19 @@ function jenkins() {
 	local current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
 	local job_name="SPC-$(basename $(pwd))"
 	echo "Opens Jenkins pages for ${job_name}"
-	echo
-	echo "Default : projects & job pages"
-	echo "[branch]: also pipeline & build pages"
-	echo "'branch': also pipeline & build pages: ${current_branch_name}"
+	echo "Usage: jenkins [optional branch name]"
 	echo
 	local jenkins_base="https://jenkinsdocker.dev-charter.net"
 	local project_home="${jenkins_base}/view/PC%20Equipment"
 	local job_home="${project_home}/job/${job_name}"
 	local pages=("${project_home}" "${job_home}")
 	if [ "$1" ]; then
-		case "$1" in
-			branch) local branch_name="${current_branch_name}" ;;
-			*)      local branch_name="$1" ;;
-		esac
-		local pages+=("${job_home}/job/${branch_name}")
-		local pages+=("${job_home}/job/${branch_name}/build?delay=0sec")
+		local branch_name="$1"
+	else
+		local branch_name="${current_branch_name}"
 	fi
+	local pages+=("${job_home}/job/${branch_name}")
+	local pages+=("${job_home}/job/${branch_name}/build?delay=0sec")
 	open_pages "${pages[@]}"
 }
 

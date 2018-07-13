@@ -62,7 +62,8 @@ function jenkins() {
 	if [ "$1" ]; then
 		local branch_name="$1"
 	else
-		local branch_name="${current_branch_name}"
+		# Escape forward-slash in branch name for use in URLs
+		local branch_name="${current_branch_name/\//%252F}"
 	fi
 	local pages+=("${job_home}/job/${branch_name}")
 	local pages+=("${job_home}/job/${branch_name}/build?delay=0sec")

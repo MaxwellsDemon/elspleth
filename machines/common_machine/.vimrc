@@ -10,6 +10,7 @@ autocmd Filetype javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 expand
 set smartindent
 set number
 syntax enable
+set belloff=all
 
 " Visible whitespace
 "	Mapping between character and visual replacement

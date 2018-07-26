@@ -29,20 +29,24 @@ for i in "${expected_dirs[@]}"; do
 done
 
 # variable number of files under version control
-hardlink_to_version_control() {
+# arg 0: exotic directory
+gather_to_version_control() {
+	local exotic_directory="$1"
+	shift 1
 	for i in "$@"; do
 		if [ -f "$i" ]; then
 			local versioned="$i"
-			local valuable=~/$(basename "$i")
-			printf "%-80s to ${valuable}\n" "Relinking ${versioned}"
+			local valuable="${exotic_directory}"/$(basename "$i")
+			printf "%-60s to ${versioned}\n" "Copied ${valuable}"
 			rm "${versioned}"
-			ln "${valuable}" "${versioned}"
+			cp "${valuable}" "${versioned}"
 		fi
 	done
 }
 
-hardlink_to_version_control "${common_home}"/.*
-hardlink_to_version_control "${common_home}"/*
-hardlink_to_version_control "${specific_home}"/.*
-hardlink_to_version_control "${specific_home}"/*
+gather_to_version_control ~ "${common_home}"/.*
+gather_to_version_control ~ "${common_home}"/*
+gather_to_version_control ~ "${specific_home}"/.*
+gather_to_version_control ~ "${specific_home}"/*
+gather_to_version_control /etc "${specific_machine}"/hosts
 

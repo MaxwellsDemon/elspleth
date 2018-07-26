@@ -42,6 +42,7 @@ alias statu='status'
 alias stauts='status'
 alias staut='status'
 alias checkout='git checkout'
+alias branch='git branch'
 alias list='git config --list'
 alias gadd='git add .'
 alias gall='git add --all .'
@@ -80,6 +81,9 @@ alias dock='docker'
 alias doker='docker'
 alias dl='docker container ls -a'
 alias dex='docker exec -it'
+
+# Kubernetes
+alias k='kubectl'
 
 # Holistic
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'

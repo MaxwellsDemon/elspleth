@@ -1,3 +1,5 @@
+// Essentially deletes home directory .*rc files, hardlinking in their place some .*rc files of another directory
+
 var fs = require('fs')
 var path = require('path')
 var os = require('os')

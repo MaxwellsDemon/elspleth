@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Used by generic bashrc
+code="/code"
+
+# Local
+notes=~/Documents/notes
+
+# Kubernetes common flag
+ns='--all-namespaces'
+kube_scripts='/code/elspleth-charter/olympus/verbatim_home_directory_base/scripts'
+

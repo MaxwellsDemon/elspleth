@@ -10,11 +10,18 @@
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 # Places
+alias projects='cd ~/Documents/projects'
 alias training='cd ~/Documents/projects/training'
-alias notes='cd "${notes}"'
 alias blue='cd ~/Documents/projects/blue-team'
+alias notes='cd "${notes}"'
+
+# Charter
 alias devolympus='ssh olympus.dev-charter.net'
 alias engprodolympus='ssh olympus.engprod-charter.net'
+
+# Kubernetes early scripts
+alias kubelogs='bash "${kube_scripts}/logs.sh"'
+alias podshell='bash "${kube_scripts}/pod_exec_shell.sh"'
 
 # Clear IntelliJ 'ignored files' list that's created when deleting an Intellij Maven module
 function restore_intellij_modules() {

@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Used by generic bashrc
-code="/code"
-
-# Local
-notes=~/Documents/notes
-

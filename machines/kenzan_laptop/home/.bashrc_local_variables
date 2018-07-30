@@ -7,6 +7,6 @@ code="/code"
 notes=~/Documents/notes
 
 # Kubernetes common flag
-ns='--all-namespaces'
+all='--all-namespaces'
 kube_scripts='/code/elspleth-charter/olympus/verbatim_home_directory_base/scripts'
 

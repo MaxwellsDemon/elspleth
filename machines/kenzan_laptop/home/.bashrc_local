@@ -20,8 +20,8 @@ alias devolympus='ssh olympus.dev-charter.net'
 alias engprodolympus='ssh olympus.engprod-charter.net'
 
 # Kubernetes early scripts
-alias kubelogs='bash "${kube_scripts}/logs.sh"'
-alias podshell='bash "${kube_scripts}/pod_exec_shell.sh"'
+alias containerlogs='bash "${kube_scripts}/container_logs.sh"'
+alias containershell='bash "${kube_scripts}/container_shell.sh"'
 
 # Clear IntelliJ 'ignored files' list that's created when deleting an Intellij Maven module
 function restore_intellij_modules() {

@@ -1,9 +1,6 @@
 # Kenzan laptop specific .bashrc settings
 # Should be sourced by .bashrc
 
-# Directories
-. ~/.bashrc_local_variables
-
 # Caveats for "brew install coreutils"
 # If you really need to use these commands with their normal names, you
 # can add a "gnubin" directory to your PATH from your bashrc like:
@@ -18,10 +15,6 @@ alias notes='cd "${notes}"'
 # Charter
 alias devolympus='ssh olympus.dev-charter.net'
 alias engprodolympus='ssh olympus.engprod-charter.net'
-
-# Kubernetes early scripts
-alias containerlogs='bash "${kube_scripts}/container_logs.sh"'
-alias containershell='bash "${kube_scripts}/container_shell.sh"'
 
 # Clear IntelliJ 'ignored files' list that's created when deleting an Intellij Maven module
 function restore_intellij_modules() {

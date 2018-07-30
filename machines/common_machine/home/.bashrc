@@ -8,6 +8,9 @@ PS1='\[\e[0;32m\]\t \w \$\[\e[m\] '
 # All the Vi navigation magic, in Bash CLI!
 set -o vi 
 
+# Source "code" variable
+source ~/.bashrc_local_variables
+
 # Places
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -84,6 +87,8 @@ alias dex='docker exec -it'
 
 # Kubernetes
 alias k='kubectl'
+alias containerlogs='bash "${code}/elspleth/helper-scripts/kubernetes/container_logs.sh"'
+alias containershell='bash "${code}/elspleth/helper-scripts/kubernetes/container_shell.sh"'
 
 # Holistic
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'

@@ -11,6 +11,9 @@ alias notes='cd "${notes}"'
 alias devolympus='ssh olympus.dev-charter.net'
 alias engprodolympus='ssh olympus.engprod-charter.net'
 
+alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+alias google='chrome'
+
 # Clear IntelliJ 'ignored files' list that's created when deleting an Intellij Maven module
 function restore_intellij_modules() {
 	xmlstarlet ed -P -L -d '/project/component/option[@name="ignoredFiles"]' /code/BlueTeam/.idea/misc.xml

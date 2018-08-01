@@ -93,7 +93,7 @@ alias containershell='bash "${code}/elspleth/helper-scripts/kubernetes/container
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
 
 function compare() {
-	if [ $# -ne 2 ]; then echo 'usage: compare old new' ; fi
+	if [ $# -ne 2 ]; then echo 'usage: compare <file a> <file b>' ; return 1; fi
 	if cmp --silent $1 $2 ; then
 		echo "Byte equivalent"
 	else

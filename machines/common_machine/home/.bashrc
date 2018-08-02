@@ -12,31 +12,25 @@ set -o vi
 source ~/.bashrc_local_variables
 
 # Places
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias ......='cd ../../../../..'
 alias code='cd "${code}"'
 alias down='cd ~/Downloads'
 alias helper='cd "${code}"/elspleth/helper-scripts'
 alias tmp='mkdir -p ~/tmp; cd ~/tmp'
 
-# Reload bashrc
+# rc files
 alias bashrc='vi ~/.bashrc; source ~/.bashrc'
-alias bashrclocal='vi ~/.bashrc_local; source ~/.bashrc_local'
-alias bashrcvariables='vi ~/.bashrc_local_variables; source ~/.bashrc_local_variables'
-
-# Vim
+alias bashrclocal='vi ~/.bashrc_local; source ~/.bashrc'
+alias bashrcvariables='vi ~/.bashrc_local_variables; source ~/.bashrc'
 alias vimrc='vim ~/.vimrc'
 
-# Navigation
+# Basics
 alias l='ls -lah --color=auto --group-directories-first'
 alias cls='clear'
+alias c='clear'
 alias ce='cd'
 alias f='find . -iname' # The perl support allows for look-ahead and shorthand classes: "foo(?!\w)"
 alias g='grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp'
-alias gr='g --exclude-dir=target --exclude-dir=.git'
+alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.idea'
 
 # Git
 alias status='git status'
@@ -93,7 +87,7 @@ alias containershell='bash "${code}/elspleth/helper-scripts/kubernetes/container
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
 
 function compare() {
-	if [ $# -ne 2 ]; then echo 'usage: compare <file a> <file b>' ; return 1; fi
+	if [ $# -ne 2 ]; then echo 'usage: compare <file a> <file b>'; return 1; fi
 	if cmp --silent $1 $2 ; then
 		echo "Byte equivalent"
 	else
@@ -113,6 +107,27 @@ function _colorman() {
       "$@"
 }
 function man() { _colorman man "$@"; }
+
+function repeat() {
+	if [ $# -ne 2 ]; then echo 'usage: repeat <string> <count>'; return 1; fi
+	for ((i=1;i<=$2;i++)); do
+		echo -n "$1"
+	done
+}
+
+function ..() {
+	if [ $# -gt 1 ]; then echo 'usage: .. <count directories to pop>'; return 1; fi
+	if [ $# -eq 0 ]; then 
+		cd ..
+	else # Single cd so 'cd -' works as intended
+		cd $(repeat '../' $1)
+	fi
+}
+
+# "cd .." alias variations
+# for ((i=1, dots=2; i <= 4;i++, dots++)); do
+    # alias "..$i"="cd "$(repeat '../' $i)
+# done
 
 # Settings specific to this machine
 # 	Assumes .bashrc_local set these variables:

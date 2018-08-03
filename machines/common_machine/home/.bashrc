@@ -131,7 +131,7 @@ function _locate_ancestor() {
 }
 
 function ..() {
-	if [ $# -gt 1 ]; then echo 'usage: .. <count directories to pop>'; return 1; fi
+	if [ $# -gt 1 ]; then echo 'usage: .. <count directories to pop or ancestor name substring>'; return 1; fi
 	if [ $# -eq 0 ]; then 
 		cd ..
 	else

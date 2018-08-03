@@ -110,24 +110,40 @@ function man() { _colorman man "$@"; }
 
 function repeat() {
 	if [ $# -ne 2 ]; then echo 'usage: repeat <string> <count>'; return 1; fi
-	for ((i=1;i<=$2;i++)); do
+	for ((i=1; i <= $2; i++)); do
 		echo -n "$1"
 	done
+}
+
+# Echos number of directories needed to be popped until current directory name grep-matches $1 substring
+function _locate_ancestor() {
+	IFS='/' read -ra _components <<< $(pwd)
+	for ((i = ${#_components[@]} - 1, c = 0; i >= 1; i--, c++))
+	do
+		if echo "${_components[$i]}" | grep "$1" > /dev/null
+		then
+			echo $c
+			return 0
+		fi
+	done
+	echo 0
+	>&2 echo "$1 not found in ancestor name"
 }
 
 function ..() {
 	if [ $# -gt 1 ]; then echo 'usage: .. <count directories to pop>'; return 1; fi
 	if [ $# -eq 0 ]; then 
 		cd ..
-	else # Single cd so 'cd -' works as intended
-		cd $(repeat '../' $1)
+	else
+		case $1 in
+			''|*[!0-9]*) local pops=$(_locate_ancestor $1) ;;
+			*)           local pops=$1 ;;
+		esac
+		if [ $pops -gt 0 ]; then
+			cd $(repeat '../' $pops)
+		fi
 	fi
 }
-
-# "cd .." alias variations
-# for ((i=1, dots=2; i <= 4;i++, dots++)); do
-    # alias "..$i"="cd "$(repeat '../' $i)
-# done
 
 # Settings specific to this machine
 # 	Assumes .bashrc_local set these variables:

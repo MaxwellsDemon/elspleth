@@ -1,6 +1,0 @@
-realpath is a function
-realpath () 
-{ 
-    echo "$(cd "$(dirname "$1")"; pwd -P)/$(basename "$1")"
-}
--bash: type: 2: not found

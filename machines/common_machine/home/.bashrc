@@ -1,10 +1,3 @@
-# Bash prompts working directory
-# https://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
-# https://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
-# Fix long line wrapping by wrapping color markers with '\[' and '\]':
-# http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/nonprintingchars.html
-PS1='\[\e[0;32m\]\t \w \$\[\e[m\] '
-
 # All the Vi navigation magic, in Bash CLI!
 set -o vi 
 
@@ -150,4 +143,13 @@ function ..() {
 # 	Assumes .bashrc_local set these variables:
 #	$code
 source ~/.bashrc_local
+
+# Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set
+
+# Bash prompts working directory
+# https://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html
+# https://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
+# Fix long line wrapping by wrapping color markers with '\[' and '\]':
+# http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/nonprintingchars.html
+PS1='\[\e[0;32m\]\t \w \$\[\e[m\] '
 

@@ -1,5 +1,5 @@
 " Bash (at least I like tabs when not collaborating)
-autocmd Filetype sh setlocal tabstop=4 shiftwidth=4
+autocmd Filetype sh setlocal tabstop=2 shiftwidth=2
 
 " Java
 autocmd Filetype java setlocal softtabstop=4 shiftwidth=4 expandtab

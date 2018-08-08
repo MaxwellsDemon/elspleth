@@ -76,6 +76,7 @@ alias k='kubectl'
 alias containerlogs='bash "${code}/elspleth/helper-scripts/kubernetes/container_logs.sh"'
 alias containershell='bash "${code}/elspleth/helper-scripts/kubernetes/container_shell.sh"'
 alias containerls='bash "${code}/elspleth/helper-scripts/kubernetes/container_ls.sh"'
+alias containerhealth='bash "${code}/elspleth/helper-scripts/kubernetes/container_health.sh"'
 
 # Holistic
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'

@@ -3,7 +3,5 @@
 echo "Pods afflicted with OOMKilled termination"
 kubectl get pods -o jsonpath='{.items[?(@.status.containerStatuses[*].lastState.terminated.reason=="OOMKilled")].metadata.name}' --all-namespaces
 echo
-
 # Put more analysis here
-
 echo

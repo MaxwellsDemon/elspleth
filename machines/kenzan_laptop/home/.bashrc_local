@@ -7,11 +7,7 @@ alias training='cd ~/Documents/projects/training'
 alias blue='cd ~/Documents/projects/blue-team'
 alias notes='cd "${notes}"'
 
-# Charter
-alias devolympus='ssh olympus.dev-charter.net'
-alias engnewolympus='ssh olympus.engnew-charter.net'
-alias engprodolympus='ssh olympus.engprod-charter.net'
-
+# Apps
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias google='chrome'
 

@@ -28,8 +28,7 @@ for i in "${expected_dirs[@]}"; do
 	fi
 done
 
-# variable number of files under version control
-# arg 0: exotic directory
+# For each versioned file in args $2 and after, overwrite it from directory $1.
 gather_to_version_control() {
 	local exotic_directory="$1"
 	shift 1
@@ -44,9 +43,9 @@ gather_to_version_control() {
 	done
 }
 
-gather_to_version_control ~ "${common_home}"/.*
-gather_to_version_control ~ "${common_home}"/*
-gather_to_version_control ~ "${specific_home}"/.*
-gather_to_version_control ~ "${specific_home}"/*
-gather_to_version_control /etc "${specific_machine}"/hosts
+gather_to_version_control ~ "${common_home}"/.* "${common_home}"/*
+gather_to_version_control ~ "${specific_home}"/.* "${specific_home}"/*
+
+# Not appropriate for github
+#gather_to_version_control /etc "${specific_machine}"/hosts
 

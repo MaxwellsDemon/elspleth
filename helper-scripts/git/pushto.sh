@@ -47,10 +47,6 @@ mute git stash
 if branch_exists "${branch_name}" ; then
 	mute git checkout "${branch_name}"
 	git_pull
-elif branch_exists develop ; then
-	mute git checkout develop
-	git_pull
-	mute git checkout -b "${branch_name}"
 else
 	git_pull
 	mute git checkout -b "${branch_name}"

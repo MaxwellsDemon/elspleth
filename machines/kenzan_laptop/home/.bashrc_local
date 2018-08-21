@@ -33,9 +33,27 @@ function bitbucket() {
 	local current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
 	local repo_name="$(basename $(pwd))"
 	local bitbucket_base="https://stash.dev-charter.net"
-	local repo_base="${bitbucket_base}/stash/projects/SPC/repos"
+
+	local url=$(git config remote.origin.url)
+	# extract the protocol
+	local proto="$(echo $url | grep :// | sed -e's,^\(.*://\).*,\1,g')"
+	# remove the protocol
+	local url="$(echo ${url/$proto/})"
+	# extract the user (if any)
+	local user="$(echo $url | grep @ | cut -d@ -f1)"
+	# extract the host
+	local host="$(echo ${url/$user@/} | cut -d/ -f1)"
+	# by request - try to extract the port
+	local port="$(echo $host | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')"
+	# extract the path (if any)
+	local path="$(echo $url | grep / | cut -d/ -f2-)"
+
+	local path_first_component="$(echo $path | cut -d/ -f1)"
+	local repo_base="${bitbucket_base}/stash/projects/${path_first_component}/repos"
+
 	# https://stash.dev-charter.net/stash/projects/SPC/repos/equipment-chtr-data-manager-config/browse
 	# https://stash.dev-charter.net/stash/projects/SPC/repos/equipment-chtr-data-manager-config/pull-requests?create
+	# https://stash.dev-charter.net/stash/projects/SPCLIB/repos/helloworld-java-lib/browse
 	local pages=()
 	local pages+=("${repo_base}/${repo_name}/browse")
 	local pages+=("${repo_base}/${repo_name}/pull-requests?create")

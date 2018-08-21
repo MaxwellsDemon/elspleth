@@ -44,8 +44,8 @@ function getCharterProjectNameFromGit() {
 	# extract the path (if any)
 	local path="$(echo $url | grep / | cut -d/ -f2-)"
 
-	local path_first_component="$(echo $path | cut -d/ -f1)"
-	echo "${path_first_component}"
+	local second_to_last_path_component="$(echo $path | rev | cut -d/ -f2 | rev)"
+	echo "${second_to_last_path_component}"
 }
 
 function bitbucket() {

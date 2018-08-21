@@ -28,12 +28,8 @@ function open_pages() {
 	done
 }
 
-function bitbucket() {
+function getCharterProjectNameFromGit() {
 	if [ ! -d .git ]; then echo "Change to root Git project directory"; return 1; fi
-	local current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
-	local repo_name="$(basename $(pwd))"
-	local bitbucket_base="https://stash.dev-charter.net"
-
 	local url=$(git config remote.origin.url)
 	# extract the protocol
 	local proto="$(echo $url | grep :// | sed -e's,^\(.*://\).*,\1,g')"
@@ -49,7 +45,17 @@ function bitbucket() {
 	local path="$(echo $url | grep / | cut -d/ -f2-)"
 
 	local path_first_component="$(echo $path | cut -d/ -f1)"
-	local repo_base="${bitbucket_base}/stash/projects/${path_first_component}/repos"
+	echo "${path_first_component}"
+}
+
+function bitbucket() {
+	if [ ! -d .git ]; then echo "Change to root Git project directory"; return 1; fi
+	local current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
+	local repo_name="$(basename $(pwd))"
+	local bitbucket_base="https://stash.dev-charter.net"
+
+	local charter_project="$(getCharterProjectNameFromGit)"
+	local repo_base="${bitbucket_base}/stash/projects/${charter_project}/repos"
 
 	# https://stash.dev-charter.net/stash/projects/SPC/repos/equipment-chtr-data-manager-config/browse
 	# https://stash.dev-charter.net/stash/projects/SPC/repos/equipment-chtr-data-manager-config/pull-requests?create
@@ -64,7 +70,8 @@ function bitbucket() {
 function jenkins() {
 	if [ ! -d .git ]; then echo "Change to root Git project directory"; return 1; fi
 	local current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
-	local job_name="SPC-$(basename $(pwd))"
+	local charter_project="$(getCharterProjectNameFromGit)"
+	local job_name="${charter_project}-$(basename $(pwd))"
 	echo "Opens Jenkins pages for ${job_name}"
 	echo "Usage: jenkins [optional branch name]"
 	echo

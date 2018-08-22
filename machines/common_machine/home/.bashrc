@@ -44,6 +44,7 @@ alias dev='git checkout develop'
 alias agit='"${code}"/elspleth/helper-scripts/git/generic_all_git.sh'
 alias qgit='"${code}"/elspleth/helper-scripts/git/qgit.sh'
 alias pushto='"${code}"/elspleth/helper-scripts/git/pushto.sh'
+alias push='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
 
 # Maven
 alias maven='mvn'

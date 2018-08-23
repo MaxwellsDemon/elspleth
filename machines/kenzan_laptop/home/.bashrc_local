@@ -118,3 +118,6 @@ function change_java_version() {
 alias java8='change_java_version 1.8'
 alias java10='change_java_version 10'
 
+# Clears annoying Iterm2 introduction
+clear
+

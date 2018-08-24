@@ -24,7 +24,7 @@ fi
 
 
 # Location of this file
-scripts_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
+script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 
 # ===== Custom variables ======================================================================
 
@@ -32,7 +32,7 @@ scripts_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 root_dir="."
 
 # Detect Git projects relative to this script
-# root_dir="${scripts_dir}"
+# root_dir="${script_dir}"
 
 # =============================================================================================
 

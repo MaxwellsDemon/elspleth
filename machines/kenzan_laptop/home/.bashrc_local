@@ -21,7 +21,8 @@ alias accounts="vi '${notes}/accounts.txt'"
 alias todo="vi '${notes}/todo.txt'"
 
 # Charter
-alias testdockerprovisioning='"${code}"/elspleth-charter/scripts/test_docker_provisioning.sh'
+alias exercisedockerprovisioning='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning.sh'
+alias exercisedockerprovisioningundo='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning_undo.sh'
 
 function open_pages() {
 	echo "Opening..."

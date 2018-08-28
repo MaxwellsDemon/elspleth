@@ -9,6 +9,7 @@ alias code='cd "${code}"'
 alias down='cd ~/Downloads'
 alias helper='cd "${code}"/elspleth/helper-scripts'
 alias tmp='mkdir -p ~/tmp; cd ~/tmp'
+alias elspleth='cd "${code}"/elspleth'
 
 # rc files
 alias bashrc='vi ~/.bashrc; source ~/.bashrc'
@@ -41,6 +42,7 @@ alias fetch='git fetch --prune; echo REMOTE:; git branch --remotes; echo LOCAL:;
 alias list='git config --list'
 alias master='git checkout master'
 alias dev='git checkout develop'
+alias develop='git checkout develop'
 alias agit='"${code}"/elspleth/helper-scripts/git/generic_all_git.sh'
 alias qgit='"${code}"/elspleth/helper-scripts/git/qgit.sh'
 alias pushto='"${code}"/elspleth/helper-scripts/git/pushto.sh'

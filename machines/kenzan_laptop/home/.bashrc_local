@@ -19,6 +19,7 @@ function restore_intellij_modules() {
 # Early days at Kenzan
 alias accounts="vi '${notes}/accounts.txt'"
 alias todo="vi '${notes}/todo.txt'"
+alias gather='"${code}"/elspleth/machines/scripts/gather_machine_rc.sh kenzan_laptop'
 
 # Charter
 alias exercisedockerprovisioning='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning.sh'

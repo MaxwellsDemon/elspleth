@@ -92,17 +92,6 @@ function jenkins() {
 	fi
 	local pages+=("${job_home}/job/${branch_name}")
 	local pages+=("${job_home}/job/${branch_name}/build?delay=0sec")
-	echo zzz
-	if [ -n "$1" ]; then
-		echo "test a: exists"
-	fi
-	if [ $1 -gt 0 ]; then
-		echo "test b: gt 0"
-	fi
-	if [ $1 -le "${#pages[@]}" ]; then
-		echo "test c: size"
-	fi
-	echo zzz
 	if [ -n "$1" -a $1 -gt 0 -a $1 -le ${#pages[@]} ]; then
 		local page=$1
 		let "page--"

@@ -60,7 +60,7 @@ git checkout "${base_branch}"
 git branch -d "${src_branch}"
 git checkout "${squash_branch}"
 git checkout -b "${src_branch}"
-git push origin +"${src_branch}"
+git push --set-upstream origin +"${src_branch}"
 
 section "Deleting local branch backup"
 git branch -D "${src_backup_branch}"

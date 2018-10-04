@@ -1,6 +1,9 @@
 # Kenzan laptop specific .bashrc settings
 # Should be sourced by .bashrc
 
+# Why not
+alias cast='git add .; git commit -m "Intermediate commit for testing on Jenkins"; git push'
+
 # Places
 alias projects='cd ~/Documents/projects'
 alias training='cd ~/Documents/projects/training'
@@ -11,6 +14,8 @@ alias canary='cd ~/Documents/projects/canary-team'
 # Apps
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias google='chrome'
+
+alias jarscan="java -jar ~/Documents/tools/jarscan.jar"
 
 # Clear IntelliJ 'ignored files' list that's created when deleting an Intellij Maven module
 function restore_intellij_modules() {

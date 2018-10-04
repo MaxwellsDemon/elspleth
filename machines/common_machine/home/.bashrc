@@ -7,6 +7,7 @@ source ~/.bashrc_local_variables
 # Places
 alias code='cd "${code}"'
 alias down='cd ~/Downloads'
+alias desk='cd ~/Desktop'
 alias helper='cd "${code}"/elspleth/helper-scripts'
 alias tmp='mkdir -p ~/tmp; cd ~/tmp'
 alias elspleth='cd "${code}"/elspleth'
@@ -48,6 +49,7 @@ alias qgit='"${code}"/elspleth/helper-scripts/git/qgit.sh'
 alias pushto='"${code}"/elspleth/helper-scripts/git/pushto.sh'
 alias squash='"${code}"/elspleth/helper-scripts/git/squash.sh'
 alias push='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
+alias newbranch='git checkout -b'
 
 # Maven
 alias maven='mvn'

@@ -25,7 +25,7 @@ alias c='clear'
 alias ce='cd'
 alias f='find . -iname' # The perl support allows for look-ahead and shorthand classes: "foo(?!\w)"
 alias g='grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp'
-alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.idea'
+alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.idea --exclude-dir=node_modules'
 
 # Git
 alias status='git status'

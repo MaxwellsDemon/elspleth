@@ -158,5 +158,5 @@ source ~/.bashrc_local
 # https://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
 # Fix long line wrapping by wrapping color markers with '\[' and '\]':
 # http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/nonprintingchars.html
-PS1='\[\e[0;32m\]\t \w \$\[\e[m\] '
+PS1='\[\e[0;32m\]\t $? \w \$\[\e[m\] '
 

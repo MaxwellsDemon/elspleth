@@ -20,6 +20,7 @@ alias vimrc='vim ~/.vimrc'
 
 # Basics
 alias l='ls -lah --color=auto --group-directories-first'
+alias L='l'
 alias cls='clear'
 alias c='clear'
 alias ce='cd'
@@ -30,6 +31,7 @@ alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.idea --exclud
 # Git
 alias status='git status'
 alias s='status'
+alias S='s'
 alias statu='status'
 alias stauts='status'
 alias staut='status'

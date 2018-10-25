@@ -35,8 +35,9 @@ alias S='s'
 alias statu='status'
 alias stauts='status'
 alias staut='status'
-alias checkout='git checkout'
 alias branch='git branch'
+alias b='git branch'
+alias cb='git rev-parse --abbrev-ref HEAD'
 alias list='git config --list'
 alias gall='git add --all .'
 alias gd='git diff'
@@ -87,7 +88,8 @@ alias containerls='bash "${code}/elspleth/helper-scripts/kubernetes/container_ls
 alias containerhealth='bash "${code}/elspleth/helper-scripts/kubernetes/container_health.sh"'
 
 # Holistic
-alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
+# alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
+alias morning='qgit fetch --prune && qgit pull'
 
 function compare() {
 	if [ $# -ne 2 ]; then echo 'usage: compare <file a> <file b>'; return 1; fi
@@ -147,6 +149,15 @@ function ..() {
 		fi
 	fi
 }
+
+# arg 1: a number that's the position of the branch in the list to checkout
+function checkout() {
+	if [ $# -eq 0 ]; then git branch; return 1; fi
+	local branch="$(git branch | sed "$1q;d" | sed 's/^[* ]*//g')"
+	echo "THE BRANCH IS ${branch}"
+	git checkout "${branch}"
+}
+alias ch='checkout'
 
 # Settings specific to this machine
 # 	Assumes .bashrc_local set these variables:

@@ -1,6 +1,8 @@
 # Kenzan laptop specific .bashrc settings
 # Should be sourced by .bashrc
 
+source "${code}/elspleth-charter/scripts/website_library.sh"
+
 # Why not
 alias cast='git add .; git commit -m "Intermediate commit for testing on Jenkins"; git push'
 
@@ -16,10 +18,11 @@ alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias google='chrome'
 
 alias jarscan="java -jar ~/Documents/tools/jarscan.jar"
+alias splunk='chrome https://charter.splunkcloud.com'
 
 # Clear IntelliJ 'ignored files' list that's created when deleting an Intellij Maven module
 function restore_intellij_modules() {
-	xmlstarlet ed -P -L -d '/project/component/option[@name="ignoredFiles"]' /code/BlueTeam/.idea/misc.xml
+	xmlstarlet ed -P -L -d '/project/component/option[@name="ignoredFiles"]' "${code}"/BlueTeam/.idea/misc.xml
 }
 
 # Early days at Kenzan
@@ -33,81 +36,6 @@ alias exercisedockerprovisioningundo='"${code}"/elspleth-charter/scripts/exercis
 alias exercisedockerprovisioninglist='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning_list.sh'
 alias dp='cd "${code}"/docker-provisioning'
 
-function open_pages() {
-	echo "Opening..."
-	for i in "$@"; do
-		echo "${i}"
-		open "${i}"
-	done
-}
-
-function get_charter_project_name_from_git() {
-	if [ ! -d .git ]; then echo "Change to root Git project directory"; return 1; fi
-	local url=$(git config remote.origin.url)
-	# extract the protocol
-	local proto="$(echo $url | grep :// | sed -e's,^\(.*://\).*,\1,g')"
-	# remove the protocol
-	local url="$(echo ${url/$proto/})"
-	# extract the user (if any)
-	local user="$(echo $url | grep @ | cut -d@ -f1)"
-	# extract the host
-	local host="$(echo ${url/$user@/} | cut -d/ -f1)"
-	# by request - try to extract the port
-	local port="$(echo $host | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')"
-	# extract the path (if any)
-	local path="$(echo $url | grep / | cut -d/ -f2-)"
-
-	local second_to_last_path_component="$(echo $path | rev | cut -d/ -f2 | rev)"
-	echo "${second_to_last_path_component}"
-}
-
-function bitbucket() {
-	if [ ! -d .git ]; then echo "Change to root Git project directory"; return 1; fi
-	local current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
-	local repo_name="$(basename $(pwd))"
-	local bitbucket_base="https://stash.dev-charter.net"
-
-	local charter_project="$(get_charter_project_name_from_git)"
-	local repo_base="${bitbucket_base}/stash/projects/${charter_project}/repos"
-
-	# https://stash.dev-charter.net/stash/projects/SPC/repos/equipment-chtr-data-manager-config/browse
-	# https://stash.dev-charter.net/stash/projects/SPC/repos/equipment-chtr-data-manager-config/pull-requests?create
-	# https://stash.dev-charter.net/stash/projects/SPCLIB/repos/helloworld-java-lib/browse
-	local pages=()
-	local pages+=("${repo_base}/${repo_name}/browse")
-	local pages+=("${repo_base}/${repo_name}/pull-requests?create")
-	echo "On branch ${current_branch_name}"
-	open_pages "${pages[@]}"
-}
-
-function jenkins() {
-	if [ ! -d .git ]; then echo "Change to root Git project directory"; return 1; fi
-	local current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
-	local charter_project="$(get_charter_project_name_from_git)"
-	local job_name="${charter_project}-$(basename $(pwd))"
-	echo "Opens Jenkins pages for ${job_name}"
-	echo "Usage: jenkins [optional single page position, 1 through n otherwise all] [optional branch name]"
-	echo
-	local jenkins_base="https://jenkinsdocker.dev-charter.net"
-	local job_home="${jenkins_base}/job/${job_name}"
-	local pages=("${job_home}")
-	if [ "$2" ]; then
-		local branch_name="$1"
-	else
-		# Escape forward-slash in branch name for use in URLs
-		local branch_name="${current_branch_name/\//%252F}"
-	fi
-	local pages+=("${job_home}/job/${branch_name}")
-	local pages+=("${job_home}/job/${branch_name}/build?delay=0sec")
-	local page_count=${#pages[@]}
-	if [ "$1" ] && [ $1 -gt 0 ] && [ $1 -le $page_count ]; then
-		local page=$1
-		let "page--"
-		open_pages "${pages[$page]}"
-	else
-		open_pages "${pages[@]}"
-	fi
-}
 
 # auto-complete
 if [ -f $(brew --prefix)/etc/bash_completion ]; then

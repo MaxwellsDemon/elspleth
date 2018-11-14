@@ -154,7 +154,6 @@ function ..() {
 function checkout() {
 	if [ $# -eq 0 ]; then git branch; return 1; fi
 	local branch="$(git branch | sed "$1q;d" | sed 's/^[* ]*//g')"
-	echo "THE BRANCH IS ${branch}"
 	git checkout "${branch}"
 }
 alias ch='checkout'

@@ -17,6 +17,8 @@ alias canary='cd ~/Documents/projects/canary-team'
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias google='chrome'
 
+# Usage: java -jar decrypter.jar <path_to_pem_file> <key_to_decrypt>
+alias decrypt="java -jar ~/Documents/tools/decrypter.jar"
 alias jarscan="java -jar ~/Documents/tools/jarscan.jar"
 alias splunk='chrome https://charter.splunkcloud.com'
 
@@ -41,6 +43,13 @@ alias dp='cd "${code}"/docker-provisioning'
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
 . $(brew --prefix)/etc/bash_completion
 fi
+
+function decrypter() {
+	if [ $# -ne 2 ]; then echo "Usage: decrypter <key file> <encoded content file>"; return 1; fi
+	base64 -D -i $2 | openssl rsautl -decrypt -inkey $1  -out result.tmp
+	cat result.tmp
+	rm result.tmp
+}
 
 # Added by NVM installation
 function nvmcli() {

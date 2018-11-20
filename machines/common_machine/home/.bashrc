@@ -2,7 +2,11 @@
 set -o vi 
 
 # Source "code" variable
-source ~/.bashrc_local_variables
+if [ -f ~/.bashrc_local_variables ]; then
+	source ~/.bashrc_local_variables
+else
+  echo 'Please create file ~/.bashrc_local_variables'
+fi
 
 # Places
 alias code='cd "${code}"'
@@ -161,7 +165,11 @@ alias ch='checkout'
 # Settings specific to this machine
 # 	Assumes .bashrc_local set these variables:
 #	$code
-source ~/.bashrc_local
+if [ -f ~/.bashrc_local ]; then
+	source ~/.bashrc_local
+else
+	echo 'Please create file ~/.bashrc_local'
+fi
 
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set
 
@@ -170,6 +178,6 @@ source ~/.bashrc_local
 # https://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
 # Fix long line wrapping by wrapping color markers with '\[' and '\]':
 # http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/nonprintingchars.html
-PS1='\[\e[0;32m\]\t $? \w \$\[\e[m\] '
+PS1='\[\e[0;32m\]\t $? \u \w \$\[\e[m\] '
 # PS1='\[\e[0;32m\]\t $? $([ $? == 0 ] && echo ✅ || echo "⚠️ ") \w \$\[\e[m\] '
 

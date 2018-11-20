@@ -16,6 +16,8 @@ alias canary='cd ~/Documents/projects/canary-team'
 # Apps
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias google='chrome'
+alias grapher='(cd ~/Documents/grapher && java -jar Fleye.jar 1> /dev/null 2>&1 &)'
+alias fleye='grapher'
 
 # Usage: java -jar decrypter.jar <path_to_pem_file> <key_to_decrypt>
 alias decrypt="java -jar ~/Documents/tools/decrypter.jar"
@@ -58,6 +60,14 @@ function nvmcli() {
 	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 }
 MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+
+function vpn() {
+	local config=~/.anyconnect.vpn"$1"
+	if [ ! -f "${config}" ]; then echo "VPN config file not found: ${config}"; return 1; fi
+	killall "Cisco AnyConnect Secure Mobility Client"
+	cp "${config}" ~/.anyconnect
+	open -a "Cisco AnyConnect Secure Mobility Client"
+}
 
 function change_java_version() {
 	if [ $# -ne 1 ]; then

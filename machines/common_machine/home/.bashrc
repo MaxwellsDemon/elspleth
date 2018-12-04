@@ -28,9 +28,10 @@ alias L='l'
 alias cls='clear'
 alias c='clear'
 alias ce='cd'
-alias f='find . -iname' # The perl support allows for look-ahead and shorthand classes: "foo(?!\w)"
+alias f='find -E . -iname' # The perl support allows for look-ahead and shorthand classes: "foo(?!\w)"
+alias fr='"${code}"/elspleth/helper-scripts/files/findreal.sh'
 alias g='grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp'
-alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.idea --exclude-dir=node_modules'
+alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules'
 
 # Git
 alias status='git status'

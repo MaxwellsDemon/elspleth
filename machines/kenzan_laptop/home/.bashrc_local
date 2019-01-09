@@ -16,7 +16,7 @@ alias canary='cd ~/Documents/projects/canary-team'
 # Apps
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias google='chrome'
-alias grapher='(cd ~/Documents/grapher && java -jar Fleye.jar 1> /dev/null 2>&1 &)'
+alias grapher='(cd ~/Documents/tools/grapher && java -jar Fleye.jar 1> /dev/null 2>&1 &)'
 alias fleye='grapher'
 
 # Usage: java -jar decrypter.jar <path_to_pem_file> <key_to_decrypt>

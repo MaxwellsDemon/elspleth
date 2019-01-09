@@ -32,6 +32,7 @@ alias f='find -E . -iname' # The perl support allows for look-ahead and shorthan
 alias fr='"${code}"/elspleth/helper-scripts/files/findreal.sh'
 alias g='grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp'
 alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules'
+alias grm='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=test'
 
 # Git
 alias status='git status'
@@ -61,6 +62,7 @@ alias newbranch='git checkout -b'
 
 # Maven
 alias maven='mvn'
+alias mcv='mvn clean verify'
 alias mcp='mvn clean package'
 alias mcps='mvn clean package -DskipTests'
 alias mcpss='mvn clean package -Dmaven.test.skip=true -DskipTests'

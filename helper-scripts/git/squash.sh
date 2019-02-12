@@ -3,7 +3,7 @@ set -e
 
 src_branch="$1"
 base_branch="$2"
-squash_branch="squash_branch"
+squash_branch="squashed_branch"
 src_backup_branch="squash_src_backup"
 
 usage() {
@@ -40,18 +40,22 @@ section "Testing for typos"
 git checkout "${src_branch}"
 git checkout "${base_branch}"
 
+section "Updating ${base_branch}"
+git checkout "${base_branch}"
+git pull
+
+section "Rebasing ${src_branch}"
+git checkout "${src_branch}"
+git rebase "${base_branch}"
+
 section "Backing up ${src_branch}"
 git checkout "${src_branch}"
 git push
 git checkout -b "${src_backup_branch}"
 
-section "Updating ${base_branch}"
-git checkout "${base_branch}"
-git pull
-git checkout -b "${squash_branch}"
-
 section "Squashing"
-git checkout "${squash_branch}"
+git checkout "${base_branch}"
+git checkout -b "${squash_branch}"
 git merge --squash "${src_branch}"
 git commit
 

@@ -60,9 +60,8 @@ git merge --squash "${src_branch}"
 git commit
 
 section "Propagating squash"
-git checkout "${base_branch}"
-git branch -d "${src_branch}"
 git checkout "${squash_branch}"
+git branch -d "${src_branch}"
 git checkout -b "${src_branch}"
 git push --set-upstream origin +"${src_branch}"
 git branch -d "${squash_branch}"

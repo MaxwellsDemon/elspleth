@@ -1,7 +1,13 @@
 # Kenzan laptop specific .bashrc settings
 # Should be sourced by .bashrc
 
+PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+
 source "${code}/elspleth-charter/scripts/website_library.sh"
+
+# Current project - short lived
+alias run='(cd /code/developer-environment; ./install_developer_tools.sh)'
+alias edit='(cd /code/developer-environment; vi install_developer_tools.sh)'
 
 # Why not
 alias cast='git add .; git commit -m "Intermediate commit for testing on Jenkins"; git push'
@@ -39,6 +45,7 @@ alias exercisedockerprovisioning='"${code}"/elspleth-charter/scripts/exercise_do
 alias exercisedockerprovisioningundo='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning_undo.sh'
 alias exercisedockerprovisioninglist='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning_list.sh'
 alias dp='cd "${code}"/docker-provisioning'
+alias de='cd "${code}"/developer-environment'
 
 
 # auto-complete

@@ -98,6 +98,12 @@ alias containerhealth='bash "${code}/elspleth/helper-scripts/kubernetes/containe
 # alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
 alias morning='qgit fetch --prune && qgit pull'
 
+# `v` repeats the most recent vi command
+# `v 3` repeats the third most recent unique vi command, etc.
+function v() {
+	vi $(history | grep -oP ' vi[ ].+' | uniq | tail -${1:-1} | head -n 1 | sed -E 's/vi (.+)/\1/g')
+}
+
 function compare() {
 	if [ $# -ne 2 ]; then echo 'usage: compare <file a> <file b>'; return 1; fi
 	if cmp --silent $1 $2 ; then

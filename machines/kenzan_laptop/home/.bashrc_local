@@ -6,8 +6,8 @@ PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 source "${code}/elspleth-charter/scripts/website_library.sh"
 
 # Current project - short lived
-alias run='(cd /code/developer-environment; ./install_developer_tools.sh)'
-alias edit='(cd /code/developer-environment; vi install_developer_tools.sh)'
+alias run='(cd /code/developer-machine-setup; ./developer_config.bash)'
+alias edit='(cd /code/developer-machine-setup; vi developer_config.bash)'
 
 # Why not
 alias cast='git add .; git commit -m "Intermediate commit for testing on Jenkins"; git push'
@@ -60,14 +60,6 @@ function decrypter() {
 	rm result.tmp
 }
 
-# Added by NVM installation
-function nvmcli() {
-	export NVM_DIR="$HOME/.nvm"
-	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-}
-MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
 function vpn() {
 	local base=~/.anyconnect.vpn.
 	local vpn_name="$1"
@@ -81,19 +73,6 @@ function vpn() {
 	cp "${config}" ~/.anyconnect
 	open -a "Cisco AnyConnect Secure Mobility Client"
 }
-
-function change_java_version() {
-	if [ $# -ne 1 ]; then
-		echo "Usage: change_java_version <version number>"
-	else
-		sed -i bak -e 's/.*export JAVA_HOME=.*/export JAVA_HOME=\`\/usr\/libexec\/java_home -v '"$1"'\`/g' ~/.bash_profile
-		source ~/.bash_profile
-		echo "JAVA_HOME: ${JAVA_HOME}"
-		java -version
-	fi
-}
-alias java8='change_java_version 1.8'
-alias java10='change_java_version 10'
 
 # Clears annoying Iterm2 introduction
 clear

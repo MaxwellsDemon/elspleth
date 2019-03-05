@@ -42,7 +42,7 @@ git checkout "${base_branch}"
 
 section "Updating ${base_branch}"
 git checkout "${base_branch}"
-git pull
+git pull || :
 
 section "Rebasing ${src_branch}"
 git checkout "${src_branch}"

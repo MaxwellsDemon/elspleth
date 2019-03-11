@@ -5,9 +5,12 @@ PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 
 source "${code}/elspleth-charter/scripts/website_library.sh"
 
+# Node
+alias node6='bash "${code}"/developer-machine-setup/developer_tools.bash node6'
+alias node10='bash "${code}"/developer-machine-setup/developer_tools.bash node10'
+
 # Current project - short lived
-alias run='(cd /code/developer-machine-setup; ./developer_config.bash)'
-alias edit='(cd /code/developer-machine-setup; vi developer_config.bash)'
+alias tele='telepresence --logfile /dev/null'
 
 # Why not
 alias cast='git add .; git commit -m "Intermediate commit for testing on Jenkins"; git push'
@@ -46,7 +49,6 @@ alias exercisedockerprovisioningundo='"${code}"/elspleth-charter/scripts/exercis
 alias exercisedockerprovisioninglist='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning_list.sh'
 alias dp='cd "${code}"/docker-provisioning'
 alias de='cd "${code}"/developer-environment'
-
 
 # auto-complete
 if [ -f $(brew --prefix)/etc/bash_completion ]; then

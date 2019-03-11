@@ -1,0 +1,10 @@
+
+---- Script to detect gzip support of endpoint -----------------
+
+#!/bin/bash
+echo "Normal size"
+curl "$1" --silent --write-out "%{size_download}\n" --output /dev/null
+echo "Size with gzip hint"
+curl "$1" --silent -H "Accept-Encoding: gzip,deflate" --write-out "%{size_download}\n" --output /dev/null
+
+

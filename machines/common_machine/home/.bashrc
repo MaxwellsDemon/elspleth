@@ -93,6 +93,8 @@ alias containerlogs='bash "${code}/elspleth/helper-scripts/kubernetes/container_
 alias containershell='bash "${code}/elspleth/helper-scripts/kubernetes/container_shell.sh"'
 alias containerls='bash "${code}/elspleth/helper-scripts/kubernetes/container_ls.sh"'
 alias containerhealth='bash "${code}/elspleth/helper-scripts/kubernetes/container_health.sh"'
+alias containermagic='bash "${code}/elspleth/helper-scripts/kubernetes/container_magic.sh"'
+alias km='containermagic'
 
 # Holistic
 # alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'

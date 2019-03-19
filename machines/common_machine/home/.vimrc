@@ -1,9 +1,11 @@
 " Bash (at least I like tabs when not collaborating)
 autocmd Filetype sh setlocal tabstop=2 shiftwidth=2
 
+" Scripting
+autocmd Filetype groovy setlocal softtabstop=2 shiftwidth=2 expandtab
+
 " Java
 autocmd Filetype java setlocal softtabstop=4 shiftwidth=4 expandtab
-autocmd Filetype groovy setlocal softtabstop=4 shiftwidth=4 expandtab
 
 " NodeJS
 autocmd Filetype javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab

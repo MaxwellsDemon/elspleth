@@ -9,7 +9,7 @@ usage() {
 	echo "    ls                      Fuzzy container name defaults to all containers"
 	echo
 	echo "    <fuzzy container name>  A match when either the fuzzy name or container name is a substring of the other."
-	exit 1
+	exit_clean 1
 }
 
 subcmd="$1"
@@ -19,6 +19,21 @@ fuzzy_container_name="$4"
 ns="-n ${namespace}"
 pod_info=pod_and_container_info.tmp
 pod_and_container_pairs=pod_and_container_pairs.tmp
+
+
+ctrl_c() {
+	cleanup
+}
+
+cleanup() {
+	rm -f "${pod_info}"
+	rm -f "${pod_and_container_pairs}"
+}
+
+exit_clean() {
+	cleanup
+	exit $1
+}
 
 for_each_pod() {
 	for pod in $(matching_pods) ; do
@@ -61,11 +76,6 @@ filter_containers() {
 	fi
 }
 
-cleanup() {
-	rm -f "${pod_info}"
-	rm -f "${pod_and_container_pairs}"
-}
-
 list_pod_and_containers() {
 	local pod="$1"
 	shift
@@ -106,7 +116,7 @@ assert_one_pod_and_container_pair() {
 	if [ $line_count -ne 1 ] ; then
 		warn "Did not find exactly one container"
 		for_each_pod_and_containers list_pod_and_containers
-		exit 1
+		exit_clean 1
 	fi
 }
 
@@ -139,13 +149,9 @@ process_parameters() {
 		;;
 	*)
 		echo "Unknown subcommand: ${subcmd}" 1>&2
-		exit 4
+		exit_clean 4
 		;;
 	esac
-}
-
-ctrl_c() {
-	cleanup
 }
 
 warn() {

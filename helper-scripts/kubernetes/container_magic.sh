@@ -89,7 +89,7 @@ list_pod_and_containers() {
 exec_container() {
 	local pod="$1"
 	local container="$2"
-	k8scmd="kubectl exec $ns -it ${pod} -c ${container} -- /bin/bash"
+	k8scmd="kubectl exec $ns -it ${pod} -c ${container} -- '/bin/bash | sh'"
 }
 
 log_containers() {
@@ -141,6 +141,7 @@ process_parameters() {
 		assert_one_pod_and_container_pair
 		for_each_pod_and_containers list_pod_and_containers
 		for_each_pod_and_containers exec_container
+		echo "$k8scmd"
 		# Hack for TTY to work
 		$k8scmd
 		;;

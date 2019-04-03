@@ -28,7 +28,7 @@ else
 	args=("$@")
 fi
 
-find "${location}" \
+find -E "${location}" \
 -name .git -type d -prune -o \
 -name .svn -type d -prune -o \
 -name .idea -type d -prune -o \

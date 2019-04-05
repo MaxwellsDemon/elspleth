@@ -167,7 +167,14 @@ function ..() {
 
 # arg 1: a number that's the position of the branch in the list to checkout
 function checkout() {
-	if [ $# -eq 0 ]; then git branch; return 1; fi
+	if [ $# -eq 0 ]; then
+		local branches=($(git branch | sed 's/^[* ]*//g'))
+		for i in "${!branches[@]}"; do
+			let position=i+1
+			echo "$position ${branches[$i]}"
+		done
+		return 1
+	fi
 	local branch="$(git branch | sed "$1q;d" | sed 's/^[* ]*//g')"
 	git checkout "${branch}"
 }
@@ -181,6 +188,14 @@ if [ -f ~/.bashrc_local ]; then
 else
 	echo 'Please create file ~/.bashrc_local'
 fi
+
+newscript() {
+	local name='foo.sh'
+	if [ $# -eq 1 ]; then local name="$1"; fi
+	echo '#!/bin/bash' >> "${name}"
+	chmod u+x "${name}"
+	vi "${name}"
+}
 
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set
 

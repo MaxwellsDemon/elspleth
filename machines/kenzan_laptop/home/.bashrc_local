@@ -5,6 +5,9 @@ PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 
 source "${code}/elspleth-charter/scripts/website_library.sh"
 
+# Temporary current project
+alias cdp='cd /code/jenkins-pipeline-scripts/new_service_generation/scripts'
+
 # Node
 alias node6='bash "${code}"/developer-machine-setup/developer_tools.bash node6'
 alias node10='bash "${code}"/developer-machine-setup/developer_tools.bash node10'

@@ -43,6 +43,7 @@ alias stauts='status'
 alias staut='status'
 alias branch='git branch'
 alias b='git branch'
+alias br='git branch'
 alias cb='git rev-parse --abbrev-ref HEAD'
 alias list='git config --list'
 alias gall='git add --all .'
@@ -167,15 +168,13 @@ function ..() {
 
 # arg 1: a number that's the position of the branch in the list to checkout
 function checkout() {
-	if [ $# -eq 0 ]; then
-		local branches=($(git branch | sed 's/^[* ]*//g'))
-		for i in "${!branches[@]}"; do
-			let position=i+1
-			echo "$position ${branches[$i]}"
-		done
-		return 1
-	fi
-	local branch="$(git branch | sed "$1q;d" | sed 's/^[* ]*//g')"
+	local branches=($(git branch | sed 's/^[* ]*//g'))
+	for i in "${!branches[@]}"; do
+		let position=i+1
+		echo "$position ${branches[$i]}"
+	done
+	read -p '> ' choice
+	local branch="$(git branch | sed "${choice}q;d" | sed 's/^[* ]*//g')"
 	git checkout "${branch}"
 }
 alias ch='checkout'

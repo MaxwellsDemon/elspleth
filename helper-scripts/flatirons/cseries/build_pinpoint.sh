@@ -8,8 +8,8 @@ set -e
 tests=$1
 
 usage() {
-	echo "usage: $0 <--test | --notest | --verify>"
-	exit 1
+  echo "usage: $0 <--test | --notest | --verify>"
+  exit 1
 }
 
 
@@ -18,37 +18,37 @@ usage() {
 
 # For at least data-manager/server/integration-tests/runnable-tests,
 # It fails for 
-# 	-Dmaven.test.skip=true
+#   -Dmaven.test.skip=true
 # but is successful for 
-# 	-DskipTests
+#   -DskipTests
 
 args=''
 if [ $# -ne 1 ]; then
-	usage
+  usage
 elif [ $tests = '--test' ]; then
-	args='clean install'
+  args='clean install'
 elif [ $tests = '--notest' ]; then
-	args='clean install -DskipTests'
+  args='clean install -DskipTests'
 elif [ $tests = '--verify' ]; then
-	args='verify'
+  args='verify'
 else
-	usage
+  usage
 fi
 
 mvn_build() {
-	pushd . > /dev/null
-	cd "${1}"
-	echo
-	echo -e "\e[93m${1}\e[0m"
-	echo
-	echo "mvn $args"
+  pushd . > /dev/null
+  cd "${1}"
+  echo
+  echo -e "\e[93m${1}\e[0m"
+  echo
+  echo "mvn $args"
 
-	mvn $args
-	echo
-	echo "Ran: mvn $args"
-	echo
+  mvn $args
+  echo
+  echo "Ran: mvn $args"
+  echo
 
-	popd > /dev/null
+  popd > /dev/null
 }
 
 # I think stylesheets has to be before data-manager-builder-base for tests to pickup changes
@@ -69,3 +69,4 @@ echo -e "\nDone building everything."
 
 )
 # End time tracking
+

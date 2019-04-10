@@ -11,46 +11,47 @@ git config --global user.email "Carlos.Flores@flatironssolutions.com"
 
 
 2) Editor cleanup
-	Oxygen: close all open files (so they do not reopen)
-	Eclipse: close file editors, clear breakpoints, clear expressions, set "Wide" perspective
+  Oxygen: close all open files (so they do not reopen)
+  Eclipse: close file editors, clear breakpoints, clear expressions, set "Wide" perspective
 
 
 3) File cleanup
-	Downloads
-	Organize desktop
+  Downloads
+  Organize desktop
 
 
 4) Steps to create a smaller VM
 
 --- Most important step -----------------------
 
-	Delete ALL VM snapshots. Little point in any of this space cleanup
-		if keeping a snapshot, becuase they prevent VM compact...
+  Delete ALL VM snapshots. Little point in any of this space cleanup
+    if keeping a snapshot, becuase they prevent VM compact...
 
 --- File cleanup ------------------------------
 
-	Clear Chrome history
-	Clear Firefox history
+  Clear Chrome history
+  Clear Firefox history
 
-	Empty recycling bin
+  Empty recycling bin
 
-	Run sandboxes/tidy.sh to run "git gc" and "mvn clean" on various projects
+  Run sandboxes/tidy.sh to run "git gc" and "mvn clean" on various projects
 
-	Occasionally run "sudo baobab /" to graphically review disk usage
-		for unneeded large files and directories to delete.
-		(A lot like the Windows equivalent of "WinDirStat" tool)
+  Occasionally run "sudo baobab /" to graphically review disk usage
+    for unneeded large files and directories to delete.
+    (A lot like the Windows equivalent of "WinDirStat" tool)
 
 --- Reclaim freed space -----------------------
 
-	For linux: As root run (Only if all VM snapshots are deleted)
-		~/shrink-vm.sh
+  For linux: As root run (Only if all VM snapshots are deleted)
+    ~/shrink-vm.sh
 
 --- Compress the VM ---------------------------
 
-	On the host OS, use 7-Zip to archive the VM directory
-	Settings:
-		Archive format:		7z
-		Compression level:	Ultra
-		Compression method:	LZMA2
-		
-		(remaining settings use default values)
+  On the host OS, use 7-Zip to archive the VM directory
+  Settings:
+    Archive format:    7z
+    Compression level:  Ultra
+    Compression method:  LZMA2
+    
+    (remaining settings use default values)
+

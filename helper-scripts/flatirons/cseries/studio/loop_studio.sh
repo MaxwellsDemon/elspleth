@@ -11,16 +11,16 @@ executable="${studio_bin}/studio.exe"
 stop_file="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/stop
 
 usage() {
-	echo
-	echo "Usage: $0 <file>"
-	echo
-	echo "Opens a file in Studio, reopening when closed until ctrl+C or this file exists: ${stop_file}"
+  echo
+  echo "Usage: $0 <file>"
+  echo
+  echo "Opens a file in Studio, reopening when closed until ctrl+C or this file exists: ${stop_file}"
 }
 usage
 
 if [ $# -ne 1 ]
 then
-	exit 1
+  exit 1
 fi
 file_to_edit=${1}
 
@@ -31,7 +31,7 @@ file_to_edit=${1}
 cd "${studio_bin}"
 while [ ! -e "${stop_file}" ]
 do
-	"${executable}" "${file_to_edit}"
+  "${executable}" "${file_to_edit}"
 done
 
 rm "${stop_file}"

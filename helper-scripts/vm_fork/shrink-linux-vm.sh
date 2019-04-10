@@ -13,14 +13,14 @@ read
 # Loop over partitions
 df --output='target' | while read line ; do
 
-	# This skips the "Mounted on" label
-	if [ -d "$line" ]
-	then
-		cd "$line"
-		echo `pwd` is about to be zeroed-out
-		# Overwrite available space with zeros
-		cat /dev/zero > zero.fill;sync;sleep 1;sync;rm -f zero.fill
-	fi
+  # This skips the "Mounted on" label
+  if [ -d "$line" ]
+  then
+    cd "$line"
+    echo `pwd` is about to be zeroed-out
+    # Overwrite available space with zeros
+    cat /dev/zero > zero.fill;sync;sleep 1;sync;rm -f zero.fill
+  fi
 done
 
 echo
@@ -30,3 +30,4 @@ vmware-toolbox-cmd disk shrinkonly
 
 echo
 echo 'Shrink script done.'
+

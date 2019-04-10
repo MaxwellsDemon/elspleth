@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [ $# -ne 1 ]; then
-    echo "usage: $(basename "$0") <pod name substring>"
-    exit 1
+  echo "usage: $(basename "$0") <pod name substring>"
+  exit 1
 fi
 
 scripts_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)

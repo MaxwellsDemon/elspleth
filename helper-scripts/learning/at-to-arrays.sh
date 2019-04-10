@@ -1,9 +1,9 @@
 #!/bin/bash
 
 count() {
-	echo "count: $#, args: $@"
-	echo "arg 2: $2"
-	echo
+  echo "count: $#, args: $@"
+  echo "arg 2: $2"
+  echo
 }
 
 count "$@"

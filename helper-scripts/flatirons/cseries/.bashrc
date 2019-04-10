@@ -8,16 +8,16 @@ fi
 # Usage: v <alias>
 # Opens <path> in vi of simplistic aliases of the form <command> <path> 
 v() {
-	tp=$(type $1)
-	if [ $? -eq 0 ] ; then
-		# The sed commands strip a leading space-separated column, if any.
-		file=$(echo "$tp" | sed -e 's/^\w*\ *//' | grep -oP '(?<=is aliased to .).+(?=.)' | sed -e 's/^\w*\ *//')
-		if [ -f "${file}" ] ; then
-			vi "${file}"
-		else
-			echo "No file called: ${file}"
-		fi
-	fi
+  tp=$(type $1)
+  if [ $? -eq 0 ] ; then
+    # The sed commands strip a leading space-separated column, if any.
+    file=$(echo "$tp" | sed -e 's/^\w*\ *//' | grep -oP '(?<=is aliased to .).+(?=.)' | sed -e 's/^\w*\ *//')
+    if [ -f "${file}" ] ; then
+      vi "${file}"
+    else
+      echo "No file called: ${file}"
+    fi
+  fi
 }
 
 # Open this bashrc and apply changes
@@ -102,3 +102,4 @@ alias style41='cd /c/code/git-projects/stylesheets/S1000D/XWB'
 
 # SSH
 dev='tsxadmin@10.3.1.18'
+

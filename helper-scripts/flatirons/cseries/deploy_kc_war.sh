@@ -18,32 +18,32 @@ short_jar_name='kc_config.jar'
 
 if [ ! -d "${kc_home}" ]
 then
-	echo "Bad Knowledge Center home Git project: ${kc_home}"
-	exit 1
+  echo "Bad Knowledge Center home Git project: ${kc_home}"
+  exit 1
 fi
 
 if [ ! -d "${CATALINA_HOME}" ]
 then
-	echo "Set CATALINA_HOME environment variable to a Tomcat directory"
-	exit 1
+  echo "Set CATALINA_HOME environment variable to a Tomcat directory"
+  exit 1
 fi
 
 if [ ! -d "${pristine}" ]
 then
-	echo "Expecting a backup of Tomcat's conf/ directory as ${pristine}"
-	exit 2
+  echo "Expecting a backup of Tomcat's conf/ directory as ${pristine}"
+  exit 2
 fi
 
 if [ ! -f "${maven_settings_file}" ]
 then
-	echo "Expecting a Flatirons Maven Nexus settings file at ${maven_settings_file}"
-	exit 2
+  echo "Expecting a Flatirons Maven Nexus settings file at ${maven_settings_file}"
+  exit 2
 fi
 
 # Exit when "jar" command dependency is missing
 hash jar 2>/dev/null || { echo >&2 "I require a JDK but it's not installed (a command called 'jar' is not on the path).  Aborting."; exit 1; }
 
-#			Done verifying setup
+#      Done verifying setup
 
 # ---------------------------------------------------------------------
 
@@ -52,8 +52,8 @@ echo "Stopping tomcat"
 "${CATALINA_HOME}/bin/shutdown.sh"
 if [ $? -eq 0 ]
 then
-	echo "Waiting a few seconds..."
-	sleep 3
+  echo "Waiting a few seconds..."
+  sleep 3
 fi
 
 echo "Tomcat cleanup"
@@ -105,6 +105,5 @@ echo "Starting Tomcat"
 # Sigh
 # Targets recreate-project followed by load-data results in data duplication found by BREX rules
 
-
-
 )
+

@@ -3,11 +3,11 @@
 . ~/.bashrc_local_variables
 
 asap_git() {
-	"${code}"/elspleth/helper-scripts/git/qgit.sh "$@"
+  "${code}"/elspleth/helper-scripts/git/qgit.sh "$@"
 }
 
 realtime_git() {
-	"${code}"/elspleth/helper-scripts/git/generic_all_git.sh "$@"
+  "${code}"/elspleth/helper-scripts/git/generic_all_git.sh "$@"
 }
 
 # The idea behind the Morning script is to sip a hot beverage and watch
@@ -21,3 +21,4 @@ echo "                             Fetching and pruning"
 echo "                             (If Charter repos hang, keep killing and retrying)"
 echo
 realtime_git fetch --prune
+

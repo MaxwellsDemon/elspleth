@@ -8,14 +8,14 @@ short_war_name='Services'
 
 if [ ! -d "${crdm_home}" ]
 then
-	echo "Bad CRDM home Git project: ${crdm_home}"
-	exit 1
+  echo "Bad CRDM home Git project: ${crdm_home}"
+  exit 1
 fi
 
 if [ ! -d "${CATALINA_HOME}" ]
 then
-	echo "Set CATALINA_HOME environment variable"
-	exit 1
+  echo "Set CATALINA_HOME environment variable"
+  exit 1
 fi
 
 cd "${crdm_home}"
@@ -29,8 +29,8 @@ set +e
 sc STOP Tomcat7
 if [ $? -eq 0 ]
 then
-	echo "Waiting to shut down"
-	sleep 4
+  echo "Waiting to shut down"
+  sleep 4
 fi
 set -e
 
@@ -52,3 +52,4 @@ set -e
 
 sleep 5
 echo "Waiting a few seconds for Tomcat to start"
+

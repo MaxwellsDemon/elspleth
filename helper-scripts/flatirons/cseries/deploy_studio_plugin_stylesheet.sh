@@ -8,14 +8,12 @@ plugin='/c/code/git-projects/knowledge-center-studio-plugin'
 cd "${src_style}"
 mvn clean install
 
-
-
-#	SLOW WAY
+#  SLOW WAY
 
 # cd '/c/code/git-projects/knowledge-center-studio-plugin'
 # mvn clean install
 
-#	FAST WAY
+#  FAST WAY
 
 style="${plugin}/s1000d41/stylesheet"
 rm -rf "${style}"
@@ -25,5 +23,4 @@ cd "${style}"
 echo
 echo "Unzipping stylesheets"
 unzip "${src_style}/target/"*-99.99-SNAPSHOT.zip > /dev/null
-
 

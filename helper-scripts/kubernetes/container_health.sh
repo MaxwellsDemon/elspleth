@@ -5,3 +5,4 @@ kubectl get pods -o jsonpath='{.items[?(@.status.containerStatuses[*].lastState.
 echo
 # Put more analysis here
 echo
+

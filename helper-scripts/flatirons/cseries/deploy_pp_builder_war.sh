@@ -50,63 +50,63 @@ dest_war_path="${tomcat}/webapps/${war_name_short}.war"
 # ==============================================================
 
 usage() {
-	echo "usage: $0 <env>"
-	echo
-	echo "      dev       ${dev_target}"
-	exit 1
+  echo "usage: $0 <env>"
+  echo
+  echo "      dev       ${dev_target}"
+  exit 1
 }
 
 if [ $# -ne 1 ]
 then
-	usage
+  usage
 fi
 
 if [ "$1" != dev ]
 then
-	echo "Unsupported environment $1"
-	usage
+  echo "Unsupported environment $1"
+  usage
 fi
 
 # Interpret command line
 if [ "$1" = dev ]
 then
-	target="${dev_target}"
+  target="${dev_target}"
 fi
 
 # ----- Build War -------------------------------------------------------------------------------------------------------------
 
 verify_project_exists() {
-	if [ ! -d "$1" ]
-	then
-		echo
-		echo "Could not find project: $1"
-		echo
-		echo "Update this script's git_projects_dir variable"
-		echo
-		echo "Ensure these projects exist:"
-		for project in "${projects[@]}"
-		do
-			echo "  ${project}"
-		done
-		exit 2
-	fi
+  if [ ! -d "$1" ]
+  then
+    echo
+    echo "Could not find project: $1"
+    echo
+    echo "Update this script's git_projects_dir variable"
+    echo
+    echo "Ensure these projects exist:"
+    for project in "${projects[@]}"
+    do
+      echo "  ${project}"
+    done
+    exit 2
+  fi
 }
 
 mvn_build() {
-	pushd . > /dev/null
-	cd "${1}"
-	project_name=$(basename "${1}")
-	echo
-	echo -e "\e[93m${project_name}\e[0m"
-	echo
-	mvn clean install -Dmaven.test.skip=true
-	popd > /dev/null
+  pushd . > /dev/null
+  cd "${1}"
+  project_name=$(basename "${1}")
+  echo
+  echo -e "\e[93m${project_name}\e[0m"
+  echo
+  mvn clean install -Dmaven.test.skip=true
+  popd > /dev/null
 }
 
 
 for project in "${projects[@]}"
 do
-	verify_project_exists "${project}"
+  verify_project_exists "${project}"
 done
 
 # Temporarily doctor builder file name
@@ -114,7 +114,7 @@ sed -i "s/${builderInfo_before}/${builderInfo_after}/g" "${builderInfo_path}"
 
 for project in "${projects[@]}"
 do
-	mvn_build "${project}"
+  mvn_build "${project}"
 done
 
 # Revert doctored builder file name
@@ -134,28 +134,28 @@ echo -e "\nDeploying war file on $1"
 # Note that stderr for ssh itself is eaten but stderr for remote commands are redirected to stdout
 ssh "${target}" 2> /dev/null << EOF
 {
-	cd "${builder_dir}"
+  cd "${builder_dir}"
 
-	echo "Stopping Tomcat"
-	"${tomcat}/bin/shutdown.sh"
-	
-	echo "Cleaning Tomcat (work, wars, logs)"
-	rm -rf "${tomcat}/work/Catalina"
-	rm -rf "${tomcat}/webapps/${war_name_short}"
-	rm -rf "${dest_war_path}"
-	rm -rf "${tomcat}/logs"
-	mkdir "${tomcat}/logs"
-	touch "${tomcat}/logs/catalina.out"
+  echo "Stopping Tomcat"
+  "${tomcat}/bin/shutdown.sh"
+  
+  echo "Cleaning Tomcat (work, wars, logs)"
+  rm -rf "${tomcat}/work/Catalina"
+  rm -rf "${tomcat}/webapps/${war_name_short}"
+  rm -rf "${dest_war_path}"
+  rm -rf "${tomcat}/logs"
+  mkdir "${tomcat}/logs"
+  touch "${tomcat}/logs/catalina.out"
 
-	echo "Moving war file"
-	mv "${builder_dir}/${war_name_long}" "${dest_war_path}"
+  echo "Moving war file"
+  mv "${builder_dir}/${war_name_long}" "${dest_war_path}"
 
-	echo "Starting Tomcat"
-	"${tomcat}/bin/startup.sh"
+  echo "Starting Tomcat"
+  "${tomcat}/bin/startup.sh"
 
-	echo -e "\nTailing catalina.out (ctrl+c to get out)\n"
-	sleep 2
-	tail -f "${tomcat}/logs/catalina.out"
+  echo -e "\nTailing catalina.out (ctrl+c to get out)\n"
+  sleep 2
+  tail -f "${tomcat}/logs/catalina.out"
 } 2>&1
 EOF
 

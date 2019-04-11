@@ -168,12 +168,16 @@ function ..() {
 
 # arg 1: a number that's the position of the branch in the list to checkout
 function checkout() {
-  local branches=($(git branch | sed 's/^[* ]*//g'))
-  for i in "${!branches[@]}"; do
-    let position=i+1
-    echo "$position ${branches[$i]}"
-  done
-  read -p '> ' choice
+  if [ $# -eq 1 ]; then
+    choice="$1"
+  else
+    local branches=($(git branch | sed 's/^[* ]*//g'))
+    for i in "${!branches[@]}"; do
+      let position=i+1
+      echo "$position ${branches[$i]}"
+    done
+    read -p '> ' choice
+  fi
   local branch="$(git branch | sed "${choice}q;d" | sed 's/^[* ]*//g')"
   git checkout "${branch}"
 }

@@ -3,7 +3,7 @@ set -o vi
 
 # Source "code" variable
 if [ -f ~/.bashrc_local_variables ]; then
-	source ~/.bashrc_local_variables
+  source ~/.bashrc_local_variables
 else
   echo 'Please create file ~/.bashrc_local_variables'
 fi
@@ -104,16 +104,16 @@ alias morning='qgit fetch --prune && qgit pull'
 # `v` repeats the most recent vi command
 # `v 3` repeats the third most recent unique vi command, etc.
 function v() {
-	vi $(history | grep -oP ' vi[ ].+' | uniq | tail -${1:-1} | head -n 1 | sed -E 's/vi (.+)/\1/g')
+  vi $(history | grep -oP ' vi[ ].+' | uniq | tail -${1:-1} | head -n 1 | sed -E 's/vi (.+)/\1/g')
 }
 
 function compare() {
-	if [ $# -ne 2 ]; then echo 'usage: compare <file a> <file b>'; return 1; fi
-	if cmp --silent "$1" "$2" ; then
-		echo "Byte equivalent"
-	else
-		echo "Files differ"
-	fi
+  if [ $# -ne 2 ]; then echo 'usage: compare <file a> <file b>'; return 1; fi
+  if cmp --silent "$1" "$2" ; then
+    echo "Byte equivalent"
+  else
+    echo "Files differ"
+  fi
 }
 
 function _colorman() {
@@ -130,70 +130,70 @@ function _colorman() {
 function man() { _colorman man "$@"; }
 
 function repeat() {
-	if [ $# -ne 2 ]; then echo 'usage: repeat <string> <count>'; return 1; fi
-	for ((i=1; i <= $2; i++)); do
-		echo -n "$1"
-	done
+  if [ $# -ne 2 ]; then echo 'usage: repeat <string> <count>'; return 1; fi
+  for ((i=1; i <= $2; i++)); do
+    echo -n "$1"
+  done
 }
 
 # Echos number of directories needed to be popped until current directory name grep-matches $1 substring
 function _locate_ancestor() {
-	IFS='/' read -ra _components <<< $(pwd)
-	for ((i = ${#_components[@]} - 1, c = 0; i >= 1; i--, c++))
-	do
-		if echo "${_components[$i]}" | grep "$1" > /dev/null
-		then
-			echo $c
-			return 0
-		fi
-	done
-	echo 0
-	>&2 echo "$1 not found in ancestor name"
+  IFS='/' read -ra _components <<< $(pwd)
+  for ((i = ${#_components[@]} - 1, c = 0; i >= 1; i--, c++))
+  do
+    if echo "${_components[$i]}" | grep "$1" > /dev/null
+    then
+      echo $c
+      return 0
+    fi
+  done
+  echo 0
+  >&2 echo "$1 not found in ancestor name"
 }
 
 function ..() {
-	if [ $# -gt 1 ]; then echo 'usage: .. <count directories to pop or ancestor name substring>'; return 1; fi
-	if [ $# -eq 0 ]; then 
-		cd ..
-	else
-		case $1 in
-			''|*[!0-9]*) local pops=$(_locate_ancestor $1) ;;
-			*)           local pops=$1 ;;
-		esac
-		if [ $pops -gt 0 ]; then
-			cd $(repeat '../' $pops)
-		fi
-	fi
+  if [ $# -gt 1 ]; then echo 'usage: .. <count directories to pop or ancestor name substring>'; return 1; fi
+  if [ $# -eq 0 ]; then 
+    cd ..
+  else
+    case $1 in
+      ''|*[!0-9]*) local pops=$(_locate_ancestor $1) ;;
+      *)           local pops=$1 ;;
+    esac
+    if [ $pops -gt 0 ]; then
+      cd $(repeat '../' $pops)
+    fi
+  fi
 }
 
 # arg 1: a number that's the position of the branch in the list to checkout
 function checkout() {
-	local branches=($(git branch | sed 's/^[* ]*//g'))
-	for i in "${!branches[@]}"; do
-		let position=i+1
-		echo "$position ${branches[$i]}"
-	done
-	read -p '> ' choice
-	local branch="$(git branch | sed "${choice}q;d" | sed 's/^[* ]*//g')"
-	git checkout "${branch}"
+  local branches=($(git branch | sed 's/^[* ]*//g'))
+  for i in "${!branches[@]}"; do
+    let position=i+1
+    echo "$position ${branches[$i]}"
+  done
+  read -p '> ' choice
+  local branch="$(git branch | sed "${choice}q;d" | sed 's/^[* ]*//g')"
+  git checkout "${branch}"
 }
 alias ch='checkout'
 
 # Settings specific to this machine
-# 	Assumes .bashrc_local set these variables:
-#	$code
+#   Assumes .bashrc_local set these variables:
+#  $code
 if [ -f ~/.bashrc_local ]; then
-	source ~/.bashrc_local
+  source ~/.bashrc_local
 else
-	echo 'Please create file ~/.bashrc_local'
+  echo 'Please create file ~/.bashrc_local'
 fi
 
 newscript() {
-	local name='foo.sh'
-	if [ $# -eq 1 ]; then local name="$1"; fi
-	echo '#!/bin/bash' >> "${name}"
-	chmod u+x "${name}"
-	vi "${name}"
+  local name='foo.sh'
+  if [ $# -eq 1 ]; then local name="$1"; fi
+  echo '#!/bin/bash' >> "${name}"
+  chmod u+x "${name}"
+  vi "${name}"
 }
 
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set

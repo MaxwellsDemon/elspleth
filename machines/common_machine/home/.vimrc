@@ -1,5 +1,5 @@
-" Bash (at least I like tabs when not collaborating)
-autocmd Filetype sh setlocal tabstop=2 shiftwidth=2
+" Bash
+autocmd Filetype sh setlocal softtabstop=2 shiftwidth=2 expandtab
 
 " Scripting
 autocmd Filetype groovy setlocal softtabstop=2 shiftwidth=2 expandtab

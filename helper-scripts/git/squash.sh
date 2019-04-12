@@ -28,7 +28,7 @@ if [ "${src_branch}" = develop ] || [ "${src_branch}" = master ]; then
   exit 2
 fi
 if [ ! -d .git ]; then
-  echo "Not a git project: $(basename $(pwd))"
+  echo "Please change to root Git project directory"
   exit -22
 fi
 if [ -n "$(git status --porcelain)" ]; then

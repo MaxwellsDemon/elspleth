@@ -88,7 +88,8 @@ list_pod_and_containers() {
 exec_container() {
   local pod="$1"
   local container="$2"
-  k8scmd="kubectl exec $ns -it ${pod} -c ${container} -- '/bin/bash | sh'"
+  # Alas, '/bin/bash' is not known for some containers
+  k8scmd="kubectl exec $ns -it ${pod} -c ${container} -- sh"
 }
 
 log_containers() {

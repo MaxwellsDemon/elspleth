@@ -5,8 +5,10 @@
 set -e
 
 usage() {
-  echo "usage: $(basename "$0") <mode>"
-  echo "Modes: list, delete"
+  echo "usage: $(basename "$0") <list | delete> <place for summary file>"
+  echo "The summary file should be put in a directory outside of the current git project"
+  echo
+  echo "Example: $(basename "$0") list ~/Desktop"
   exit 1
 }
 
@@ -20,9 +22,13 @@ reset_totals() {
 
 print_totals() {
   section "Totals"
+  date
   echo "Total remote branches: ${total_branches_count}"
   echo "Branches that would be deleted but were merged less than two weeks ago: ${merged_branch_two_weeks_young_count}"
   echo "Branches for removal: ${deleteable_merged_branch_count}"
+  echo 
+  echo "Summary file is best viewed with colored text like:"
+  echo "cat ${summary_file}"
 }
 
 validate() {
@@ -180,7 +186,19 @@ delete_action() {
   git push origin :"$1"
 }
 
-if [ $# -ne 1 ] ; then
+main_logic() {
+  unit_test
+  validate
+  checkout_develop_or_master
+  reset_totals
+  gather_deleteable_branches
+  for_each_deleteable_branch "${mode}"
+  print_totals
+}
+
+# --------------------------
+
+if [ $# -ne 2 ] ; then
   usage
 fi
 
@@ -198,11 +216,6 @@ case "$1" in
   ;;
 esac
 
-unit_test
-validate
-checkout_develop_or_master
-reset_totals
-gather_deleteable_branches
-for_each_deleteable_branch "${mode}"
-print_totals
+summary_file="$2/branch-cleanup-summary.txt"
+main_logic | tee --append "${summary_file}"
 

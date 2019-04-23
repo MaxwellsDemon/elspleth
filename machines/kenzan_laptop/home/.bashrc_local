@@ -2,11 +2,12 @@
 # Should be sourced by .bashrc
 
 PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 
 source "${code}/elspleth-charter/scripts/website_library.sh"
 
 # Temporary current project
-alias cdp='cd /code/jenkins-pipeline-scripts/new_service_generation/scripts'
+alias cdp='cd /code/jenkins-pipeline-scripts/new_service_generation'
 
 # Node
 alias node6='bash "${code}"/developer-machine-setup/developer_tools.bash node6'

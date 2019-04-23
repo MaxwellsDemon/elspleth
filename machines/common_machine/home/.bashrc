@@ -58,8 +58,10 @@ alias agit='"${code}"/elspleth/helper-scripts/git/generic_all_git.sh'
 alias qgit='"${code}"/elspleth/helper-scripts/git/qgit.sh'
 alias pushto='"${code}"/elspleth/helper-scripts/git/pushto.sh'
 alias squash='"${code}"/elspleth/helper-scripts/git/squash.sh'
+alias clean_remote_branches='"${code}"/elspleth/helper-scripts/git/cleanup_remote_branches.sh'
 alias push='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
 alias newbranch='git checkout -b'
+alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete_branch.sh'
 
 # Maven
 alias maven='mvn'

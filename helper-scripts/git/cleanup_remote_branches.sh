@@ -42,6 +42,10 @@ validate() {
     echo "Please clean git workspace"
     exit -33
   fi
+  if [ ! -d "${summary_dir}" ]; then
+    echo "Not a directory: ${summary_dir}"
+    exit -44
+  fi
 }
 
 checkout_develop_or_master() {
@@ -216,6 +220,7 @@ case "$1" in
   ;;
 esac
 
+summary_dir="$2"
 summary_file="$2/branch-cleanup-summary.txt"
 main_logic | tee --append "${summary_file}"
 

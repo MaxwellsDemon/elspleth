@@ -21,7 +21,6 @@ then
   mkdir "${tmp}"
 fi
 
-
 # Location of this file
 script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 

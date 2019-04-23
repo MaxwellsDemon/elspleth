@@ -47,7 +47,7 @@ validate() {
 checkout_develop_or_master() {
   section "Checkout of develop or master"
   git fetch
-  if git checkout develop > /dev/null 2>&1 ; then
+  if mute git checkout develop ; then
     echo "The develop branch exists, use it as the base."
   else
     echo "The develop branch does not exist, using master as the base."

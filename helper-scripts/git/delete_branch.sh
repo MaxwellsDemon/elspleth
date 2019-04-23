@@ -22,7 +22,7 @@ echo "Delete local and remote branch ${core_branch}?"
 confirm
 
 mute git fetch
-mute git pull
+mute git pull || true
 git push origin :"${core_branch}" || true
 checkout_develop_or_master
 mute git pull

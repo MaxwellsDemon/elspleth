@@ -60,8 +60,11 @@ alias pushto='"${code}"/elspleth/helper-scripts/git/pushto.sh'
 alias squash='"${code}"/elspleth/helper-scripts/git/squash.sh'
 alias clean_remote_branches='"${code}"/elspleth/helper-scripts/git/cleanup_remote_branches.sh'
 alias push='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
-alias newbranch='git checkout -b'
 alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete_branch.sh'
+
+function newbranch() {
+  git checkout -b "$1" && push
+}
 
 # Maven
 alias maven='mvn'
@@ -190,7 +193,7 @@ else
   echo 'Please create file ~/.bashrc_local'
 fi
 
-newscript() {
+function newscript() {
   local name='foo.sh'
   if [ $# -eq 1 ]; then local name="$1"; fi
   echo '#!/bin/bash' >> "${name}"

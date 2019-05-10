@@ -3,12 +3,14 @@
 # Assumes git repos with only one remote, namely 'origin'
 
 set -e
+default_summary_dir="$HOME/Desktop/git-branch-cleanup-summaries"
 
 usage() {
-  echo "usage: $(basename "$0") <list | delete> <place for summary file>"
-  echo "The summary file should be put in a directory outside of the current git project"
+  echo "usage: $(basename "$0") <list | delete> [<place for summary file>]"
   echo
-  echo "Example: $(basename "$0") list ~/Desktop"
+  echo "    The output directory should be outside the current git project"
+  echo
+  echo "    Default output directory: ${default_summary_dir}"
   exit 1
 }
 
@@ -202,7 +204,7 @@ main_logic() {
 
 # --------------------------
 
-if [ $# -ne 2 ] ; then
+if [ $# -ne 1 -a $# -ne 2 ] ; then
   usage
 fi
 
@@ -214,13 +216,16 @@ case "$1" in
   mode=delete_action
   ;;
   *)
-  "Unknown option: $1"
+  echo "Unknown option: $1"
   usage
   exit 2
   ;;
 esac
 
 summary_dir="$2"
-summary_file="$2/branch-cleanup-summary.txt"
+summary_dir="${2:-$HOME/Desktop/git-branch-cleanup-summaries}"
+summary_file="${summary_dir}/summary-$1-$(basename $(pwd))-$(date "+%Y-%m-%d-%H-%M-%S").txt"
+echo "summary file: ${summary_file}"
+mkdir -p "${summary_dir}"
 main_logic | tee --append "${summary_file}"
 

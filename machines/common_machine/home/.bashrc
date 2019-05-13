@@ -198,6 +198,7 @@ function newscript() {
   echo '#!/bin/bash' >> "${name}"
   chmod u+x "${name}"
   vi "${name}"
+  cat "${name}"
 }
 
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set

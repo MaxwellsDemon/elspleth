@@ -14,11 +14,14 @@ fi
 
 if [ $QUICK ]
 then
+  echo "Quick: async git commands"
   # Setup temp directory
   tmp=$(realpath .)
   tmp="${tmp}/all-git-tmp"
   rm -rf "${tmp}"
   mkdir "${tmp}"
+else
+  echo "Slow: synchronous git commands"
 fi
 
 # Location of this file

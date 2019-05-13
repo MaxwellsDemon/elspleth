@@ -25,5 +25,5 @@ set belloff=all
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 
 " Color schemes from https://github.com/rafi/awesome-vim-colorschemes (colors/*.vim) and installed in ~/.vim/colors/
-colorscheme solarized8
+" colorscheme solarized8
 

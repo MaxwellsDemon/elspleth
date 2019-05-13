@@ -103,8 +103,7 @@ alias containermagic='bash "${code}/elspleth/helper-scripts/kubernetes/container
 alias km='containermagic'
 
 # Holistic
-# alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
-alias morning='qgit fetch --prune && qgit pull'
+alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
 
 # `v` repeats the most recent vi command
 # `v 3` repeats the third most recent unique vi command, etc.

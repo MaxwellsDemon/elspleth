@@ -14,11 +14,7 @@ realtime_git() {
 
 cd "${code}"
 echo 
-echo 
-echo 
-echo 
 echo "                             Fetching and pruning"
-echo "                             (If Charter repos hang, keep killing and retrying)"
 echo
 realtime_git fetch --prune
 

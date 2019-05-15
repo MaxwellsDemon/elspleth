@@ -33,6 +33,7 @@ alias fr='"${code}"/elspleth/helper-scripts/files/findreal.sh'
 alias g='grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp'
 alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules'
 alias grm='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=test'
+alias hosts='sudo vi /etc/hosts'
 
 # Git
 alias status='git status'

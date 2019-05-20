@@ -109,7 +109,7 @@ strip_origin() {
 }
 
 is_branch_younger_than_two_weeks() {
-  local branch_unix_time=$(git show -s --format="%ct" "$1")
+  local branch_unix_time=$(git show -s --format="%ct" "$1" --)
   local now_unix_time=$(date +%s)
   local diff=$(($now_unix_time - $branch_unix_time))
   local two_weeks_in_seconds=$((60 * 60 * 24 * 14))

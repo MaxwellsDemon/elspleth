@@ -16,5 +16,5 @@ cd "${code}"
 echo 
 echo "                             Fetching and pruning"
 echo
-realtime_git fetch --prune
+time realtime_git fetch --prune
 

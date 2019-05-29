@@ -5,7 +5,6 @@ set -e
 src_branch="$1"
 base_branch="$2"
 squash_branch="squashed_branch"
-src_backup_branch="squash_src_backup"
 
 usage() {
   echo "usage: $(basename $0) <branch to squash> <base branch>"
@@ -49,11 +48,6 @@ section "Rebasing ${src_branch}"
 git checkout "${src_branch}"
 git rebase "${base_branch}"
 
-section "Backing up ${src_branch}"
-git checkout "${src_branch}"
-git push
-git checkout -b "${src_backup_branch}"
-
 section "Squashing"
 git checkout "${base_branch}"
 git checkout -b "${squash_branch}"
@@ -62,13 +56,10 @@ git commit
 
 section "Propagating squash"
 git checkout "${squash_branch}"
-git branch -d "${src_branch}"
+git branch -D "${src_branch}"
 git checkout -b "${src_branch}"
 git push --set-upstream origin +"${src_branch}"
 git branch -d "${squash_branch}"
-
-section "Deleting local branch backup"
-git branch -D "${src_backup_branch}"
 
 section "Review local branches"
 git branch

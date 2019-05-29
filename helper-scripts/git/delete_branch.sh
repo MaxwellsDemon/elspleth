@@ -22,10 +22,10 @@ echo "Delete local and remote branch ${core_branch}?"
 confirm
 
 git fetch
-git pull || true
+git merge || true
 git push origin :"${core_branch}" || true
 checkout_develop_or_master
-git pull
+git merge
 if ! git branch -d "${core_branch}" ; then
   confirm
   git branch -D "${core_branch}"

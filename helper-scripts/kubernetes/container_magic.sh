@@ -99,6 +99,7 @@ log_containers() {
     local logfile="${pod}.${container}.log"
     echo "Writing: ${logfile}"
     kubectl logs $ns "${pod}" -c "${container}" > "${logfile}"
+    # TODO: kubectl logs -l app=account-domain-service -c account-domain-service -f
   done
   echo
 }

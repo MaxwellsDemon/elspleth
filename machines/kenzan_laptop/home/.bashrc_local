@@ -16,9 +16,6 @@ alias node10='bash "${code}"/developer-machine-setup/developer_tools.bash node10
 # Current project - short lived
 alias telepresence='telepresence --logfile /dev/null'
 
-# Why not
-alias cast='git add .; git commit -m "Intermediate commit for testing on Jenkins"; git push'
-
 # Places
 alias projects='cd ~/Documents/projects'
 alias training='cd ~/Documents/projects/training'

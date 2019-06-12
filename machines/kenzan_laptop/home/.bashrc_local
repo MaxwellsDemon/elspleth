@@ -8,6 +8,7 @@ source "${code}/elspleth-charter/scripts/website_library.sh"
 
 # Temporary current project
 alias cdp='cd /code/portals-onboarding-tutorial'
+alias ssd='cd /code/spc-swagger-doc'
 
 # Node
 alias node6='bash "${code}"/developer-machine-setup/developer_tools.bash node6'
@@ -36,7 +37,7 @@ alias splunk='chrome https://charter.splunkcloud.com'
 
 # Clear IntelliJ 'ignored files' list that's created when deleting an Intellij Maven module
 function restore_intellij_modules() {
-	xmlstarlet ed -P -L -d '/project/component/option[@name="ignoredFiles"]' "${code}"/BlueTeam/.idea/misc.xml
+  xmlstarlet ed -P -L -d '/project/component/option[@name="ignoredFiles"]' "${code}"/BlueTeam/.idea/misc.xml
 }
 
 # Early days at Kenzan
@@ -57,24 +58,26 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
 fi
 
 function decrypter() {
-	if [ $# -ne 2 ]; then echo "Usage: decrypter <key file> <encoded content file>"; return 1; fi
-	base64 -D -i $2 | openssl rsautl -decrypt -inkey $1  -out result.tmp
-	cat result.tmp
-	rm result.tmp
+  if [ $# -ne 2 ]; then echo "Usage: decrypter <key file> <encoded content file>"; return 1; fi
+  base64 -D -i $2 | openssl rsautl -decrypt -inkey $1  -out result.tmp
+  cat result.tmp
+  rm result.tmp
 }
 
 function vpn() {
-	local base=~/.anyconnect.vpn.
-	local vpn_name="$1"
-	local config="${base}${vpn_name}"
-	if [ ! -f "${config}" ]; then echo "usage: vpn <vpn short name>";  echo "VPN config file not found: ${config}"; echo "Options are:"; ls "${base}"* | sed -E 's/.+\.([^.]+)/\1/g'; return 1; fi
-	echo "Please disconnect from VPN, then continue..."
-	read
-	killall "Cisco AnyConnect Secure Mobility Client"
-	sleep 2
-	(cd "${code}/spc-dev-toolbox/hosts" && ./apply_latest.sh "${vpn_name}-vpn-hosts")
-	cp "${config}" ~/.anyconnect
-	open -a "Cisco AnyConnect Secure Mobility Client"
+  local base=~/.anyconnect.vpn.
+  local vpn_name="$1"
+  local config="${base}${vpn_name}"
+  if [ ! -f "${config}" ]; then echo "usage: vpn <vpn short name>";  echo "VPN config file not found: ${config}"; echo "Options are:"; ls "${base}"* | sed -E 's/.+\.([^.]+)/\1/g'; return 1; fi
+  echo "Please disconnect from VPN, then continue..."
+  read
+  killall "Cisco AnyConnect Secure Mobility Client"
+  sleep 2
+  (cd "${code}/spc-dev-toolbox/hosts" && ./apply_hosts_file.sh "${vpn_name}-vpn-hosts")
+  cp "${config}" ~/.anyconnect
+  open -a "Cisco AnyConnect Secure Mobility Client"
+  echo "Opening Charter VPN usage spreadsheet..."
+  open 'https://docs.google.com/spreadsheets/d/1kMdYYT7OedjSuj-9fokntYB5kvlBq6WnZjW2vJmtlJY/edit#gid=0'
 }
 
 # Clears annoying Iterm2 introduction

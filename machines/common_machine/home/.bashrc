@@ -32,7 +32,7 @@ alias f='find -E . -iname' # The perl support allows for look-ahead and shorthan
 alias fr='"${code}"/elspleth/helper-scripts/files/findreal.sh'
 alias Grep='grep'
 alias g='grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp'
-alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules'
+alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=coverage'
 alias grm='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=test'
 alias hosts='sudo vi /etc/hosts'
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'

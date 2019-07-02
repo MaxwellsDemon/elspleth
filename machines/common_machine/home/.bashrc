@@ -107,6 +107,7 @@ alias km='containermagic'
 
 # Holistic
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
+alias release='bash "${code}"/elspleth/helper-scripts/holistic/release.sh'
 
 # `v` repeats the most recent vi command
 # `v 3` repeats the third most recent unique vi command, etc.
@@ -199,6 +200,7 @@ function newscript() {
   local name='foo.sh'
   if [ $# -eq 1 ]; then local name="$1"; fi
   echo '#!/bin/bash' >> "${name}"
+  echo 'set -e' >> "${name}"
   chmod u+x "${name}"
   vi "${name}"
   cat "${name}"

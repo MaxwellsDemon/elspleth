@@ -25,25 +25,36 @@ usage() {
 
 if [ $# -ne 2 ] ; then
   usage
+elif ! hash xmlstarlet 2>/dev/null ; then
+  echo >&2 "I require an XML utility to work (a command called 'xmlstarlet' is not on the path).  Aborting."
+  exit 1
+else
+  release_version="$1"
+  open_version="$2"
 fi
 
-# release_version='0.9.0'
-# open_version='0.10.0-SNAPSHOT'
-release_version="$1"
-open_version="$2"
+git checkout develop
+git pull
 
-echo "For project  $(basename $(pwd))"
+if [ -f pom.xml ] ; then
+  original_version="$(xmlstarlet sel -N pom=http://maven.apache.org/POM/4.0.0 -t -v '/pom:project/pom:version' pom.xml)"
+else
+  echo "No pom.xml found. Exiting."
+  exit 3
+fi
+
 echo
+echo "For project  $(basename $(pwd))"
+echo "For branch   develop"
+echo
+echo "Currently    ${original_version}"
 echo "releasing    ${release_version}"
 echo "Opening      ${open_version}"
 echo
 echo "Look good?"
 read -p '...'
 
-git checkout develop
-git pull
 mvn clean verify
-
 git checkout master
 git pull
 git merge develop

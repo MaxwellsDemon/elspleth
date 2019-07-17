@@ -38,6 +38,7 @@ alias hosts='sudo vi /etc/hosts'
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
 
 # Git
+alias gitk='(gitk &)'
 alias status='git status'
 alias s='status'
 alias S='s'

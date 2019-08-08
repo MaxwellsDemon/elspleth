@@ -9,6 +9,7 @@ source "${code}/elspleth-charter/scripts/website_library.sh"
 
 # Temporary current project
 alias both='jenkins docker 1 && jenkins puppet 1'
+alias i='kubectl -n spectrum-istio'
 
 # References
 alias curl_notes='vi ~/Documents/projects/charter/curl_to_end_all_curls.txt'

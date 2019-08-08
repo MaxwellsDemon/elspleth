@@ -8,11 +8,11 @@ PATH="/usr/local/opt/node@10/bin:$PATH"
 source "${code}/elspleth-charter/scripts/website_library.sh"
 
 # Temporary current project
-#
+alias both='jenkins docker 1 && jenkins puppet 1'
 
 # References
 alias curl_notes='vi ~/Documents/projects/charter/curl_to_end_all_curls.txt'
-alias cassandra_notes='vi ~/Documents/projects/canary-team/efforts/cassandra/cassandra-notes.md'
+alias cassandra_notes='vi ~/Documents/projects/charter/efforts/cassandra/cassandra-notes.md'
 
 # Node
 alias node6='bash "${code}"/developer-machine-setup/developer_tools.bash node6'
@@ -24,11 +24,11 @@ alias telepresence='telepresence --logfile /dev/null'
 # Places
 alias projects='cd ~/Documents/projects'
 alias training='cd ~/Documents/projects/training'
-alias blue='cd ~/Documents/projects/blue-team'
 alias notes='cd "${notes}"'
-alias canary='cd ~/Documents/projects/canary-team'
 alias charter='cd ~/Documents/projects/charter'
-alias library='cd ${code}/portals-jenkins-library'
+alias ourlib='cd ${code}/portals-jenkins-library'
+alias theirlib='cd ${code}/jenkins_shared_library'
+alias dsl='cd ${code}/jenkins-job-dsl'
 alias tutorial='cd ${code}/portals-onboarding-tutorial'
 
 # Apps
@@ -56,6 +56,7 @@ alias gather='"${code}"/elspleth/machines/scripts/gather_machine_rc.sh kenzan_la
 alias exercisedockerprovisioning='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning.sh'
 alias exercisedockerprovisioningundo='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning_undo.sh'
 alias exercisedockerprovisioninglist='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning_list.sh'
+alias clean_remote_branches='"${code}"/elspleth-charter/scripts/cleanup_remote_branches.sh'
 alias dp='cd "${code}"/docker-provisioning'
 alias de='cd "${code}"/developer-environment'
 
@@ -71,13 +72,15 @@ function decrypter() {
   rm result.tmp
 }
 
+# alias vpnc="printf '\n\nPASSWORD' | /opt/cisco/anyconnect/bin/vpn -s connect vpn.kenzanmedia.com"
+# alias vpndc='/opt/cisco/anyconnect/bin/vpn disconnect'
+# alias vpns='/opt/cisco/anyconnect/bin/vpn state | \grep -m 1 state;'
 function vpn() {
   local base=~/.anyconnect.vpn.
   local vpn_name="$1"
   local config="${base}${vpn_name}"
   if [ ! -f "${config}" ]; then echo "usage: vpn <vpn short name>";  echo "VPN config file not found: ${config}"; echo "Options are:"; ls "${base}"* | sed -E 's/.+\.([^.]+)/\1/g'; return 1; fi
-  echo "Please disconnect from VPN, then continue..."
-  read
+  /opt/cisco/anyconnect/bin/vpn disconnect || :
   killall "Cisco AnyConnect Secure Mobility Client"
   sleep 2
   (cd "${code}/spc-dev-toolbox/hosts" && ./apply_hosts_file.sh "${vpn_name}-vpn-hosts")

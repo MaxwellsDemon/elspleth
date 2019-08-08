@@ -34,11 +34,10 @@ alias Grep='grep'
 alias g='grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp'
 alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=coverage'
 alias grm='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=test'
-alias hosts='sudo vi /etc/hosts'
+alias hosts='cd "${code}"/spc-dev-toolbox/hosts'
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
 
 # Git
-alias gitk='(gitk &)'
 alias status='git status'
 alias s='status'
 alias S='s'
@@ -68,6 +67,10 @@ alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete_branch.sh'
 
 function newbranch() {
   git checkout -b "$1" && push
+}
+
+function gitk() {
+  (/usr/local/bin/gitk $@ &)
 }
 
 # Maven

@@ -1,18 +1,7 @@
 #!/bin/bash
 set -e
 
-# inputs: major/minor/patch release
-
-# package.json and/or pom.xml
-
-# get pom.xml version
-# get package.json version
-
-# source branch must be release/* or develop
-
-# TODO
-# logic to bump major/minor/patch version and update version string in pom or package.json
-
+# TODO node package.json support. Currently limited to maven.
 
 # ===========  Let's gather a happy path  ===============
 

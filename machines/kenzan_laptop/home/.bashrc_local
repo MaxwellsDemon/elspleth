@@ -11,6 +11,8 @@ source "${code}/elspleth-charter/scripts/website_library.sh"
 alias both='jenkins docker 1 && jenkins puppet 1'
 alias i='kubectl -n spectrum-istio'
 
+alias release='"${code}"/spc-dev-toolbox/teams/canary/release.sh'
+
 # References
 alias curl_notes='vi ~/Documents/projects/charter/curl_to_end_all_curls.txt'
 alias cassandra_notes='vi ~/Documents/projects/charter/efforts/cassandra/cassandra-notes.md'
@@ -22,15 +24,19 @@ alias node10='bash "${code}"/developer-machine-setup/developer_tools.bash node10
 # Current project - short lived
 alias telepresence='telepresence --logfile /dev/null'
 
+
 # Places
 alias projects='cd ~/Documents/projects'
 alias training='cd ~/Documents/projects/training'
 alias notes='cd "${notes}"'
-alias charter='cd ~/Documents/projects/charter'
-alias ourlib='cd ${code}/portals-jenkins-library'
-alias theirlib='cd ${code}/jenkins_shared_library'
-alias dsl='cd ${code}/jenkins-job-dsl'
-alias tutorial='cd ${code}/portals-onboarding-tutorial'
+alias charter='cd "${HOME}/Documents/projects/charter'
+alias ourlib='cd "${code}"/portals-jenkins-library'
+alias theirlib='cd "${code}"/jenkins_shared_library'
+alias dsl='cd "${code}"/jenkins-job-dsl'
+alias tutorial='cd "${code}"/portals-onboarding-tutorial'
+alias doc='cd "${code}"/spc-swagger-doc'
+alias hosts='cd "${code}"/spc-dev-toolbox/hosts'
+alias box='cd "${code}"/spc-dev-toolbox'
 
 # Apps
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'

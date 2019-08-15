@@ -34,7 +34,6 @@ alias Grep='grep'
 alias g='grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp'
 alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=coverage'
 alias grm='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=test'
-alias hosts='cd "${code}"/spc-dev-toolbox/hosts'
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
 
 # Git
@@ -112,7 +111,6 @@ alias km='containermagic'
 
 # Holistic
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
-alias release='bash "${code}"/elspleth/helper-scripts/holistic/release.sh'
 
 # `v` repeats the most recent vi command
 # `v 3` repeats the third most recent unique vi command, etc.

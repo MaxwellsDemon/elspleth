@@ -56,13 +56,15 @@ alias list='git config --list'
 alias master='git checkout master'
 alias dev='git checkout develop'
 alias develop='git checkout develop'
-alias agit='"${code}"/elspleth/helper-scripts/git/generic_all_git.sh'
-alias qgit='"${code}"/elspleth/helper-scripts/git/qgit.sh'
+alias sgit='"${code}"/elspleth/helper-scripts/git/slow_git.sh'
+alias fgit='"${code}"/elspleth/helper-scripts/git/fast_git.sh'
 alias pushto='"${code}"/elspleth/helper-scripts/git/pushto.sh'
 alias squash='"${code}"/elspleth/helper-scripts/git/squash.sh'
 alias clean_remote_branches='"${code}"/elspleth/helper-scripts/git/cleanup_remote_branches.sh'
 alias push='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
 alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete_branch.sh'
+
+alias lines='sed "s/ /\n/g"'
 
 function newbranch() {
   git checkout -b "$1" && push

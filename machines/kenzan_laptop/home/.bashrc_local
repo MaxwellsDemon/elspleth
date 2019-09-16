@@ -5,7 +5,7 @@ PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 PATH="/usr/local/opt/node@10/bin:$PATH"
 
-source "${code}/elspleth-charter/scripts/website_library.sh"
+source "${code}/elspleth-charter/scripts/website-library.sh"
 
 # Temporary current project
 alias both='jenkins docker 1 && jenkins puppet 1'
@@ -26,9 +26,9 @@ alias telepresence='telepresence --logfile /dev/null'
 
 
 # Places
+alias notes='cd "${notes}"'
 alias projects='cd ~/Documents/projects'
 alias training='cd ~/Documents/projects/training'
-alias notes='cd "${notes}"'
 alias charter='cd "${HOME}/Documents/projects/charter'
 alias ourlib='cd "${code}"/portals-jenkins-library'
 alias theirlib='cd "${code}"/jenkins_shared_library'
@@ -37,6 +37,8 @@ alias tutorial='cd "${code}"/portals-onboarding-tutorial'
 alias doc='cd "${code}"/spc-swagger-doc'
 alias hosts='cd "${code}"/spc-dev-toolbox/hosts'
 alias box='cd "${code}"/spc-dev-toolbox'
+alias dp='cd "${code}"/docker-provisioning'
+alias scripts='cd "${code}"/jenkins-pipeline-scripts'
 
 # Apps
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
@@ -60,12 +62,10 @@ alias todo="vi '${notes}/todo.txt'"
 alias gather='"${code}"/elspleth/machines/scripts/gather_machine_rc.sh kenzan_laptop'
 
 # Charter
-alias exercisedockerprovisioning='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning.sh'
-alias exercisedockerprovisioningundo='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning_undo.sh'
-alias exercisedockerprovisioninglist='"${code}"/elspleth-charter/scripts/exercise_docker_provisioning_list.sh'
-alias clean_remote_branches='"${code}"/elspleth-charter/scripts/cleanup_remote_branches.sh'
-alias dp='cd "${code}"/docker-provisioning'
-alias de='cd "${code}"/developer-environment'
+alias exercisedockerprovisioning='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning.sh'
+alias exercisedockerprovisioningundo='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning-undo.sh'
+alias exercisedockerprovisioninglist='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning-list.sh'
+alias clean_remote_branches='"${code}"/elspleth-charter/scripts/cleanup-remote-branches.sh'
 
 # auto-complete
 if [ -f $(brew --prefix)/etc/bash_completion ]; then

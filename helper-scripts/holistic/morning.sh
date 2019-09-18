@@ -3,12 +3,12 @@
 set -e
 . ~/.bashrc_local_variables
 
-asap_git() {
-  "${code}"/elspleth/helper-scripts/git/qgit.sh "$@"
+fast_git() {
+  "${code}"/elspleth/helper-scripts/git/fast_git.sh "$@"
 }
 
-realtime_git() {
-  "${code}"/elspleth/helper-scripts/git/generic_all_git.sh "$@"
+slow_git() {
+  "${code}"/elspleth/helper-scripts/git/slow_git.sh "$@"
 }
 
 (
@@ -24,5 +24,5 @@ cd "${code}"
 echo 
 echo "                             Fetching and pruning"
 echo
-time asap_git fetch --prune
+time fast_git fetch --prune
 

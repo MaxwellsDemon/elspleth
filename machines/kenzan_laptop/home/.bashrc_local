@@ -11,7 +11,7 @@ source "${code}/elspleth-charter/scripts/website-library.sh"
 alias both='jenkins docker 1 && jenkins puppet 1'
 alias i='kubectl -n spectrum-istio'
 
-alias release='"${code}"/spc-dev-toolbox/teams/canary/release.sh'
+alias release='"${code}"/spc-dev-toolbox/teams/innovation/release.sh'
 
 # References
 alias curl_notes='vi ~/Documents/projects/charter/curl_to_end_all_curls.txt'

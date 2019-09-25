@@ -14,8 +14,8 @@ alias i='kubectl -n spectrum-istio'
 alias release='"${code}"/spc-dev-toolbox/teams/innovation/release.sh'
 
 # References
-alias curl_notes='vi ~/Documents/projects/charter/curl_to_end_all_curls.txt'
-alias cassandra_notes='vi ~/Documents/projects/charter/efforts/cassandra/cassandra-notes.md'
+alias curl_notes='open ~/Documents/projects/charter/curl_to_end_all_curls.md'
+alias cassandra_notes='open ~/Documents/projects/charter/efforts/cassandra/cassandra-notes.md'
 
 # Node
 alias node6='bash "${code}"/developer-machine-setup/developer_tools.bash node6'
@@ -73,6 +73,8 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
 fi
 
 function decrypter() {
+  echo 'Looks like shared-lib-config grabs privateKey.pem from a S3 client :sadparrot:'
+  echo 'Search all of Slack for `-u` to find a curl that has service account creds!'
   if [ $# -ne 2 ]; then echo "Usage: decrypter <key file> <encoded content file>"; return 1; fi
   base64 -D -i $2 | openssl rsautl -decrypt -inkey $1  -out result.tmp
   cat result.tmp

@@ -211,6 +211,31 @@ function newscript() {
   cat "${name}"
 }
 
+replace_text() {
+  if [ $# -ne 2 ]; then echo 'usage: <slashy sed target pattern> <slashy sed replace>'; echo 'Recursively updates files'; return 1; fi
+  if sed --version > /dev/null 2>&1 ; then
+    # GNU sed
+    find . \
+      -name .git -type d -prune -o \
+      -name .svn -type d -prune -o \
+      -name .idea -type d -prune -o \
+      -name target -type d -prune -o \
+      -name node_modules -type d -prune -o \
+      -type f \
+      -exec sed -E -i -e "s/$1/$2/g" {} +
+  else
+    # BSD (mac) sed
+    find . \
+      -name .git -type d -prune -o \
+      -name .svn -type d -prune -o \
+      -name .idea -type d -prune -o \
+      -name target -type d -prune -o \
+      -name node_modules -type d -prune -o \
+      -type f \
+      -exec sed -E -i '' -e "s/$1/$2/g" {} +
+  fi
+}
+
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set
 
 # Bash prompts working directory

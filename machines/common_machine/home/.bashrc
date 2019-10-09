@@ -8,6 +8,10 @@ else
   echo 'Please create file ~/.bashrc_local_variables'
 fi
 
+# History scrolling is aware of partially typed command for filtering
+bind '"\e[A":history-search-backward'
+bind '"\e[B":history-search-forward'
+
 # Places
 alias code='cd "${code}"'
 alias down='cd ~/Downloads'
@@ -23,7 +27,7 @@ alias bashrcvariables='vi ~/.bashrc_local_variables; source ~/.bashrc'
 alias vimrc='vim ~/.vimrc'
 
 # Basics
-alias l='ls -lah --color=auto --group-directories-first'
+alias l='rm -f .DS_Store; ls -lah --color=auto --group-directories-first'
 alias L='l'
 alias cls='clear'
 alias c='clear'
@@ -37,7 +41,7 @@ alias grm='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclud
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
 
 # Git
-alias status='git status'
+alias status='rm -f .DS_Store; git status'
 alias s='status'
 alias S='s'
 alias statu='status'
@@ -100,6 +104,7 @@ alias dock='docker'
 alias doker='docker'
 alias dl='docker container ls -a'
 alias dex='docker exec -it'
+alias start_swagger='docker run --rm -d -p 80:8080 swaggerapi/swagger-editor'
 
 # Kubernetes
 alias k='kubectl'
@@ -187,8 +192,10 @@ function checkout() {
     git branch | cat -n
     read -p '> ' choice
   fi
-  local branch="$(git branch | sed "${choice}q;d" | sed 's/^[* ]*//g')"
-  git checkout "${branch}"
+  if [ "${choice}" ]; then
+    local branch="$(git branch | sed "${choice}q;d" | sed 's/^[* ]*//g')"
+    git checkout "${branch}"
+  fi
 }
 alias ch='checkout'
 

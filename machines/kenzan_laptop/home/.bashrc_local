@@ -39,6 +39,7 @@ alias hosts='cd "${code}"/spc-dev-toolbox/hosts'
 alias box='cd "${code}"/spc-dev-toolbox'
 alias dp='cd "${code}"/docker-provisioning'
 alias scripts='cd "${code}"/jenkins-pipeline-scripts'
+alias codegen='cd "${code}"/spc-swagger-codegen'
 
 # Apps
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'

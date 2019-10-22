@@ -40,6 +40,10 @@ alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude
 alias grm='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=test'
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
 
+# Basic typos
+alias xit='exit'
+alias EXIT='exit'
+
 # Git
 alias status='rm -f .DS_Store; git status'
 alias s='status'
@@ -60,8 +64,8 @@ alias list='git config --list'
 alias master='git checkout master'
 alias dev='git checkout develop'
 alias develop='git checkout develop'
-alias sgit='"${code}"/elspleth/helper-scripts/git/slow_git.sh'
-alias fgit='"${code}"/elspleth/helper-scripts/git/fast_git.sh'
+alias slowgit='"${code}"/elspleth/helper-scripts/git/slow_git.sh'
+alias fastgit='"${code}"/elspleth/helper-scripts/git/fast_git.sh'
 alias pushto='"${code}"/elspleth/helper-scripts/git/pushto.sh'
 alias squash='"${code}"/elspleth/helper-scripts/git/squash.sh'
 alias clean_remote_branches='"${code}"/elspleth/helper-scripts/git/cleanup_remote_branches.sh'

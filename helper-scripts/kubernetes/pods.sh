@@ -2,19 +2,24 @@
 set -e
 
 kube='kubectl get pods -o wide --sort-by=.spec.nodeName'
-echo "[Results are sorted by node name]"
-
-namespaces='cnet|smb|specmob|specmobdev|specmobdevpi|cnetpi|canary|uidt|idcndb|pinxt|unifyshared|msa|pinxt-dev|pinxt-int|pinxt-stable|cobrowse|uid-dla|uid-mfa|uid-smbhv'
+echo "Usage: <words to grep> ... [A namespace starts with a dash]"
 
 greps=()
 for arg in $@ ; do
-  if echo "${arg}" | grep -qP "${namespaces}" ; then
-    ns="-n ${arg}"
+  if echo "${arg}" | grep -qP "^-.+$" ; then
+    ns="${arg#-}"
   else
     greps+=("${arg}")
   fi
 done
+if [ "${ns}" ] ; then
+  echo "namespace: ${ns}"
+  ns="-n ${ns}"
+else
+  echo "namespace: [default]"
+fi
 
+echo "[Results are sorted by node name]"
 if [ ${#greps[@]} -eq 0 ] ; then
   ${kube} ${ns}
 else

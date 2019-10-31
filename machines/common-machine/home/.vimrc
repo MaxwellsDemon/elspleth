@@ -1,3 +1,6 @@
+inoremap jk <ESC>
+let mapleader = " "
+
 " Bash
 autocmd Filetype sh setlocal softtabstop=2 shiftwidth=2 expandtab
 

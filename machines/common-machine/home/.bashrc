@@ -43,6 +43,7 @@ alias cast='git add .; git commit -m "Intermediate commit for testing"; git push
 # Basic typos
 alias xit='exit'
 alias EXIT='exit'
+alias ci='vi'
 
 # Git
 alias status='rm -f .DS_Store; git status'
@@ -64,13 +65,13 @@ alias list='git config --list'
 alias master='git checkout master'
 alias dev='git checkout develop'
 alias develop='git checkout develop'
-alias slowgit='"${code}"/elspleth/helper-scripts/git/slow_git.sh'
-alias fastgit='"${code}"/elspleth/helper-scripts/git/fast_git.sh'
+alias slowgit='"${code}"/elspleth/helper-scripts/git/slow-git.sh'
+alias fastgit='"${code}"/elspleth/helper-scripts/git/fast-git.sh'
 alias pushto='"${code}"/elspleth/helper-scripts/git/pushto.sh'
 alias squash='"${code}"/elspleth/helper-scripts/git/squash.sh'
-alias clean_remote_branches='"${code}"/elspleth/helper-scripts/git/cleanup_remote_branches.sh'
+alias clean_remote_branches='"${code}"/elspleth/helper-scripts/git/cleanup-remote-branches.sh'
 alias push='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
-alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete_branch.sh'
+alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete-branch.sh'
 
 alias lines='sed "s/ /\n/g"'
 
@@ -112,11 +113,11 @@ alias start_swagger='docker run --rm -d -p 80:8080 swaggerapi/swagger-editor'
 
 # Kubernetes
 alias k='kubectl'
-alias containerlogs='bash "${code}/elspleth/helper-scripts/kubernetes/container_logs.sh"'
-alias containershell='bash "${code}/elspleth/helper-scripts/kubernetes/container_shell.sh"'
-alias containerls='bash "${code}/elspleth/helper-scripts/kubernetes/container_ls.sh"'
-alias containerhealth='bash "${code}/elspleth/helper-scripts/kubernetes/container_health.sh"'
-alias containermagic='bash "${code}/elspleth/helper-scripts/kubernetes/container_magic.sh"'
+alias containerlogs='bash "${code}/elspleth/helper-scripts/kubernetes/container-logs.sh"'
+alias containershell='bash "${code}/elspleth/helper-scripts/kubernetes/container-shell.sh"'
+alias containerls='bash "${code}/elspleth/helper-scripts/kubernetes/container-ls.sh"'
+alias containerhealth='bash "${code}/elspleth/helper-scripts/kubernetes/container-health.sh"'
+alias containermagic='bash "${code}/elspleth/helper-scripts/kubernetes/container-magic.sh"'
 alias pods='bash "${code}/elspleth/helper-scripts/kubernetes/pods.sh"'
 alias km='containermagic'
 

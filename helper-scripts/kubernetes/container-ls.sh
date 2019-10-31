@@ -6,7 +6,7 @@ if [ $# -ne 1 ]; then
 fi
 
 scripts_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
-source "${scripts_dir}"/k8s_library.sh
+source "${scripts_dir}"/k8s-library.sh
 
 get_pod_info $1
 

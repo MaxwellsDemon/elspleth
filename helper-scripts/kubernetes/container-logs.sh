@@ -2,7 +2,7 @@
 set -e
 
 scripts_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
-source "${scripts_dir}/pod_and_container_command.sh"
+source "${scripts_dir}/pod-and-container-command.sh"
 
 logfile="${pod_name}.${container_name}.log"
 echo

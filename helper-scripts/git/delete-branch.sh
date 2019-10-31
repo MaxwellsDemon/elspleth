@@ -2,7 +2,7 @@
 
 set -e
 script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
-source "${script_dir}/git_library.sh"
+source "${script_dir}/git-library.sh"
 
 confirm() {
   read -p 'Accept or ctrl-C >'

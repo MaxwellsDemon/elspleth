@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 scripts_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 
 usage() {
@@ -16,7 +17,7 @@ fi
 
 specific_machine=$(realpath "${scripts_dir}/../$1")
 specific_home="${specific_machine}/home"
-common_machine=$(realpath "${scripts_dir}/../common_machine")
+common_machine=$(realpath "${scripts_dir}/../common-machine")
 common_home="${common_machine}/home"
 
 expected_dirs=("${specific_machine}" "${specific_home}" "${common_machine}" "${common_home}")

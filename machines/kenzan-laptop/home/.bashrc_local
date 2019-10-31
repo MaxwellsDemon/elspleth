@@ -7,14 +7,15 @@ PATH="/usr/local/opt/node@10/bin:$PATH"
 
 source "${code}/elspleth-charter/scripts/website-library.sh"
 
-# Temporary current project
+# Incubating ideas for helper functions
 alias both='jenkins docker 1 && jenkins puppet 1'
 alias i='kubectl -n spectrum-istio'
+alias j='jenkins'
 
 alias release='"${code}"/spc-dev-toolbox/teams/innovation/release.sh'
 
 # References
-alias curl_notes='open ~/Documents/projects/charter/curl_to_end_all_curls.md'
+alias curl_notes='open ~/Documents/projects/charter/curl-to-end-all-curls.md'
 alias cassandra_notes='open ~/Documents/projects/charter/efforts/cassandra/cassandra-notes.md'
 
 # Node
@@ -29,9 +30,9 @@ alias telepresence='telepresence --logfile /dev/null'
 alias notes='cd "${notes}"'
 alias projects='cd ~/Documents/projects'
 alias training='cd ~/Documents/projects/training'
-alias charter='cd "${HOME}/Documents/projects/charter'
+alias charter='cd "${HOME}"/Documents/projects/charter'
 alias ourlib='cd "${code}"/portals-jenkins-library'
-alias theirlib='cd "${code}"/jenkins_shared_library'
+alias theirlib='cd "${code}"/jenkins-shared-library'
 alias dsl='cd "${code}"/jenkins-job-dsl'
 alias tutorial='cd "${code}"/portals-onboarding-tutorial'
 alias doc='cd "${code}"/spc-swagger-doc'
@@ -60,7 +61,7 @@ function restore_intellij_modules() {
 # Early days at Kenzan
 alias accounts="vi '${notes}/accounts.txt'"
 alias todo="vi '${notes}/todo.txt'"
-alias gather='"${code}"/elspleth/machines/scripts/gather_machine_rc.sh kenzan_laptop'
+alias gather='"${code}"/elspleth/machines/scripts/gather-machine-rc.sh kenzan-laptop'
 
 # Charter
 alias exercisedockerprovisioning='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning.sh'

@@ -12,6 +12,10 @@ alias both='jenkins docker 1 && jenkins puppet 1'
 alias i='kubectl -n spectrum-istio'
 alias j='jenkins'
 
+alias PR='bitbucket 2'
+alias PRs='bitbucket 3'
+alias prs='bitbucket 3'
+
 alias release='"${code}"/spc-dev-toolbox/teams/innovation/release.sh'
 
 # References
@@ -91,7 +95,9 @@ function vpn() {
   /opt/cisco/anyconnect/bin/vpn disconnect || :
   killall "Cisco AnyConnect Secure Mobility Client"
   sleep 2
+  (echo -n "$(cat ~/.machine_secret)" | pbcopy) || true
   (cd "${code}/spc-dev-toolbox/hosts" && ./apply_hosts_file.sh "${vpn_name}-vpn-hosts")
+  (echo -n "$(cat ~/.vpn.${vpn_name}.secret)" | pbcopy) || true
   cp "${config}" ~/.anyconnect
   open -a "Cisco AnyConnect Secure Mobility Client"
   # echo "Opening Charter VPN usage spreadsheet..."

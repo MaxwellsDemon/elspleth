@@ -43,6 +43,7 @@ alias cast='git add .; git commit -m "Intermediate commit for testing"; git push
 # Basic typos
 alias xit='exit'
 alias EXIT='exit'
+alias exi='exit'
 alias ci='vi'
 
 # Git
@@ -75,6 +76,10 @@ alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete-branch.sh'
 
 alias lines='sed "s/ /\n/g"'
 
+function gitp() {
+  git "p$1"
+}
+
 function newbranch() {
   git checkout -b "$1" && push
 }
@@ -97,6 +102,7 @@ alias mcds='mvn clean deploy -DskipTests'
 alias mcdss='mvn clean deploy -Dmaven.test.skip=true -DskipTests'
 alias shallowmvn='"${code}"/elspleth/helper-scripts/maven/shallowmvn.sh'
 alias deepmvn='"${code}"/elspleth/helper-scripts/maven/deepmvn.sh'
+alias tree='mvn dependency:tree > tree && vi tree'
 
 # Google Cloud
 alias instances='gcloud compute instances'
@@ -113,13 +119,7 @@ alias start_swagger='docker run --rm -d -p 80:8080 swaggerapi/swagger-editor'
 
 # Kubernetes
 alias k='kubectl'
-alias containerlogs='bash "${code}/elspleth/helper-scripts/kubernetes/container-logs.sh"'
-alias containershell='bash "${code}/elspleth/helper-scripts/kubernetes/container-shell.sh"'
-alias containerls='bash "${code}/elspleth/helper-scripts/kubernetes/container-ls.sh"'
-alias containerhealth='bash "${code}/elspleth/helper-scripts/kubernetes/container-health.sh"'
-alias containermagic='bash "${code}/elspleth/helper-scripts/kubernetes/container-magic.sh"'
 alias pods='bash "${code}/elspleth/helper-scripts/kubernetes/pods.sh"'
-alias km='containermagic'
 
 # Holistic
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'

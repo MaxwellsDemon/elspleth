@@ -76,6 +76,10 @@ alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete-branch.sh'
 
 alias lines='sed "s/ /\n/g"'
 
+function of() {
+  echo *"$1"* | sed "s/ /\n/g"
+}
+
 function gitp() {
   git "p$1"
 }

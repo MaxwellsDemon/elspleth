@@ -71,7 +71,7 @@ alias gather='"${code}"/elspleth/machines/scripts/gather-machine-rc.sh kenzan-la
 alias exercisedockerprovisioning='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning.sh'
 alias exercisedockerprovisioningundo='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning-undo.sh'
 alias exercisedockerprovisioninglist='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning-list.sh'
-alias clean_remote_branches='"${code}"/elspleth-charter/scripts/cleanup-remote-branches.sh'
+alias clean_remote_branches_jira='"${code}"/elspleth-charter/scripts/cleanup-remote-branches.sh'
 
 # auto-complete
 if [ -f $(brew --prefix)/etc/bash_completion ]; then

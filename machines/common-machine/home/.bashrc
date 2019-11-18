@@ -70,7 +70,7 @@ alias slowgit='"${code}"/elspleth/helper-scripts/git/slow-git.sh'
 alias fastgit='"${code}"/elspleth/helper-scripts/git/fast-git.sh'
 alias pushto='"${code}"/elspleth/helper-scripts/git/pushto.sh'
 alias squash='"${code}"/elspleth/helper-scripts/git/squash.sh'
-alias clean_remote_branches='"${code}"/elspleth/helper-scripts/git/cleanup-remote-branches.sh'
+alias clean_remote_branches_safer='"${code}"/elspleth/helper-scripts/git/cleanup-remote-branches.sh'
 alias push='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
 alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete-branch.sh'
 
@@ -179,7 +179,11 @@ function _locate_ancestor() {
 }
 
 function ..() {
-  if [ $# -gt 1 ]; then echo 'usage: .. <count directories to pop or ancestor name substring>'; return 1; fi
+  if [ $# -gt 1 ]; then 
+    echo 'usage: .. <a number: number of directories to pop>'
+    echo '          or'
+    echo 'usage: .. <otherwise: pops directories until ancestor name contains substring>'
+    return 1; fi
   if [ $# -eq 0 ]; then 
     cd ..
   else

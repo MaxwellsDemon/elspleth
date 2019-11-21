@@ -23,6 +23,9 @@ echo "[Results are sorted by node name]"
 if [ ${#greps[@]} -eq 0 ] ; then
   ${kube} ${ns}
 else
-  ${kube} ${ns} | grep -iP "$(echo "${greps[@]}" | sed "s/ /.*/g")"
+  all_output="$(${kube} ${ns})"
+  echo
+  echo "${all_output}" | head -n1
+  echo "${all_output}" | grep -iP "$(echo "${greps[@]}" | sed "s/ /.*/g")"
 fi
 

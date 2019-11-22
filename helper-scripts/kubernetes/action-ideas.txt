@@ -1,0 +1,13 @@
+Painful k8s activities
+
+
+===========
+
+Something about a flow control tree. 150 point car inspection check. Many asserts.
+
+===========
+
+Status of a pod including error drilldown is complex and involves many commands
+
+Investigating pods about placed config files
+

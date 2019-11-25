@@ -26,6 +26,6 @@ else
   all_output="$(${kube} ${ns})"
   echo
   echo "${all_output}" | head -n1
-  echo "${all_output}" | grep -iP "$(echo "${greps[@]}" | sed "s/ /.*/g")"
+  echo "${all_output}" | tail -n +2 | grep -iP "$(echo "${greps[@]}" | sed "s/ /.*/g")"
 fi
 

@@ -1,68 +1,86 @@
 #!/bin/bash
-set -e
-
 # TODO node package.json support. Currently limited to maven.
 
-# ===========  Let's gather a happy path  ===============
+set -e
 
 usage() {
-  echo "usage: $(basename $0) <release version> <open version>"
+  echo "usage: $(basename $0) <project path> [<release version> <open version> [<misc mvn build args>...]]"
   echo
-  echo "Have the current directory be the desired project to release."
+  echo "Supports maven projects"
+  echo "Will confirm change with you"
+  echo
+  echo "<project path>      Path to git/maven project. Prints artifact version."
+  echo "<release version>   New version for artifact. For master branch. For git tag."
+  echo "<open version>      New version for candidate. For develop branch."
+  echo "<build args>        Optional arguments to pass maven."
+  echo
   exit 1
 }
 
-if [ $# -ne 2 ] ; then
+project_path="$1"
+release_version="$2"
+open_version="$3"
+
+if [ $# -eq 0 ]; then
   usage
-elif ! hash xmlstarlet 2>/dev/null ; then
-  echo >&2 "I require an XML utility to work (a command called 'xmlstarlet' is not on the path).  Aborting."
-  exit 1
-else
-  release_version="$1"
-  open_version="$2"
+fi
+if [ ! -d "${project_path}" ]; then
+  echo "No project path found at '${project_path}'"
+  echo; usage
+fi
+if [ ! -d "${project_path}/.git" ]; then
+  echo "Directory exists but is not a git project: '${project_path}'"
+  echo; usage
 fi
 
-git checkout develop
-git pull
+(
+  cd "${project_path}"
+  echo "Updating project git..."
+  git checkout develop
+  git pull
+  if [ -f pom.xml ]; then
+    original_version="$(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)"
+  else
+    echo "No pom.xml found. Exiting."
+    exit 3
+  fi
 
-if [ -f pom.xml ] ; then
-  original_version="$(xmlstarlet sel -N pom=http://maven.apache.org/POM/4.0.0 -t -v '/pom:project/pom:version' pom.xml)"
-else
-  echo "No pom.xml found. Exiting."
-  exit 3
-fi
+  echo
+  echo "For project  $(basename $(pwd))"
+  echo "For branch   $(git rev-parse --abbrev-ref HEAD)"
+  echo
+  echo "Currently    ${original_version}"
 
-echo
-echo "For project  $(basename $(pwd))"
-echo "For branch   develop"
-echo
-echo "Currently    ${original_version}"
-echo "releasing    ${release_version}"
-echo "Opening      ${open_version}"
-echo
-echo "Look good?"
-read -p '...'
+  if [ $# -lt 3 ]; then
+    exit
+  fi
+  shift; shift; shift
 
-mvn clean verify
-git checkout master
-git pull
-git merge develop
-xmlstarlet ed --inplace -P -N pom=http://maven.apache.org/POM/4.0.0 --update '/pom:project/pom:version' -v "${release_version}" pom.xml
-git add pom.xml
-git commit -m "Release ${release_version}"
-git tag "${release_version}"
-git push origin master --tags
+  echo "releasing    ${release_version}"
+  echo "Opening      ${open_version}"
+  echo
+  echo "Look good?"
+  read -p 'Press enter/return to continue or control+c to escape...'
 
-git checkout develop
-git merge master
-xmlstarlet ed --inplace -P -N pom=http://maven.apache.org/POM/4.0.0 --update '/pom:project/pom:version' -v "${open_version}" pom.xml
-git add pom.xml
-git commit -m "Open version ${open_version}"
-git push origin develop
+  mvn clean verify $@
+  git checkout master
+  git pull
+  git merge develop
+  mvn versions:set -DnewVersion="${release_version}" > /dev/null && mvn versions:commit > /dev/null
+  git add pom.xml
+  git commit -m "Release ${release_version}"
+  git tag "${release_version}"
+  git push origin master --tags
 
-echo
-echo "now build the master branch in Jenkins!"
-echo
+  git checkout develop
+  git merge master
+  mvn versions:set -DnewVersion="${open_version}" > /dev/null && mvn versions:commit > /dev/null
+  git add pom.xml
+  git commit -m "Open version ${open_version}"
+  git push origin develop
 
-# ===========  End happy path  ==========================
+  echo
+  echo "now go build the master branch in Jenkins!"
+  echo
+)
 

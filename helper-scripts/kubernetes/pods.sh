@@ -2,7 +2,7 @@
 set -e
 
 kube='kubectl get pods -o wide --sort-by=.spec.nodeName'
-echo "Usage: <words to grep> ... [A namespace starts with a dash]"
+echo "Usage: $0 <substrings in order> ... [any arg: a namespace starts with a dash]"
 
 greps=()
 for arg in $@ ; do

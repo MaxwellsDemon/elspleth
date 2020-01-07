@@ -21,11 +21,13 @@ syntax enable
 set belloff=all
 
 " Visible whitespace
-"	Mapping between character and visual replacement
-"	In Vim session, activate with ':set list'
-" 	Stackoverflow source:
-"	https://stackoverflow.com/questions/1675688/make-vim-show-all-white-spaces-as-a-character/29787362#29787362
-set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+"  Mapping between character and visual replacement
+"  In Vim session, activate with ':set list'
+"   Stackoverflow source:
+"  https://stackoverflow.com/questions/1675688/make-vim-show-all-white-spaces-as-a-character/29787362#29787362
+" set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<
+set list
 
 " Color schemes from https://github.com/rafi/awesome-vim-colorschemes (colors/*.vim) and installed in ~/.vim/colors/
 " colorscheme solarized8

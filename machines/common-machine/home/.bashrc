@@ -42,9 +42,11 @@ alias cast='git add .; git commit -m "Intermediate commit for testing"; git push
 
 # Basic typos
 alias xit='exit'
+alias exiit='exit'
 alias EXIT='exit'
 alias exi='exit'
 alias ci='vi'
+alias gti='git'
 
 # Git
 alias status='rm -f .DS_Store; git status'
@@ -76,9 +78,11 @@ alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete-branch.sh'
 
 alias lines='sed "s/ /\n/g"'
 
-function of() {
+function has() {
   echo *"$1"* | sed "s/ /\n/g"
 }
+alias with='has'
+alias of='has'
 
 function gitp() {
   git "p$1"
@@ -106,7 +110,7 @@ alias mcds='mvn clean deploy -DskipTests'
 alias mcdss='mvn clean deploy -Dmaven.test.skip=true -DskipTests'
 alias shallowmvn='"${code}"/elspleth/helper-scripts/maven/shallowmvn.sh'
 alias deepmvn='"${code}"/elspleth/helper-scripts/maven/deepmvn.sh'
-alias tree='mvn dependency:tree > tree && vi tree'
+alias tree='mvn dependency:tree > /dev/null && mvn dependency:tree > tree && vi tree'
 
 # Google Cloud
 alias instances='gcloud compute instances'
@@ -124,6 +128,7 @@ alias start_swagger='docker run --rm -d -p 80:8080 swaggerapi/swagger-editor'
 # Kubernetes
 alias k='kubectl'
 alias pods='bash "${code}/elspleth/helper-scripts/kubernetes/pods.sh"'
+alias into='bash "${code}/elspleth/helper-scripts/kubernetes/into.sh"'
 
 # Holistic
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
@@ -178,6 +183,17 @@ function _locate_ancestor() {
   >&2 echo "$1 not found in ancestor name"
 }
 
+function sibling() {
+  local s="$(pwd)$1"
+  if [ -d "${s}" ]; then
+    cd "${s}"
+  else
+    cd "../$1"
+  fi
+}
+alias sib=sibling
+alias si=sibling
+
 function ..() {
   if [ $# -gt 1 ]; then 
     echo 'usage: .. <a number: number of directories to pop>'
@@ -219,6 +235,10 @@ if [ -f ~/.bashrc_local ]; then
   source ~/.bashrc_local
 else
   echo 'Please create file ~/.bashrc_local'
+fi
+
+if [ -f ~/.bashrc_kube ]; then
+  source ~/.bashrc_kube
 fi
 
 function newscript() {

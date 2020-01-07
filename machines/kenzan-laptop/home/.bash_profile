@@ -2,7 +2,7 @@ source ~/.bashrc
 
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="$PATH:/opt/terraform/bin"
-export PATH="$PATH:/opt/istio-1.0.0/bin"
+export PATH="$PATH:/opt/istio-1.4.2/bin"
 
 # Re-enable Google Cloud when needed
 # The next line updates PATH for the Google Cloud SDK.

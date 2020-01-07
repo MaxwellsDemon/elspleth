@@ -9,9 +9,9 @@ source "${code}/elspleth-charter/scripts/website-library.sh"
 
 # Incubating ideas for helper functions
 alias both='jenkins docker 1 && jenkins puppet 1'
-alias i='kubectl -n spectrum-istio'
 alias j='jenkins'
 
+alias sources='bitbucket 1'
 alias PR='bitbucket 2'
 alias PRs='bitbucket 3'
 alias prs='bitbucket 3'

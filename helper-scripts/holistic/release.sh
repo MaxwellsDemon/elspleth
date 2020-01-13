@@ -44,20 +44,22 @@ fi
     echo "No pom.xml found. Exiting."
     exit 3
   fi
+  highest_tag="$(git tag --list --sort=-version:refname | head -n1)"
 
   echo
-  echo "For project  $(basename $(pwd))"
-  echo "For branch   $(git rev-parse --abbrev-ref HEAD)"
-  echo
-  echo "Currently    ${original_version}"
+  echo "project                $(basename $(pwd))"
+  echo "branch                 $(git rev-parse --abbrev-ref HEAD)"
+  echo "highest tag            ${highest_tag}"
+  echo "current artifact       ${original_version}"
 
   if [ $# -lt 3 ]; then
     exit
   fi
   shift; shift; shift
 
-  echo "releasing    ${release_version}"
-  echo "Opening      ${open_version}"
+  echo
+  echo "releasing              ${release_version}"
+  echo "opening                ${open_version}"
   echo
   echo "Look good?"
   read -p 'Press enter/return to continue or control+c to escape...'

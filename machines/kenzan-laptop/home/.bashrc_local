@@ -31,12 +31,13 @@ alias telepresence='telepresence --logfile /dev/null'
 
 
 # Places
+alias az='cd ~/Documents/projects/training/azure-4-day-training'
 alias notes='cd "${notes}"'
 alias projects='cd ~/Documents/projects'
 alias training='cd ~/Documents/projects/training'
 alias charter='cd "${HOME}"/Documents/projects/charter'
 alias ourlib='cd "${code}"/portals-jenkins-library'
-alias theirlib='cd "${code}"/jenkins-shared-library'
+alias theirlib='cd "${code}"/jenkins_shared_library'
 alias dsl='cd "${code}"/jenkins-job-dsl'
 alias tutorial='cd "${code}"/portals-onboarding-tutorial'
 alias doc='cd "${code}"/spc-swagger-doc'

@@ -41,4 +41,5 @@ echo "pod count: ${pod_count}"
 pod="$(echo "${pods}" | sed "${position}"'q;d')"
 echo "pod:       ${pod}"
 
+set -x
 kubectl ${ns} exec -it ${pod} bash

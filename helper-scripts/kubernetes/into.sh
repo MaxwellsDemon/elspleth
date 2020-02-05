@@ -18,9 +18,9 @@ kube='kubectl get pods -o wide --sort-by=.spec.nodeName'
 position='1'
 greps=()
 for arg in $@ ; do
-  if echo "${arg}" | grep -qP "^-.+$" ; then
+  if echo "${arg}" | grep -qP "^-.+$" ; then            # Case: namespace
     ns="${arg#-}"
-  elif echo "${arg}" | grep -qP "^[1-9][0-9]*$" ; then
+  elif echo "${arg}" | grep -qP "^[1-9][0-9]*$" ; then  # Case: is a number for pod selection
     position="${arg}"
   else
     greps+=("${arg}")
@@ -35,8 +35,10 @@ else
 fi
 
 all_output="$(${kube} ${ns})"
-pod="$(echo "${all_output}" | tail -n +2 | grep -iP "$(echo "${greps[@]}" | sed "s/ /.*/g")" | cut -f1 -d' ' | sed "${position}"'q;d')"
+pods="$(echo "${all_output}" | tail -n +2 | grep -iP "$(echo "${greps[@]}" | sed "s/ /.*/g")" | cut -f1 -d' ')"
+pod_count="$(echo "${pods}" | wc -l)"
+echo "pod count: ${pod_count}"
+pod="$(echo "${pods}" | sed "${position}"'q;d')"
 echo "pod:       ${pod}"
 
 kubectl ${ns} exec -it ${pod} bash
-

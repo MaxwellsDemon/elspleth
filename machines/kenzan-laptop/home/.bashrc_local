@@ -7,6 +7,11 @@ PATH="/usr/local/opt/node@10/bin:$PATH"
 
 source "${code}/elspleth-charter/scripts/website-library.sh"
 
+# TEMP
+alias left='kubectx portalsvpc-dev-privacydeveloper'
+alias right='kubectx portalsvpc-engprod-privacydeveloper'
+alias far='kubectx portalsvpc-qa-privacydeveloper'
+
 # Incubating ideas for helper functions
 alias both='jenkins docker 1 && jenkins puppet 1'
 alias j='jenkins'
@@ -29,6 +34,8 @@ alias node10='bash "${code}"/developer-machine-setup/developer_tools.bash node10
 # Current project - short lived
 alias telepresence='telepresence --logfile /dev/null'
 
+# Mac
+alias json='pbpaste | jq | pbcopy'
 
 # Places
 alias az='cd ~/Documents/projects/training/azure-4-day-training'
@@ -73,6 +80,8 @@ alias exercisedockerprovisioning='"${code}"/elspleth-charter/scripts/exercise-do
 alias exercisedockerprovisioningundo='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning-undo.sh'
 alias exercisedockerprovisioninglist='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning-list.sh'
 alias clean_remote_branches_jira='"${code}"/elspleth-charter/scripts/cleanup-remote-branches.sh'
+alias pull_charter_container_config='"${code}"/elspleth-charter/scripts/pull-charter-container-config.sh'
+alias run_config_aware_tomcat_container='"${code}"/elspleth-charter/scripts/run-config-aware-tomcat-container.sh'
 
 # auto-complete
 if [ -f $(brew --prefix)/etc/bash_completion ]; then

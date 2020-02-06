@@ -110,7 +110,7 @@ alias mcds='mvn clean deploy -DskipTests'
 alias mcdss='mvn clean deploy -Dmaven.test.skip=true -DskipTests'
 alias shallowmvn='"${code}"/elspleth/helper-scripts/maven/shallowmvn.sh'
 alias deepmvn='"${code}"/elspleth/helper-scripts/maven/deepmvn.sh'
-alias tree='mvn dependency:tree > /dev/null && mvn dependency:tree > tree && vi tree'
+alias tree='mvn dependency:tree > /dev/null && mvn dependency:tree > tree && vi tree && rm tree'
 
 # Google Cloud
 alias instances='gcloud compute instances'
@@ -127,6 +127,7 @@ alias start_swagger='docker run --rm -d -p 80:8080 swaggerapi/swagger-editor'
 
 # Kubernetes
 alias k='kubectl'
+alias x='kubectx'
 alias pods='bash "${code}/elspleth/helper-scripts/kubernetes/pods.sh"'
 alias into='bash "${code}/elspleth/helper-scripts/kubernetes/into.sh"'
 

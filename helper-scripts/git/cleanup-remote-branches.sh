@@ -173,8 +173,6 @@ unit_test() {
   assert_false is_branch_name_malformed 'my_feature'
   assert_equals 'origin/my_feature' $(normalize_branch_name '   origin/my_feature')
   assert_equals 'my_feature' $(strip_origin 'origin/my_feature')
-  # quasi-stable check that develop branch is actively updated
-  (assert_true is_branch_younger_than_two_weeks develop)
   echo "Unit tests pass"
   set -e
 }

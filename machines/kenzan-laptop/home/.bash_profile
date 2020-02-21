@@ -3,6 +3,7 @@ source ~/.bashrc
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="$PATH:/opt/terraform/bin"
 export PATH="$PATH:/opt/istio-1.4.2/bin"
+export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home'
 
 # Re-enable Google Cloud when needed
 # The next line updates PATH for the Google Cloud SDK.

@@ -93,7 +93,7 @@ function newbranch() {
 }
 
 function gitk() {
-  (/usr/local/bin/gitk $@ &)
+  (/usr/local/bin/gitk $@ > /dev/null 2>&1 &)
 }
 
 # Maven
@@ -110,7 +110,7 @@ alias mcds='mvn clean deploy -DskipTests'
 alias mcdss='mvn clean deploy -Dmaven.test.skip=true -DskipTests'
 alias shallowmvn='"${code}"/elspleth/helper-scripts/maven/shallowmvn.sh'
 alias deepmvn='"${code}"/elspleth/helper-scripts/maven/deepmvn.sh'
-alias tree='mvn dependency:tree > /dev/null && mvn dependency:tree > tree && vi tree && rm tree'
+alias tree='mvn dependency:tree > tree; vi tree; rm tree'
 
 # Google Cloud
 alias instances='gcloud compute instances'
@@ -276,6 +276,17 @@ replace_text() {
       -exec sed -E -i '' -e "s/$1/$2/g" {} +
   fi
 }
+
+#emoji_tiles() {
+#  if [ $# -ne 1 ]; then echo "usage: emoji_tiles <prefix>"; return 1; fi
+#  local start=0
+#  local cols=5
+#  for cell in $(seq $start $(($start + 15 - 1))); do
+#    echo -n ":$1$(printf %02g $cell):"
+#    local new_row=$(( ($cell + 1) % $cols ))
+#    if [ $new_row -eq $start ]; then echo; fi
+#  done
+#}
 
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set
 

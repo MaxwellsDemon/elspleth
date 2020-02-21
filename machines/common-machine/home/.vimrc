@@ -20,6 +20,10 @@ set number
 syntax enable
 set belloff=all
 
+" Quickly insert an empty new line without entering insert mode
+nnoremap o o<Esc>
+nnoremap O O<Esc>
+
 " Visible whitespace
 "  Mapping between character and visual replacement
 "  In Vim session, activate with ':set list'

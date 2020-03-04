@@ -10,6 +10,9 @@ autocmd Filetype groovy setlocal softtabstop=2 shiftwidth=2 expandtab
 " Java
 autocmd Filetype java setlocal softtabstop=4 shiftwidth=4 expandtab
 
+" HTML
+autocmd Filetype html setlocal softtabstop=4 shiftwidth=4 expandtab
+
 " NodeJS
 autocmd Filetype javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
@@ -21,8 +24,8 @@ syntax enable
 set belloff=all
 
 " Quickly insert an empty new line without entering insert mode
-nnoremap o o<Esc>
-nnoremap O O<Esc>
+" nnoremap o o<Esc>
+" nnoremap O O<Esc>
 
 " Visible whitespace
 "  Mapping between character and visual replacement

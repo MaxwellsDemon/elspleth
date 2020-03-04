@@ -8,6 +8,10 @@ else
   echo 'Please create file ~/.bashrc_local_variables'
 fi
 
+if [ -f ~/.bashrc_local_temporaries ]; then
+  source ~/.bashrc_local_temporaries
+fi
+
 # History scrolling is aware of partially typed command for filtering
 bind '"\e[A":history-search-backward'
 bind '"\e[B":history-search-forward'
@@ -24,6 +28,7 @@ alias elspleth='cd "${code}"/elspleth'
 alias bashrc='vi ~/.bashrc; source ~/.bashrc'
 alias bashrclocal='vi ~/.bashrc_local; source ~/.bashrc'
 alias bashrcvariables='vi ~/.bashrc_local_variables; source ~/.bashrc'
+alias bashrctemp='vi ~/.bashrc_local_temporaries; source ~/.bashrc'
 alias vimrc='vim ~/.vimrc'
 
 # Basics
@@ -35,9 +40,9 @@ alias ce='cd'
 alias f='find -E . -iname' # The perl support allows for look-ahead and shorthand classes: "foo(?!\w)"
 alias fr='"${code}"/elspleth/helper-scripts/files/findreal.sh'
 alias Grep='grep'
-alias g='grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp'
-alias gr='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=coverage'
-alias grm='g --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=test'
+_grep_exclusions='--exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=coverage'
+alias g="grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp ${_grep_exclusions}"
+alias gf="grep --recursive --ignore-case --binary-files=without-match --color --fixed-strings ${_grep_exclusions}" # 'f' for fixed-string
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
 
 # Basic typos
@@ -277,16 +282,16 @@ replace_text() {
   fi
 }
 
-#emoji_tiles() {
-#  if [ $# -ne 1 ]; then echo "usage: emoji_tiles <prefix>"; return 1; fi
-#  local start=0
-#  local cols=5
-#  for cell in $(seq $start $(($start + 15 - 1))); do
-#    echo -n ":$1$(printf %02g $cell):"
-#    local new_row=$(( ($cell + 1) % $cols ))
-#    if [ $new_row -eq $start ]; then echo; fi
-#  done
-#}
+emoji_tiles() {
+  if [ $# -ne 1 ]; then echo "usage: emoji_tiles <prefix>"; return 1; fi
+  local start=0
+  local cols=5
+  for cell in $(seq $start $(($start + 15 - 1))); do
+    echo -n ":$1$(printf %02g $cell):"
+    local new_row=$(( ($cell + 1) % $cols ))
+    if [ $new_row -eq $start ]; then echo; fi
+  done
+}
 
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set
 
@@ -295,6 +300,10 @@ replace_text() {
 # https://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
 # Fix long line wrapping by wrapping color markers with '\[' and '\]':
 # http://www.tldp.org/HOWTO/Bash-Prompt-HOWTO/nonprintingchars.html
-PS1='\n\[\e[0;32m\]\t $? \u \w\n\$\[\e[m\] '
-# PS1='\[\e[0;32m\]\t $? $([ $? == 0 ] && echo ✅ || echo "⚠️ ") \w \$\[\e[m\] '
+
+if [ -f ~/.bashrc_env_name ]; then
+  _ps1_fragment="\e[0;92m[$(cat ~/.bashrc_env_name)] "
+fi
+PS1="\n${_ps1_fragment}"'\e[0;32m\t $? \u \w\n\$\[\e[m\] '
+unset _ps1_fragment
 

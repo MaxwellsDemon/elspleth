@@ -77,6 +77,7 @@ alias todo="vi '${notes}/todo.txt'"
 alias gather='"${code}"/elspleth/machines/scripts/gather-machine-rc.sh kenzan-laptop'
 
 # Charter
+alias forwardcreds='ssh-add -K /Users/curtisf/.ssh/charter_id_rsa &>/dev/null'
 alias exercisedockerprovisioning='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning.sh'
 alias exercisedockerprovisioningundo='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning-undo.sh'
 alias exercisedockerprovisioninglist='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning-list.sh'

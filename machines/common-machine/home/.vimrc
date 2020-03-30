@@ -34,8 +34,8 @@ set belloff=all
 "  https://stackoverflow.com/questions/1675688/make-vim-show-all-white-spaces-as-a-character/29787362#29787362
 " set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 " set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<
-set listchars=tab:>·,trail:~,extends:>,precedes:<
-set list
+" set listchars=tab:>·,trail:~,extends:>,precedes:<
+" set list
 
 " Color schemes from https://github.com/rafi/awesome-vim-colorschemes (colors/*.vim) and installed in ~/.vim/colors/
 " colorscheme solarized8

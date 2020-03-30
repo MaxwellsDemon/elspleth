@@ -51,6 +51,7 @@ alias exiit='exit'
 alias EXIT='exit'
 alias exi='exit'
 alias ci='vi'
+alias vii='vi'
 alias gti='git'
 
 # Git

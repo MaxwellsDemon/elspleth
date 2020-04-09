@@ -12,6 +12,11 @@ alias left='kubectx portalsvpc-dev-privacydeveloper'
 alias right='kubectx portalsvpc-engprod-privacydeveloper'
 alias far='kubectx portalsvpc-qa-privacydeveloper'
 
+function zuul_ssh() {
+  echo -e "set -o vi; \n cd /usr/share/tomcat7/; \n sudo vi -R logs/catalina.out" | pbcopy
+  ssh $@; clear
+}
+
 # Incubating ideas for helper functions
 alias both='jenkins docker 1 && jenkins puppet 1'
 alias j='jenkins'

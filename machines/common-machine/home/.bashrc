@@ -29,7 +29,8 @@ alias bashrc='vi ~/.bashrc; source ~/.bashrc'
 alias bashrclocal='vi ~/.bashrc_local; source ~/.bashrc'
 alias bashrcvariables='vi ~/.bashrc_local_variables; source ~/.bashrc'
 alias bashrctemp='vi ~/.bashrc_local_temporaries; source ~/.bashrc'
-alias vimrc='vim ~/.vimrc'
+alias vimrc='vi ~/.vimrc'
+alias known='vi ~/.ssh/known_hosts'
 
 # Basics
 alias l='rm -f .DS_Store; ls -lah --color=auto --group-directories-first'

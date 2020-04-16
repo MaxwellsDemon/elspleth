@@ -82,6 +82,7 @@ alias squash='"${code}"/elspleth/helper-scripts/git/squash.sh'
 alias clean_remote_branches_safer='"${code}"/elspleth/helper-scripts/git/cleanup-remote-branches.sh'
 alias push='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
 alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete-branch.sh'
+alias summary='git shortlog --summary --numbered --email'
 
 alias lines='sed "s/ /\n/g"'
 
@@ -134,6 +135,7 @@ alias start_swagger='docker run --rm -d -p 80:8080 swaggerapi/swagger-editor'
 
 # Kubernetes
 alias k='kubectl'
+alias kp='kubectl get pods'
 alias x='kubectx'
 alias pods='bash "${code}/elspleth/helper-scripts/kubernetes/pods.sh"'
 alias into='bash "${code}/elspleth/helper-scripts/kubernetes/into.sh"'
@@ -199,8 +201,7 @@ function sibling() {
     cd "../$1"
   fi
 }
-alias sib=sibling
-alias si=sibling
+alias config='sibling -config'
 
 function ..() {
   if [ $# -gt 1 ]; then 
@@ -285,7 +286,7 @@ replace_text() {
 }
 
 emoji_tiles() {
-  if [ $# -ne 1 ]; then echo "usage: emoji_tiles <prefix>"; return 1; fi
+  if [ $# -ne 1 ]; then echo "usage: ${FUNCNAME[0]} <prefix>"; return 1; fi
   local start=0
   local cols=5
   for cell in $(seq $start $(($start + 15 - 1))); do
@@ -293,6 +294,16 @@ emoji_tiles() {
     local new_row=$(( ($cell + 1) % $cols ))
     if [ $new_row -eq $start ]; then echo; fi
   done
+}
+
+bounce() {
+  if [ $# -ne 1 ]; then echo "usage: ${FUNCNAME[0]} <k8s deployment>"; return 1; fi
+  kubectl patch deployment "$1" -p '{"spec":{"template":{"metadata":{"labels":{"date":"'$(date +'%s')'"}}}}}'
+}
+
+imgver() {
+  if [ $# -ne 1 ]; then echo "usage: ${FUNCNAME[0]} <k8s deployment>"; return 1; fi
+  kubectl describe pods -l app="$1" | grep Image: | sort | uniq
 }
 
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set

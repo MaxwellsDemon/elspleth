@@ -8,14 +8,30 @@ PATH="/usr/local/opt/node@10/bin:$PATH"
 source "${code}/elspleth-charter/scripts/website-library.sh"
 
 # TEMP
-alias left='kubectx portalsvpc-dev-privacydeveloper'
-alias right='kubectx portalsvpc-engprod-privacydeveloper'
-alias far='kubectx portalsvpc-qa-privacydeveloper'
+
+manysadpods() {
+  local envs=(dev qa uat engprod)
+  local namespaces=(cnet)
+  for env in "${envs[@]}"; do
+    for ns in "${namespaces[@]}"; do
+      kubectx "portalsvpc-${env}-${ns}developer"
+      sadpods
+      echo
+    done
+  done
+}
+
+# End TEMP
 
 function zuul_ssh() {
   echo -e "set -o vi; \n cd /usr/share/tomcat7/; \n sudo vi -R logs/catalina.out" | pbcopy
   ssh $@; clear
 }
+
+_kube_envs=($(kubectx))
+for kube_env in "${_kube_envs[@]}"; do
+  alias "${kube_env}=kubectx ${kube_env}"
+done
 
 # Incubating ideas for helper functions
 alias both='jenkins docker 1 && jenkins puppet 1'
@@ -59,6 +75,7 @@ alias dp='cd "${code}"/docker-provisioning'
 alias scripts='cd "${code}"/jenkins-pipeline-scripts'
 alias codegen='cd "${code}"/spc-swagger-codegen'
 alias gen='cd "${code}"/spc-swagger-codegen'
+alias ticket='cd "$HOME/Documents/projects/charter/ticket"'
 
 # Apps
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'

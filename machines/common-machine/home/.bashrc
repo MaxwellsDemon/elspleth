@@ -38,8 +38,8 @@ alias L='l'
 alias cls='clear'
 alias c='clear'
 alias ce='cd'
-alias f='find -E . -iname' # The perl support allows for look-ahead and shorthand classes: "foo(?!\w)"
-alias fr='"${code}"/elspleth/helper-scripts/files/findreal.sh'
+# alias f='find -E . -iname' # The perl support allows for look-ahead and shorthand classes: "foo(?!\w)"
+alias f='"${code}"/elspleth/helper-scripts/files/findreal.sh'
 alias Grep='grep'
 _grep_exclusions='--exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=coverage'
 alias g="grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp ${_grep_exclusions}"
@@ -118,7 +118,10 @@ alias mcds='mvn clean deploy -DskipTests'
 alias mcdss='mvn clean deploy -Dmaven.test.skip=true -DskipTests'
 alias shallowmvn='"${code}"/elspleth/helper-scripts/maven/shallowmvn.sh'
 alias deepmvn='"${code}"/elspleth/helper-scripts/maven/deepmvn.sh'
-alias tree='mvn dependency:tree > tree; vi tree; rm tree'
+
+function tree() {
+  mvn dependency:tree > ${1:-tree}
+}
 
 # Google Cloud
 alias instances='gcloud compute instances'
@@ -135,10 +138,21 @@ alias start_swagger='docker run --rm -d -p 80:8080 swaggerapi/swagger-editor'
 
 # Kubernetes
 alias k='kubectl'
-alias kp='kubectl get pods'
 alias x='kubectx'
 alias pods='bash "${code}/elspleth/helper-scripts/kubernetes/pods.sh"'
 alias into='bash "${code}/elspleth/helper-scripts/kubernetes/into.sh"'
+
+function kp() {
+  if [ $# -eq 0 ]; then
+    kubectl get pods
+  else
+    kubectl get pods | grep "$@"
+  fi
+}
+
+function sadpods() {
+  kubectl get pods | grep -P '^(((?!Running).)+|.+(\d+)/(?!\3)\d.+)$'
+}
 
 # Holistic
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
@@ -303,7 +317,7 @@ bounce() {
 
 imgver() {
   if [ $# -ne 1 ]; then echo "usage: ${FUNCNAME[0]} <k8s deployment>"; return 1; fi
-  kubectl describe pods -l app="$1" | grep Image: | sort | uniq
+  kubectl describe pods -l app="$1" | grep Image: | tr -s ' ' | sed -E 's/Image: +//g' | sort | uniq
 }
 
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set

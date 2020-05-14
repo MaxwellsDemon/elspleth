@@ -1,0 +1,16 @@
+Don't use expr for arithmetic. It has long been obsolete: shells now have arithmetic built in, with the $((…)) construct (POSIX), or with let builtin (ksh/bash/zsh) or the ((…)) construct (ksh/bash/zsh).
+
+let and ((…)) return 1 (a failure status code) if the last evaluated expression is 0. To avoid this causing your script to exit under set -e, arrange for the last expression not to return 0, for example:
+
+let "a = 2 - 2" 1
+((a = 2 - 2, 1))
+Alternatively, use the || true idiom:
+
+((a = 2 - 2)) || true
+Alternatively, do your arithmetic inside $((…)) and your assignments outside. An assignment returns the status of the last command substitution in the value, or 0 if there is no command substitution, so you're safe. This has the added benefit of working in any POSIX shell (such as dash).
+
+a=$((2 - 2))
+
+
+From
+https://unix.stackexchange.com/questions/63166/bash-e-exits-when-let-or-expr-evaluates-to-0

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+async_batch_size=30
+async_batch_sleep_seconds=1
+
 # Exit on any failures
 set -e
 
@@ -44,8 +47,7 @@ project_paths=()
 # Shallow and fast maxdepth=2 search
 for git_dir in $(find "${root_dir}" -maxdepth 2 -type d -name .git | sort)
 do
-  project_path=$(realpath "${git_dir}/..")
-  project_paths+=("${project_path}")
+  project_paths+=($(realpath "${git_dir}/.."))
 done
 
 if [ "${#project_paths[@]}" = 0 ]
@@ -73,11 +75,16 @@ done
 if [ $QUICK ]
 then
   # Async perform things
-  for project_path in "${project_paths[@]}"
+  for i in "${!project_paths[@]}"
   do
+    project_path="${project_paths[$i]}"
     project=$(basename "${project_path}")
     cd "${project_path}"
     git -c color.status=always "$@" > "${tmp}/${project}" 2>&1 &
+    batch_count=$(($i % $async_batch_size))
+    if [ ${batch_count} -eq 0 ]; then
+      sleep $async_batch_sleep_seconds
+    fi
   done
   wait
 fi

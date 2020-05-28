@@ -41,7 +41,7 @@ alias ce='cd'
 # alias f='find -E . -iname' # The perl support allows for look-ahead and shorthand classes: "foo(?!\w)"
 alias f='"${code}"/elspleth/helper-scripts/files/findreal.sh'
 alias Grep='grep'
-_grep_exclusions='--exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=coverage'
+_grep_exclusions='--exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=coverage --exclude-dir=.nyc_output'
 alias g="grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp ${_grep_exclusions}"
 alias gf="grep --recursive --ignore-case --binary-files=without-match --color --fixed-strings ${_grep_exclusions}" # 'f' for fixed-string
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
@@ -54,6 +54,7 @@ alias exi='exit'
 alias ci='vi'
 alias vii='vi'
 alias gti='git'
+alias gi='git'
 
 # Git
 alias status='rm -f .DS_Store; git status'
@@ -135,24 +136,6 @@ alias doker='docker'
 alias dl='docker container ls -a'
 alias dex='docker exec -it'
 alias start_swagger='docker run --rm -d -p 80:8080 swaggerapi/swagger-editor'
-
-# Kubernetes
-alias k='kubectl'
-alias x='kubectx'
-alias pods='bash "${code}/elspleth/helper-scripts/kubernetes/pods.sh"'
-alias into='bash "${code}/elspleth/helper-scripts/kubernetes/into.sh"'
-
-function kp() {
-  if [ $# -eq 0 ]; then
-    kubectl get pods
-  else
-    kubectl get pods | grep "$@"
-  fi
-}
-
-function sadpods() {
-  kubectl get pods | grep -P '^(((?!Running).)+|.+(\d+)/(?!\3)\d.+)$'
-}
 
 # Holistic
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
@@ -308,6 +291,24 @@ emoji_tiles() {
     local new_row=$(( ($cell + 1) % $cols ))
     if [ $new_row -eq $start ]; then echo; fi
   done
+}
+
+# Kubernetes
+alias k='kubectl'
+alias x='kubectx'
+alias pods='bash "${code}/elspleth/helper-scripts/kubernetes/pods.sh"'
+alias into='bash "${code}/elspleth/helper-scripts/kubernetes/into.sh"'
+
+function kp() {
+  if [ $# -eq 0 ]; then
+    kubectl get pods
+  else
+    kubectl get pods | grep "$@"
+  fi
+}
+
+function sadpods() {
+  kubectl get pods | grep -P '^(((?!Running).)+|.+(\d+)/(?!\3)\d.+)$'
 }
 
 bounce() {

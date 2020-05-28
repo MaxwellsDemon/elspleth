@@ -1,7 +1,7 @@
 #!/bin/bash
 
-async_batch_size=30
-async_batch_sleep_seconds=1
+async_batch_size=15
+async_batch_sleep_seconds=2
 
 # Exit on any failures
 set -e

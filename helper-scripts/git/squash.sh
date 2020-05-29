@@ -7,8 +7,13 @@ squash_branch="squashed_branch"
 
 usage() {
   echo "usage: $(basename $0) <branch to squash> <base branch>"
-  echo "Overwrites branch to squash with new commit and force pushes change"
   echo
+  echo "First arg is your feature branch. Second arg is usually develop branch."
+  echo "Commits in feature branch up to and excluding the base branch are replaced with one commit."
+  echo
+  echo "Will prompt to write the real commit message."
+  echo
+  echo "Local branches:"
   git branch
   exit 1
 }
@@ -37,6 +42,7 @@ fi
 
 section "Testing for typos"
 git checkout "${src_branch}"
+src_branch_hash="$(git rev-parse HEAD)"
 git checkout "${base_branch}"
 
 section "Updating ${base_branch}"
@@ -63,5 +69,5 @@ git branch -d "${squash_branch}"
 section "Review local branches"
 git branch
 
-echo "Script done."
+echo -e "\n⇒ If you want to restore, here is the hash of ${src_branch} branch before rebase or squash: ${src_branch_hash}"
 

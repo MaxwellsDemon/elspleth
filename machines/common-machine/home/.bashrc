@@ -250,8 +250,19 @@ fi
 function newscript() {
   local name='foo.sh'
   if [ $# -eq 1 ]; then local name="$1"; fi
-  echo '#!/bin/bash' >> "${name}"
-  echo 'set -e' >> "${name}"
+  cat <<'EOF' >> "${name}"
+#!/bin/bash
+set -e
+
+usage() {
+  echo "usage: $(basename "$0")"
+  exit 1
+}
+
+if [ $# -ne 0 ]; then
+  usage
+fi
+EOF
   chmod u+x "${name}"
   vi "${name}"
   cat "${name}"

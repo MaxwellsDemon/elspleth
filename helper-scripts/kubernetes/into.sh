@@ -7,7 +7,7 @@ usage() {
 }
 
 if [ $# -eq 1 ]; then
-  kubectl exec -it "$1" bash
+  pod="$1"
 elif [ $# -eq 0 ]; then
   usage
   exit 1
@@ -34,12 +34,13 @@ else
   echo "namespace: [default]"
 fi
 
-all_output="$(${kube} ${ns})"
-pods="$(echo "${all_output}" | tail -n +2 | grep -iP "$(echo "${greps[@]}" | sed "s/ /.*/g")" | cut -f1 -d' ')"
-pod_count="$(echo "${pods}" | wc -l)"
-echo "pod count: ${pod_count}"
-pod="$(echo "${pods}" | sed "${position}"'q;d')"
-echo "pod:       ${pod}"
-
+if [ -z "${pod}" ]; then
+  all_output="$(${kube} ${ns})"
+  pods="$(echo "${all_output}" | tail -n +2 | grep -iP "$(echo "${greps[@]}" | sed "s/ /.*/g")" | cut -f1 -d' ')"
+  pod_count="$(echo "${pods}" | wc -l)"
+  echo "pod count: ${pod_count}"
+  pod="$(echo "${pods}" | sed "${position}"'q;d')"
+  echo "pod:       ${pod}"
+fi
 set -x
 kubectl ${ns} exec -it ${pod} bash

@@ -141,6 +141,11 @@ function vpn() {
   # open 'https://docs.google.com/spreadsheets/d/1kMdYYT7OedjSuj-9fokntYB5kvlBq6WnZjW2vJmtlJY/edit#gid=0'
 }
 
+alias docker_artifactory_login='cat "$HOME/.charter-artifactory-api-key" | \
+  docker login --password-stdin \
+  -u c-curtis.fleming@charter.com \
+  docker-artifactory.spectrumflow.net'
+
 # Clears annoying Iterm2 introduction
 clear
 

@@ -11,8 +11,7 @@ source "${code}/elspleth-charter/scripts/website-library.sh"
 
 #
 
-manysadpods() {
-  local envs=(dev qa uat engprod)
+manysadpods() { local envs=(dev qa uat engprod)
   local namespaces=(cnet)
   for env in "${envs[@]}"; do
     for ns in "${namespaces[@]}"; do
@@ -132,16 +131,16 @@ function vpn() {
   /opt/cisco/anyconnect/bin/vpn disconnect || :
   killall "Cisco AnyConnect Secure Mobility Client"
   sleep 2
-  (echo -n "$(cat ~/.machine_secret)" | pbcopy) || true
+  (echo -n "$(cat ~/secrets/.machine_secret)" | pbcopy) || true
   (cd "${code}/spc-dev-toolbox/hosts" && ./apply_hosts_file.sh "${vpn_name}-vpn-hosts")
-  (echo -n "$(cat ~/.vpn.${vpn_name}.secret)" | pbcopy) || true
+  (echo -n "$(cat ~/secrets/.vpn.${vpn_name}.secret)" | pbcopy) || true
   cp "${config}" ~/.anyconnect
   open -a "Cisco AnyConnect Secure Mobility Client"
   # echo "Opening Charter VPN usage spreadsheet..."
   # open 'https://docs.google.com/spreadsheets/d/1kMdYYT7OedjSuj-9fokntYB5kvlBq6WnZjW2vJmtlJY/edit#gid=0'
 }
 
-alias docker_artifactory_login='cat "$HOME/.charter-artifactory-api-key" | \
+alias docker_artifactory_login='cat "$HOME/secrets/.charter-artifactory-api-key" | \
   docker login --password-stdin \
   -u c-curtis.fleming@charter.com \
   docker-artifactory.spectrumflow.net'

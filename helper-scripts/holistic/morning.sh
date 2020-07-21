@@ -7,22 +7,18 @@ fast_git() {
   "${code}"/elspleth/helper-scripts/git/fast-git.sh "$@"
 }
 
-slow_git() {
-  "${code}"/elspleth/helper-scripts/git/slow-git.sh "$@"
+# The idea behind the Morning script is to sip a hot beverage and watch
+fetch() {
+  cd "$1"
+  echo 
+  echo "                             Fetching and pruning $1"
+  echo
+  time fast_git fetch --prune
 }
 
-#(
-#  cd "${code}/spc-dev-toolbox/hosts"
-#  git checkout kenzan-vpn-hosts
-#  git pull
-#  bash patch-hosts-file.sh kenzan-vpn-hosts
-#)
+# Local to Kenzan laptop
+fetch "/code-temporary-gitlab-urls"
 
-# The idea behind the Morning script is to sip a hot beverage and watch
-
-cd "${code}"
-echo 
-echo "                             Fetching and pruning"
-echo
-time fast_git fetch --prune
+# Globally works
+fetch "${code}"
 

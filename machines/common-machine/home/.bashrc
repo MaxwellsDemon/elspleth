@@ -42,6 +42,7 @@ alias ce='cd'
 alias f='"${code}"/elspleth/helper-scripts/files/findreal.sh'
 alias Grep='grep'
 _grep_exclusions='--exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=coverage --exclude-dir=.nyc_output'
+# Cannot use --exclude="*.iml
 alias g="grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp ${_grep_exclusions}"
 alias gf="grep --recursive --ignore-case --binary-files=without-match --color --fixed-strings ${_grep_exclusions}" # 'f' for fixed-string
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
@@ -105,6 +106,13 @@ function gitk() {
   (/usr/local/bin/gitk $@ > /dev/null 2>&1 &)
 }
 
+function initialcommit() {
+  touch .gitignore && \
+  git add .gitignore && \
+  git commit -m 'initial commit' && \
+  git push --set-upstream origin master
+}
+
 # Maven
 alias maven='mvn'
 alias mcv='mvn clean verify'
@@ -120,7 +128,7 @@ alias mcdss='mvn clean deploy -Dmaven.test.skip=true -DskipTests'
 alias shallowmvn='"${code}"/elspleth/helper-scripts/maven/shallowmvn.sh'
 alias deepmvn='"${code}"/elspleth/helper-scripts/maven/deepmvn.sh'
 
-function tree() {
+function deptree() {
   mvn dependency:tree > ${1:-tree}
 }
 

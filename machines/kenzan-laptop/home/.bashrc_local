@@ -8,7 +8,7 @@ PATH="/usr/local/opt/node@10/bin:$PATH"
 source "${code}/elspleth-charter/scripts/website-library.sh"
 
 # TEMP
-
+alias p='cd /code-temporary-gitlab-urls/test-nexus-artifactory-enforcement'
 #
 
 manysadpods() { local envs=(dev qa uat engprod)
@@ -60,6 +60,7 @@ alias telepresence='telepresence --logfile /dev/null'
 alias json='pbpaste | jq | pbcopy'
 
 # Places
+alias gcode='cd /code-temporary-gitlab-urls'
 alias az='cd ~/Documents/projects/training/azure-4-day-training'
 alias notes='cd "${notes}"'
 alias projects='cd ~/Documents/projects'
@@ -69,7 +70,7 @@ alias ourlib='cd "${code}"/portals-jenkins-library'
 alias theirlib='cd "${code}"/jenkins_shared_library'
 alias dsl='cd "${code}"/jenkins-job-dsl'
 alias tutorial='cd "${code}"/portals-onboarding-tutorial'
-alias doc='cd "${code}"/spc-swagger-doc'
+alias swag='cd "${code}"/spc-swagger-doc'
 alias hosts='cd "${code}"/spc-dev-toolbox/hosts'
 alias box='cd "${code}"/spc-dev-toolbox'
 alias dp='cd "${code}"/docker-provisioning'
@@ -88,6 +89,7 @@ alias fleye='grapher'
 alias decrypt="java -jar ~/Documents/tools/decrypter.jar"
 alias jarscan="java -jar ~/Documents/tools/jarscan.jar"
 alias splunk='chrome https://charter.splunkcloud.com'
+alias swagbuild='mvn clean install -pl'
 
 # Clear IntelliJ 'ignored files' list that's created when deleting an Intellij Maven module
 function restore_intellij_modules() {

@@ -17,7 +17,11 @@ fi
 
 if [ $QUICK ]
 then
-  echo "Quick: async git commands"
+  if [ $QUICK = 'STAGGERED' ]; then
+    echo "Quick: staggered async git commands"
+  else
+    echo "Quick: async git commands"
+  fi
   # Setup temp directory
   tmp=$(realpath .)
   tmp="${tmp}/all-git-tmp"
@@ -81,9 +85,11 @@ then
     project=$(basename "${project_path}")
     cd "${project_path}"
     git -c color.status=always "$@" > "${tmp}/${project}" 2>&1 &
-    batch_count=$(($i % $async_batch_size))
-    if [ ${batch_count} -eq 0 ]; then
-      sleep $async_batch_sleep_seconds
+    if [ $QUICK = 'STAGGERED' ]; then
+      batch_count=$(($i % $async_batch_size))
+      if [ ${batch_count} -eq 0 ]; then
+        sleep $async_batch_sleep_seconds
+      fi
     fi
   done
   wait

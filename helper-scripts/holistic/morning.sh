@@ -3,8 +3,8 @@
 set -e
 . ~/.bashrc_local_variables
 
-fast_git() {
-  "${code}"/elspleth/helper-scripts/git/fast-git.sh "$@"
+run_git() {
+  "${code}"/elspleth/helper-scripts/git/staggered-git.sh "$@"
 }
 
 # The idea behind the Morning script is to sip a hot beverage and watch
@@ -13,7 +13,7 @@ fetch() {
   echo 
   echo "                             Fetching and pruning $1"
   echo
-  time fast_git fetch --prune
+  time run_git fetch --prune
 }
 
 # Local to Kenzan laptop

@@ -133,8 +133,8 @@ function vpn() {
   /opt/cisco/anyconnect/bin/vpn disconnect || :
   killall "Cisco AnyConnect Secure Mobility Client"
   sleep 2
-  (echo -n "$(cat ~/secrets/.machine_secret)" | pbcopy) || true
-  (cd "${code}/spc-dev-toolbox/hosts" && ./apply_hosts_file.sh "${vpn_name}-vpn-hosts")
+  # (echo -n "$(cat ~/secrets/.machine_secret)" | pbcopy) || true
+  # (cd "${code}/spc-dev-toolbox/hosts" && ./apply_hosts_file.sh "${vpn_name}-vpn-hosts")
   (echo -n "$(cat ~/secrets/.vpn.${vpn_name}.secret)" | pbcopy) || true
   cp "${config}" ~/.anyconnect
   open -a "Cisco AnyConnect Secure Mobility Client"

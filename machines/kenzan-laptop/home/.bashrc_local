@@ -8,7 +8,11 @@ PATH="/usr/local/opt/node@10/bin:$PATH"
 source "${code}/elspleth-charter/scripts/website-library.sh"
 
 # TEMP
+gcode='/code-temporary-gitlab-urls'
 alias p='cd /code-temporary-gitlab-urls/test-nexus-artifactory-enforcement'
+alias pirate='cd "${code}"/cnet_helm'
+alias containers='cd "${code}"/docker_containers'
+alias ta='cd "${HOME}/Desktop/ta"'
 #
 
 manysadpods() { local envs=(dev qa uat engprod)
@@ -20,6 +24,23 @@ manysadpods() { local envs=(dev qa uat engprod)
       echo
     done
   done
+}
+
+mirror() {
+  if [ $# -ne 2 ]; then
+    echo "usage: $0 <spc/spclib/etc> <repo name or resolvable directory of name>"
+    return 1
+  fi
+  local project_name="$2"
+  if [ -d "$2" ]; then
+    local project_name="$(realpath "$2")"
+    local project_name="$(basename "${project_name}")"
+  fi
+  echo "https://gitlab-integration@stash.dev-charter.net/stash/scm/${1%/}/${project_name%/}.git" | pbcopy
+  echo 'HTTP clone url copied'
+  read -p 'enter for copy of password'
+  echo "V2VlbmlzTWNQZW5pcw==" | pbcopy
+  echo 'Password copied'
 }
 
 # End TEMP
@@ -78,6 +99,7 @@ alias scripts='cd "${code}"/jenkins-pipeline-scripts'
 alias codegen='cd "${code}"/spc-swagger-codegen'
 alias gen='cd "${code}"/spc-swagger-codegen'
 alias ticket='cd "$HOME/Documents/projects/charter/ticket"'
+alias pipelines='cd "${gcode}"/pipelines'
 
 # Apps
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
@@ -141,6 +163,13 @@ function vpn() {
   # echo "Opening Charter VPN usage spreadsheet..."
   # open 'https://docs.google.com/spreadsheets/d/1kMdYYT7OedjSuj-9fokntYB5kvlBq6WnZjW2vJmtlJY/edit#gid=0'
 }
+
+function charter_sso() {
+  # echo -n "$(cat ~/secrets/charter.sso)$1" | pbcopy
+  echo -n "$(cat ~/secrets/charter.sso)$(bash ~/secrets/print_charter_sso_security_code.sh)" | pbcopy
+  echo "Copied to clipboard"
+}
+alias sso='charter_sso'
 
 alias docker_charter_artifactory_login='cat "$HOME/secrets/.charter-artifactory-api-key" | \
   docker login --password-stdin \

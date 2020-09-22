@@ -46,6 +46,7 @@ _grep_exclusions='--exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --e
 alias g="grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp ${_grep_exclusions}"
 alias gf="grep --recursive --ignore-case --binary-files=without-match --color --fixed-strings ${_grep_exclusions}" # 'f' for fixed-string
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
+alias lab='vi .gitlab-ci.yml'
 
 # Basic typos
 alias xit='exit'
@@ -145,6 +146,8 @@ alias doker='docker'
 alias dl='docker container ls -a'
 alias dex='docker exec -it'
 alias start_swagger='docker run --rm -d -p 80:8080 swaggerapi/swagger-editor'
+alias imagebuild='docker build -t foo:bar .'
+alias imagerun='docker run --rm -it foo:bar'
 
 # Holistic
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'

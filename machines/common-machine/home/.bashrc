@@ -47,6 +47,7 @@ alias g="grep --recursive --ignore-case --binary-files=without-match --color --p
 alias gf="grep --recursive --ignore-case --binary-files=without-match --color --fixed-strings ${_grep_exclusions}" # 'f' for fixed-string
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
 alias lab='vi .gitlab-ci.yml'
+alias vilab='lab'
 
 # Basic typos
 alias xit='exit'
@@ -87,6 +88,7 @@ alias clean_remote_branches_safer='"${code}"/elspleth/helper-scripts/git/cleanup
 alias push='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
 alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete-branch.sh'
 alias summary='git shortlog --summary --numbered --email'
+alias foreach_repo='"${code}"/elspleth/helper-scripts/git/foreach-repo.sh'
 
 alias lines='sed "s/ /\n/g"'
 
@@ -264,7 +266,7 @@ function newscript() {
   if [ $# -eq 1 ]; then local name="$1"; fi
   cat <<'EOF' >> "${name}"
 #!/bin/bash
-set -e
+set -eo pipefail
 
 usage() {
   echo "usage: $(basename "$0")"

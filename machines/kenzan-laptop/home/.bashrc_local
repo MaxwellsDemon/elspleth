@@ -36,11 +36,23 @@ mirror() {
     local project_name="$(realpath "$2")"
     local project_name="$(basename "${project_name}")"
   fi
-  echo "https://gitlab-integration@stash.dev-charter.net/stash/scm/${1%/}/${project_name%/}.git" | pbcopy
-  echo 'HTTP clone url copied'
-  read -p 'enter for copy of password'
-  echo "V2VlbmlzTWNQZW5pcw==" | pbcopy
-  echo 'Password copied'
+  local project_name="${project_name%/}"
+  local pw="V2VlbmlzTWNQZW5pcw=="
+
+  echo "https://gitlab-integration@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
+  # echo "https://gitlab-integration:${pw}@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
+
+  echo -e 'HTTP clone url copied\n'
+
+  sleep 7
+  # read -p 'enter for copy of password'
+  echo "${pw}" | pbcopy
+  echo -e 'Password copied\n'
+
+  sleep 5
+  # read -p 'enter for copy of project name'
+  echo "${project_name}" | pbcopy
+  echo -e 'Project name copied\n'
 }
 
 # End TEMP
@@ -155,9 +167,9 @@ function vpn() {
   /opt/cisco/anyconnect/bin/vpn disconnect || :
   killall "Cisco AnyConnect Secure Mobility Client"
   sleep 2
-  # (echo -n "$(cat ~/secrets/.machine_secret)" | pbcopy) || true
+  # (echo -n "$(cat ~/secrets/machine_secret)" | pbcopy) || true
   # (cd "${code}/spc-dev-toolbox/hosts" && ./apply_hosts_file.sh "${vpn_name}-vpn-hosts")
-  (echo -n "$(cat ~/secrets/.vpn.${vpn_name}.secret)" | pbcopy) || true
+  (echo -n "$(cat ~/secrets/vpn.${vpn_name}.secret)" | pbcopy) || true
   cp "${config}" ~/.anyconnect
   open -a "Cisco AnyConnect Secure Mobility Client"
   # echo "Opening Charter VPN usage spreadsheet..."
@@ -171,12 +183,12 @@ function charter_sso() {
 }
 alias sso='charter_sso'
 
-alias docker_charter_artifactory_login='cat "$HOME/secrets/.charter-artifactory-api-key" | \
+alias docker_charter_artifactory_login='cat "$HOME/secrets/charter-artifactory-api-key" | \
   docker login --password-stdin \
   -u c-curtis.fleming@charter.com \
   docker-artifactory.spectrumflow.net'
 
-alias docker_charter_gitlab_login='cat "$HOME/secrets/.charter-gitlab-personal-access-token" | \
+alias docker_charter_gitlab_login='cat "$HOME/secrets/charter-gitlab-personal-access-token" | \
   docker login --password-stdin \
   -u c-curtis.fleming@charter.com \
   panamax.spectrumxg.com'

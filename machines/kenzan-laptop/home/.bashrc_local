@@ -8,8 +8,6 @@ PATH="/usr/local/opt/node@10/bin:$PATH"
 source "${code}/elspleth-charter/scripts/website-library.sh"
 
 # TEMP
-gcode='/code-temporary-gitlab-urls'
-alias p='cd /code-temporary-gitlab-urls/test-nexus-artifactory-enforcement'
 alias pirate='cd "${code}"/cnet_helm'
 alias containers='cd "${code}"/docker_containers'
 alias ta='cd "${HOME}/Desktop/ta"'
@@ -71,7 +69,6 @@ done
 alias both='jenkins docker 1 && jenkins puppet 1'
 alias j='jenkins'
 
-alias sources='bitbucket 1'
 alias PR='bitbucket 2'
 alias PRs='bitbucket 3'
 alias prs='bitbucket 3'
@@ -93,7 +90,7 @@ alias telepresence='telepresence --logfile /dev/null'
 alias json='pbpaste | jq | pbcopy'
 
 # Places
-alias gcode='cd /code-temporary-gitlab-urls'
+alias gcode='cd "${gcode}"'
 alias az='cd ~/Documents/projects/training/azure-4-day-training'
 alias notes='cd "${notes}"'
 alias projects='cd ~/Documents/projects'
@@ -112,6 +109,7 @@ alias codegen='cd "${code}"/spc-swagger-codegen'
 alias gen='cd "${code}"/spc-swagger-codegen'
 alias ticket='cd "$HOME/Documents/projects/charter/ticket"'
 alias pipelines='cd "${gcode}"/pipelines'
+alias mario='cd "${gcode}"/pipelines'
 
 # Apps
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
@@ -167,9 +165,9 @@ function vpn() {
   /opt/cisco/anyconnect/bin/vpn disconnect || :
   killall "Cisco AnyConnect Secure Mobility Client"
   sleep 2
-  # (echo -n "$(cat ~/secrets/machine_secret)" | pbcopy) || true
+  # (echo -n "$(cat ~/secrets/machine-secret)" | pbcopy) || true
   # (cd "${code}/spc-dev-toolbox/hosts" && ./apply_hosts_file.sh "${vpn_name}-vpn-hosts")
-  (echo -n "$(cat ~/secrets/vpn.${vpn_name}.secret)" | pbcopy) || true
+  (echo -n "$(cat ~/secrets/vpn.${vpn_name}-secret)" | pbcopy) || true
   cp "${config}" ~/.anyconnect
   open -a "Cisco AnyConnect Secure Mobility Client"
   # echo "Opening Charter VPN usage spreadsheet..."
@@ -177,18 +175,18 @@ function vpn() {
 }
 
 function charter_sso() {
-  # echo -n "$(cat ~/secrets/charter.sso)$1" | pbcopy
-  echo -n "$(cat ~/secrets/charter.sso)$(bash ~/secrets/print_charter_sso_security_code.sh)" | pbcopy
+  # echo -n "$(cat ~/secrets/charter-sso)$1" | pbcopy
+  echo -n "$(cat ~/secrets/charter-sso)$(bash ~/secrets/print-charter-sso-security-code.sh)" | pbcopy
   echo "Copied to clipboard"
 }
 alias sso='charter_sso'
 
-alias docker_charter_artifactory_login='cat "$HOME/secrets/charter-artifactory-api-key" | \
+alias docker-charter-artifactory-login='cat "$HOME/secrets/charter-artifactory-api-key" | \
   docker login --password-stdin \
   -u c-curtis.fleming@charter.com \
   docker-artifactory.spectrumflow.net'
 
-alias docker_charter_gitlab_login='cat "$HOME/secrets/charter-gitlab-personal-access-token" | \
+alias docker-charter-gitlab-login='cat "$HOME/secrets/charter-gitlab-personal-access-token" | \
   docker login --password-stdin \
   -u c-curtis.fleming@charter.com \
   panamax.spectrumxg.com'

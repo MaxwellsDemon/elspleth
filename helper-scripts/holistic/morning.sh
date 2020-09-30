@@ -17,7 +17,7 @@ fetch() {
 }
 
 # Local to Kenzan laptop
-fetch "/code-temporary-gitlab-urls"
+fetch "${gcode}"
 
 # Globally works
 fetch "${code}"

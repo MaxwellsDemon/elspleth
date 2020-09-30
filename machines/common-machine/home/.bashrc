@@ -48,6 +48,7 @@ alias gf="grep --recursive --ignore-case --binary-files=without-match --color --
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
 alias lab='vi .gitlab-ci.yml'
 alias vilab='lab'
+alias u='sort | uniq'
 
 # Basic typos
 alias xit='exit'
@@ -58,6 +59,7 @@ alias ci='vi'
 alias vii='vi'
 alias gti='git'
 alias gi='git'
+alias vm='mv'
 
 # Git
 alias status='rm -f .DS_Store; git status'

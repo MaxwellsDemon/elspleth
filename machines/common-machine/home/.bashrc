@@ -266,19 +266,21 @@ fi
 function newscript() {
   local name='foo.sh'
   if [ $# -eq 1 ]; then local name="$1"; fi
-  cat <<'EOF' >> "${name}"
+  if [ -f "${name}" ]; then echo 'already exists'; return 1; fi
+  cat <<'FIN' >> "${name}"
 #!/bin/bash
 set -eo pipefail
 
 usage() {
-  echo "usage: $(basename "$0")"
-  exit 1
+cat <<- EOF
+usage: $(basename $0)
+EOF
 }
 
 if [ $# -ne 0 ]; then
   usage
 fi
-EOF
+FIN
   chmod u+x "${name}"
   vi "${name}"
   cat "${name}"
@@ -346,6 +348,14 @@ bounce() {
 imgver() {
   if [ $# -ne 1 ]; then echo "usage: ${FUNCNAME[0]} <k8s deployment>"; return 1; fi
   kubectl describe pods -l app="$1" | grep Image: | tr -s ' ' | sed -E 's/Image: +//g' | sort | uniq
+}
+
+copy_script_dir() {
+  local cmd='script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)'
+  echo "${cmd}"
+  if type pbcopy &> /dev/null; then
+    echo "${cmd}" | pbcopy
+  fi
 }
 
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set

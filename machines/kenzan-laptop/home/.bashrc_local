@@ -11,18 +11,6 @@ source "${code}/elspleth-charter/scripts/website-library.sh"
 alias pirate='cd "${code}"/cnet_helm'
 alias containers='cd "${code}"/docker_containers'
 alias ta='cd "${HOME}/Desktop/ta"'
-#
-
-manysadpods() { local envs=(dev qa uat engprod)
-  local namespaces=(cnet)
-  for env in "${envs[@]}"; do
-    for ns in "${namespaces[@]}"; do
-      kubectx "portalsvpc-${env}-${ns}developer"
-      sadpods
-      echo
-    done
-  done
-}
 
 mirror() {
   if [ $# -ne 2 ]; then
@@ -116,6 +104,8 @@ alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias google='chrome'
 alias grapher='(cd ~/Documents/tools/grapher && java -jar Fleye.jar 1> /dev/null 2>&1 &)'
 alias fleye='grapher'
+
+alias vscoderc='vi "$HOME/Library/Application Support/Code/User/settings.json"'
 
 # Usage: java -jar decrypter.jar <path_to_pem_file> <key_to_decrypt>
 alias decrypt="java -jar ~/Documents/tools/decrypter.jar"

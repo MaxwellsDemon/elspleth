@@ -3,6 +3,7 @@
 # Used by generic bashrc
 code="/code"
 gcode='/code-gitlab'
+
 # Local
 notes=~/Documents/notes
 # Kubernetes common flag

@@ -48,8 +48,18 @@ root_dir=$(realpath "${root_dir}")
 
 # Find Git projects
 project_paths=()
+
 # Shallow and fast maxdepth=2 search
-for git_dir in $(find "${root_dir}" -maxdepth 2 -type d -name .git | sort)
+# git_repos=($(find "${root_dir}" -maxdepth 2 -type d -name .git | sort))
+
+git_repos=($( find -E "${root_dir}" \
+-name .svn -type d -prune -o \
+-name .idea -type d -prune -o \
+-name target -type d -prune -o \
+-name node_modules -type d -prune -o \
+-name .git -type d -print -prune | sort ))
+
+for git_dir in "${git_repos[@]}"
 do
   project_paths+=($(realpath "${git_dir}/.."))
 done

@@ -24,34 +24,27 @@ then
   fi
   # Setup temp directory
   tmp=$(realpath .)
-  tmp="${tmp}/all-git-tmp"
+  tmp="${tmp}/_all-git-tmp"
   rm -rf "${tmp}"
   mkdir "${tmp}"
 else
   echo "Slow: synchronous git commands"
 fi
 
+# 1. project path
+tmp_of() {
+  echo "${tmp}/$(echo "$1" | sed -E 's,/,__,g')"
+}
+
 # Location of this file
 script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 
-# ===== Custom variables ======================================================================
-
-# Detect git projects relative to current directory
-root_dir="."
-
-# Detect Git projects relative to this script
-# root_dir="${script_dir}"
-
-# =============================================================================================
-
-root_dir=$(realpath "${root_dir}")
 
 # Find Git projects
 project_paths=()
 
-# Shallow and fast maxdepth=2 search
-# git_repos=($(find "${root_dir}" -maxdepth 2 -type d -name .git | sort))
-
+# Detect git projects relative to current directory
+root_dir="."
 git_repos=($( find -E "${root_dir}" \
 -name .svn -type d -prune -o \
 -name .idea -type d -prune -o \
@@ -61,7 +54,8 @@ git_repos=($( find -E "${root_dir}" \
 
 for git_dir in "${git_repos[@]}"
 do
-  project_paths+=($(realpath "${git_dir}/.."))
+  _nice_path="$(dirname "${git_dir}")"
+  project_paths+=("${_nice_path#./}")
 done
 
 if [ "${#project_paths[@]}" = 0 ]
@@ -76,7 +70,7 @@ clean=()
 
 for project_path in "${project_paths[@]}"
 do
-  if [ -z "$(cd "${project_path}"; git status --porcelain)" ]
+  if [ -z "$(git -C "${project_path}" status --porcelain)" ]
   then
     # echo "Found clean project ${project_path}"
     clean+=("${project_path}")
@@ -92,9 +86,7 @@ then
   for i in "${!project_paths[@]}"
   do
     project_path="${project_paths[$i]}"
-    project=$(basename "${project_path}")
-    cd "${project_path}"
-    git -c color.status=always "$@" > "${tmp}/${project}" 2>&1 &
+    git -C "${project_path}" -c color.status=always "$@" > "$(tmp_of "${project_path}")" 2>&1 &
     if [ $QUICK = 'STAGGERED' ]; then
       batch_count=$(($i % $async_batch_size))
       if [ ${batch_count} -eq 0 ]; then
@@ -108,17 +100,15 @@ fi
 # CLEAN PROJECTS
 for project_path in "${clean[@]}"
 do
-  project=$(basename "${project_path}")
-  cd "${project_path}"
   # 93 Yellow
   echo
-  echo -e "\x1B[93m${project}\x1B[0m"
+  echo -e "\x1B[93m${project_path}\x1B[0m"
   echo
   if [ $QUICK ]
   then
-    cat "${tmp}/${project}"
+    cat "$(tmp_of "${project_path}")"
   else
-    git "$@"
+    git -C "${project_path}" "$@"
   fi
 done
 
@@ -127,17 +117,15 @@ for i in "${!dirty[@]}"
 do
   pos=$(expr $i + 1)
   project_path="${dirty[$i]}"
-  project=$(basename "${project_path}")
-  cd "${project_path}"
   # 93 Yellow
   echo
-  echo -e "\x1B[93m${project} [$pos/${#dirty[@]} dirty]\x1B[0m"
+  echo -e "\x1B[93m${project_path} [$pos/${#dirty[@]} dirty]\x1B[0m"
   echo
   if [ $QUICK ]
   then
-    cat "${tmp}/${project}"
+    cat "$(tmp_of "${project_path}")"
   else
-    git "$@"
+    git -C "${project_path}" "$@"
   fi
 done
 

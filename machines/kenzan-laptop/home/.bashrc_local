@@ -35,10 +35,10 @@ mirror() {
   echo "${pw}" | pbcopy
   echo -e 'Password copied\n'
 
-  sleep 5
-  # read -p 'enter for copy of project name'
-  echo "${project_name}" | pbcopy
-  echo -e 'Project name copied\n'
+  # sleep 5
+  # # read -p 'enter for copy of project name'
+  # echo "${project_name}" | pbcopy
+  # echo -e 'Project name copied\n'
 }
 
 # End TEMP

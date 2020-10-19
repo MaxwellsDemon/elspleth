@@ -2,6 +2,7 @@
 
 async_batch_size=15
 async_batch_sleep_seconds=2
+retries=3
 
 # Exit on any failures
 set -e
@@ -80,13 +81,30 @@ do
   fi
 done
 
+# 1. repository directory path
+# 3... arguments for git command
+git_retry() {
+  local project_path="$1"; shift
+  r=1
+  until [ $r -gt "${retries}" ]
+  do
+    ((r=r+1))
+    if git -C "${project_path}" -c color.status=always "$@"
+    then
+      break
+    elif [ $r -le "${retries}" ]; then
+      echo "retrying..."
+    fi
+  done
+}
+
 if [ $QUICK ]
 then
   # Async perform things
   for i in "${!project_paths[@]}"
   do
     project_path="${project_paths[$i]}"
-    git -C "${project_path}" -c color.status=always "$@" > "$(tmp_of "${project_path}")" 2>&1 &
+    git_retry "${project_path}" "$@" > "$(tmp_of "${project_path}")" 2>&1 &
     if [ $QUICK = 'STAGGERED' ]; then
       batch_count=$(($i % $async_batch_size))
       if [ ${batch_count} -eq 0 ]; then
@@ -97,36 +115,36 @@ then
   wait
 fi
 
-# CLEAN PROJECTS
-for project_path in "${clean[@]}"
-do
+# 1. repository directory path
+# 2. required header suffix
+# 3... arguments for git command
+project_section() {
+  local project_path="$1"; shift
+  local extra_header="$1"; shift
   # 93 Yellow
   echo
-  echo -e "\x1B[93m${project_path}\x1B[0m"
+  echo -e "\x1B[93m${project_path} ${extra_header}\x1B[0m"
   echo
   if [ $QUICK ]
   then
     cat "$(tmp_of "${project_path}")"
   else
-    git -C "${project_path}" "$@"
+    git_retry "${project_path}" "$@"
   fi
+}
+
+# CLEAN PROJECTS
+for project_path in "${clean[@]}"
+do
+  project_section "${project_path}" '' "$@"
 done
 
 # DIRTY PROJECTS
 for i in "${!dirty[@]}"
 do
-  pos=$(expr $i + 1)
+  label="[$(expr $i + 1)/${#dirty[@]} dirty]"
   project_path="${dirty[$i]}"
-  # 93 Yellow
-  echo
-  echo -e "\x1B[93m${project_path} [$pos/${#dirty[@]} dirty]\x1B[0m"
-  echo
-  if [ $QUICK ]
-  then
-    cat "$(tmp_of "${project_path}")"
-  else
-    git -C "${project_path}" "$@"
-  fi
+  project_section "${project_path}" "${label}" "$@"
 done
 
 popd > /dev/null

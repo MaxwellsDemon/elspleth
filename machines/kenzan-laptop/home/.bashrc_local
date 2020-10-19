@@ -13,28 +13,6 @@ alias containers='cd "${code}"/docker_containers'
 alias ta='cd "${HOME}/Desktop/ta"'
 alias finish='/opt/code/test-and-finish-gitlabci.sh'
 
-update_stash_url() {
-#   https://P2820029@stash.dev-charter.net/stash/scm/spc/equipment-domain-service.git
-#   ssh://git@stash.dev-charter.net:7999/spc/equipment-domain-service.git
-# 
-#   https://P2820029@   stash.dev-charter.net   /stash/scm  /spc/equipment-domain-service.git
-#   ssh://git@          stash.dev-charter.net   :7999       /spc/equipment-domain-service.git
-# 
-  local url="$(git config remote.origin.url)"
-  echo "${url}"
-  if echo "${url}" | grep --silent 'P2820029'; then
-    local replacement="$(echo "${url}" \
-      | sed -E 's,https://P2820029@,ssh://git@,g' \
-      | sed -E 's,/stash(/scm)?,:7999,g')"
-    git config remote.origin.url "${replacement}"
-    echo "UPDATED TO [${replacement}]"
-  else
-    echo "git remote url does not contain charter username"
-  fi
-  echo
-}
-export -f update_stash_url
-
 mirror() {
   if [ $# -ne 2 ]; then
     echo "usage: $0 <spc/spclib/etc> <repo name or resolvable directory of name>"
@@ -63,8 +41,6 @@ mirror() {
   # echo "${project_name}" | pbcopy
   # echo -e 'Project name copied\n'
 }
-
-# End TEMP
 
 function zuul_ssh() {
   echo -e "set -o vi; \n cd /usr/share/tomcat7/; \n sudo vi -R logs/catalina.out" | pbcopy

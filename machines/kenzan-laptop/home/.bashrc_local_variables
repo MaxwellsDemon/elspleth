@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Used by generic bashrc
-code="/code"
-gcode='/code-gitlab'
+code="/opt/code"
+gcode='/opt/code-gitlab'
 
 # Local
 notes=~/Documents/notes

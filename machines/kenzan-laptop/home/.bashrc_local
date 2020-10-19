@@ -11,6 +11,29 @@ source "${code}/elspleth-charter/scripts/website-library.sh"
 alias pirate='cd "${code}"/cnet_helm'
 alias containers='cd "${code}"/docker_containers'
 alias ta='cd "${HOME}/Desktop/ta"'
+alias finish='/opt/code/test-and-finish-gitlabci.sh'
+
+update_stash_url() {
+#   https://P2820029@stash.dev-charter.net/stash/scm/spc/equipment-domain-service.git
+#   ssh://git@stash.dev-charter.net:7999/spc/equipment-domain-service.git
+# 
+#   https://P2820029@   stash.dev-charter.net   /stash/scm  /spc/equipment-domain-service.git
+#   ssh://git@          stash.dev-charter.net   :7999       /spc/equipment-domain-service.git
+# 
+  local url="$(git config remote.origin.url)"
+  echo "${url}"
+  if echo "${url}" | grep --silent 'P2820029'; then
+    local replacement="$(echo "${url}" \
+      | sed -E 's,https://P2820029@,ssh://git@,g' \
+      | sed -E 's,/stash(/scm)?,:7999,g')"
+    git config remote.origin.url "${replacement}"
+    echo "UPDATED TO [${replacement}]"
+  else
+    echo "git remote url does not contain charter username"
+  fi
+  echo
+}
+export -f update_stash_url
 
 mirror() {
   if [ $# -ne 2 ]; then
@@ -23,7 +46,7 @@ mirror() {
     local project_name="$(basename "${project_name}")"
   fi
   local project_name="${project_name%/}"
-  local pw="V2VlbmlzTWNQZW5pcw=="
+  local pw="$(cat "$HOME/secrets/charter-stash-user-gitlab-integration-token")"
 
   echo "https://gitlab-integration@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
   # echo "https://gitlab-integration:${pw}@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
@@ -91,13 +114,14 @@ alias tutorial='cd "${code}"/portals-onboarding-tutorial'
 alias swag='cd "${code}"/spc-swagger-doc'
 alias hosts='cd "${code}"/spc-dev-toolbox/hosts'
 alias box='cd "${code}"/spc-dev-toolbox'
+alias teams='cd "${code}"/spc-dev-toolbox/teams'
 alias dp='cd "${code}"/docker-provisioning'
 alias scripts='cd "${code}"/jenkins-pipeline-scripts'
 alias codegen='cd "${code}"/spc-swagger-codegen'
 alias gen='cd "${code}"/spc-swagger-codegen'
 alias ticket='cd "$HOME/Documents/projects/charter/ticket"'
-alias pipelines='cd "${gcode}"/pipelines'
-alias mario='cd "${gcode}"/pipelines'
+alias pipelines='cd "${gcode}"/sspp/portals-backend/pipelines'
+alias mario='cd "${gcode}"/sspp/portals-backend/pipelines'
 
 # Apps
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'

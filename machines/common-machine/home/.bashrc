@@ -234,6 +234,7 @@ function ..() {
     fi
   fi
 }
+alias ..c='.. && clear'
 
 # arg 1: a number that's the position of the branch in the list to checkout
 function checkout() {

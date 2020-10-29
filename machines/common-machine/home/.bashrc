@@ -120,17 +120,18 @@ function initialcommit() {
 }
 
 # Maven
-alias maven='mvn'
-alias mcv='mvn clean verify'
-alias mcp='mvn clean package'
-alias mcps='mvn clean package -DskipTests'
-alias mcpss='mvn clean package -Dmaven.test.skip=true -DskipTests'
-alias mci='mvn clean install'
-alias mcis='mvn clean install -DskipTests'
-alias mciss='mvn clean install -Dmaven.test.skip=true -DskipTests'
-alias mcd='mvn clean deploy'
-alias mcds='mvn clean deploy -DskipTests'
-alias mcdss='mvn clean deploy -Dmaven.test.skip=true -DskipTests'
+_mvn_opts='-Dmaven.artifact.threads=20'
+alias maven="mvn ${_mvn_opts}"
+alias mcv="mvn ${_mvn_opts} clean verify"
+alias mcp="mvn ${_mvn_opts} clean package"
+alias mcps="mvn ${_mvn_opts} clean package -DskipTests"
+alias mcpss="mvn ${_mvn_opts} clean package -Dmaven.test.skip=true -DskipTests"
+alias mci="mvn ${_mvn_opts} clean install"
+alias mcis="mvn ${_mvn_opts} clean install -DskipTests"
+alias mciss="mvn ${_mvn_opts} clean install -Dmaven.test.skip=true -DskipTests"
+alias mcd="mvn ${_mvn_opts} clean deploy"
+alias mcds="mvn ${_mvn_opts} clean deploy -DskipTests"
+alias mcdss="mvn ${_mvn_opts} clean deploy -Dmaven.test.skip=true -DskipTests"
 alias shallowmvn='"${code}"/elspleth/helper-scripts/maven/shallowmvn.sh'
 alias deepmvn='"${code}"/elspleth/helper-scripts/maven/deepmvn.sh'
 

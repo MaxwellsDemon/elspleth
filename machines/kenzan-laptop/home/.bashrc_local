@@ -13,6 +13,15 @@ alias containers='cd "${code}"/docker_containers'
 alias ta='cd "${HOME}/Desktop/ta"'
 alias finish='/opt/code/test-and-finish-gitlabci.sh'
 
+_g() {
+  grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=coverage --exclude-dir=.nyc_output "$@"
+}
+each() {
+  _g "$1" -l
+  read
+  vi $(_g "$1" -l)
+}
+
 mirror() {
   if [ $# -ne 2 ]; then
     echo "usage: $0 <spc/spclib/etc> <repo name or resolvable directory of name>"
@@ -78,6 +87,7 @@ alias json='pbpaste | jq | pbcopy'
 
 # Places
 alias gcode='cd "${gcode}"'
+alias apps='cd "${gcode}"/sspp/portals-backend/application'
 alias az='cd ~/Documents/projects/training/azure-4-day-training'
 alias notes='cd "${notes}"'
 alias projects='cd ~/Documents/projects'

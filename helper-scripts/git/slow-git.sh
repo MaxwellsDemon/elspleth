@@ -89,7 +89,7 @@ git_retry() {
   until [ $r -gt "${retries}" ]
   do
     ((r=r+1))
-    if git -C "${project_path}" -c color.status=always "$@"
+    if time git -C "${project_path}" -c color.status=always "$@"
     then
       break
     elif [ $r -le "${retries}" ]; then

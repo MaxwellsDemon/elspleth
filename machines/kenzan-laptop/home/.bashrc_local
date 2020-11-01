@@ -10,18 +10,8 @@ source "${code}/elspleth-charter/scripts/website-library.sh"
 # TEMP
 alias pirate='cd "${code}"/cnet_helm'
 alias containers='cd "${code}"/docker_containers'
-alias ta='cd "${HOME}/Desktop/ta"'
-alias finish='/opt/code/test-and-finish-gitlabci.sh'
 
-_g() {
-  grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp --exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.idea --exclude-dir=node_modules --exclude-dir=coverage --exclude-dir=.nyc_output "$@"
-}
-each() {
-  _g "$1" -l
-  read
-  vi $(_g "$1" -l)
-}
-
+# Gitlab mirroring
 mirror() {
   if [ $# -ne 2 ]; then
     echo "usage: $0 <spc/spclib/etc> <repo name or resolvable directory of name>"
@@ -34,17 +24,13 @@ mirror() {
   fi
   local project_name="${project_name%/}"
   local pw="$(cat "$HOME/secrets/charter-stash-user-gitlab-integration-token")"
-
   echo "https://gitlab-integration@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
   # echo "https://gitlab-integration:${pw}@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
-
   echo -e 'HTTP clone url copied\n'
-
   sleep 7
   # read -p 'enter for copy of password'
   echo "${pw}" | pbcopy
   echo -e 'Password copied\n'
-
   # sleep 5
   # # read -p 'enter for copy of project name'
   # echo "${project_name}" | pbcopy
@@ -148,6 +134,7 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
 . $(brew --prefix)/etc/bash_completion
 fi
 
+# From Walter maybe
 function decrypter() {
   echo 'Looks like shared-lib-config grabs privateKey.pem from a S3 client :sadparrot:'
   echo 'Search all of Slack for `-u` to find a curl that has service account creds!'
@@ -157,6 +144,7 @@ function decrypter() {
   rm result.tmp
 }
 
+# Kenzan/Amdocs VPNs
 function vpn() {
   local base=~/.anyconnect.vpn.
   local vpn_name="$1"

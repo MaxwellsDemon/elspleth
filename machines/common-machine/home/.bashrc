@@ -277,6 +277,7 @@ usage() {
 cat <<- EOF
 usage: $(basename $0)
 EOF
+exit 1
 }
 
 if [ $# -ne 0 ]; then
@@ -358,6 +359,43 @@ copy_script_dir() {
   if type pbcopy &> /dev/null; then
     echo "${cmd}" | pbcopy
   fi
+}
+
+place() {
+  local place_file="$HOME/.place"
+  local sourcemes=(aliases.sh sourceme.sh)
+  if [ -n "$1" ]; then
+    if [ ! -d "$1" ]; then
+      echo "Not a directory [$1]"
+      return 1
+    fi
+    realpath "$1" > "${place_file}"
+  fi
+  if [ -f "${place_file}" ]; then
+    local place="$(cat "${place_file}")"
+    if [ ! -d "${place}" ]; then
+      echo "File [${place_file}] saved location is not a directory [${place}]. Maybe location was removed."
+      return 2
+    fi
+    cd "$(cat "${place_file}")"
+  else
+    echo "Usage: ${FUNCNAME[0]} [<directory>]"
+    echo
+    echo "A solution for short lived development cycles. Loads useful aliases, e.g. to run build commands"
+    echo
+    echo "Saves absolute directory path in file [${place_file}]"
+    echo
+    echo "Changes directory to the saved location"
+    echo "Then sources files if present:"
+    printf ' - %s\n' "${sourcemes[@]}"
+    return 3
+  fi
+  for sourceme in "${sourcemes[@]}"; do
+    if [ -f "${sourceme}" ]; then
+      source "${sourceme}"
+      echo "sourced ${sourceme}"
+    fi
+  done
 }
 
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set

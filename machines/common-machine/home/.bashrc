@@ -363,7 +363,6 @@ copy_script_dir() {
 
 place() {
   local place_file="$HOME/.place"
-  local sourcemes=(aliases.sh sourceme.sh)
   if [ -n "$1" ]; then
     if [ ! -d "$1" ]; then
       echo "Not a directory [$1]"
@@ -386,16 +385,20 @@ place() {
     echo "Saves absolute directory path in file [${place_file}]"
     echo
     echo "Changes directory to the saved location"
-    echo "Then sources files if present:"
-    printf ' - %s\n' "${sourcemes[@]}"
-    return 3
+    echo "Then sources file [aliases.sh] if present"
   fi
-  for sourceme in "${sourcemes[@]}"; do
-    if [ -f "${sourceme}" ]; then
-      source "${sourceme}"
-      echo "sourced ${sourceme}"
-    fi
-  done
+  if [ ! -f aliases.sh ]; then
+    touch aliases.sh
+    echo "alias aliases='vi aliases.sh; source aliases.sh'" >> aliases.sh
+    echo "alias a='aliases'" >> aliases.sh
+    echo "alias run='./foo.sh'" >> aliases.sh
+    echo "alias r='run'" >> aliases.sh
+    echo "alias edit='vi'" >> aliases.sh
+    echo "alias e='edit'" >> aliases.sh
+    echo "Created starter aliases.sh"
+  fi
+  source aliases.sh
+  echo "sourced aliases.sh"
 }
 
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set

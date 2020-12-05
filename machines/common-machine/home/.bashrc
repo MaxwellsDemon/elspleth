@@ -47,6 +47,7 @@ alias g="grep --recursive --ignore-case --binary-files=without-match --color --p
 alias gf="grep --recursive --ignore-case --binary-files=without-match --color --fixed-strings ${_grep_exclusions}" # 'f' for fixed-string
 alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
 alias lab='vi .gitlab-ci.yml'
+alias pom='vi pom.xml'
 alias vilab='lab'
 alias u='sort | uniq'
 
@@ -270,7 +271,7 @@ function newscript() {
   if [ $# -eq 1 ]; then local name="$1"; fi
   if [ -f "${name}" ]; then echo 'already exists'; return 1; fi
   cat <<'FIN' >> "${name}"
-#!/bin/bash
+#!/usr/local/bin/bash
 set -eo pipefail
 
 usage() {
@@ -391,8 +392,10 @@ place() {
     touch aliases.sh
     echo "alias aliases='vi aliases.sh; source aliases.sh'" >> aliases.sh
     echo "alias a='aliases'" >> aliases.sh
+    echo >> aliases.sh
     echo "alias run='./foo.sh'" >> aliases.sh
     echo "alias r='run'" >> aliases.sh
+    echo >> aliases.sh
     echo "alias edit='vi'" >> aliases.sh
     echo "alias e='edit'" >> aliases.sh
     echo "Created starter aliases.sh"

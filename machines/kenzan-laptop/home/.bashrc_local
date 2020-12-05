@@ -7,9 +7,16 @@ PATH="/usr/local/opt/node@10/bin:$PATH"
 
 source "${code}/elspleth-charter/scripts/website-library.sh"
 
-# TEMP
 alias pirate='cd "${code}"/cnet_helm'
-alias containers='cd "${code}"/docker_containers'
+alias graphql='cd "${gcode}"/sspp/portals-backend/application/services/graphql'
+alias sow='open ${HOME}/Documents/projects/charter/gitlab-migration/kickoff-docs/FINAL\ Charter-Kenzan\ -\ Statement\ of\ Work\ No.\ 7\ \(Legacy\ Decomission\)\ \(05.20.20\)\ Clean\ v2.docx'
+
+export_gitlab() {
+  export API_V4_TOKEN="$(cat "${HOME}/secrets/charter-gitlab-personal-access-token")"
+  export CI_API_V4_URL='https://gitlab.spectrumflow.net/api/v4'
+  echo "exported API_V4_TOKEN"
+  echo "exported CI_API_V4_URL"
+}
 
 # Gitlab mirroring
 mirror() {
@@ -27,14 +34,14 @@ mirror() {
   echo "https://gitlab-integration@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
   # echo "https://gitlab-integration:${pw}@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
   echo -e 'HTTP clone url copied\n'
-  sleep 7
+  sleep 6
   # read -p 'enter for copy of password'
   echo "${pw}" | pbcopy
   echo -e 'Password copied\n'
-  # sleep 5
-  # # read -p 'enter for copy of project name'
-  # echo "${project_name}" | pbcopy
-  # echo -e 'Project name copied\n'
+  sleep 5
+  # read -p 'enter for copy of project name'
+  echo "${project_name}" | pbcopy
+  echo -e 'Project name copied\n'
 }
 
 function zuul_ssh() {
@@ -73,24 +80,20 @@ alias json='pbpaste | jq | pbcopy'
 
 # Places
 alias gcode='cd "${gcode}"'
-alias apps='cd "${gcode}"/sspp/portals-backend/application'
-alias az='cd ~/Documents/projects/training/azure-4-day-training'
+alias sspp='cd "${gcode}"/sspp'
+alias services='cd "${gcode}"/sspp/portals-backend/application/services'
+alias libs='cd "${gcode}"/sspp/portals-backend/application/libraries'
+alias releaseplan='cd "${gcode}"/sspp/portals-backend/release-plan'
 alias notes='cd "${notes}"'
 alias projects='cd ~/Documents/projects'
-alias training='cd ~/Documents/projects/training'
 alias charter='cd "${HOME}"/Documents/projects/charter'
 alias ourlib='cd "${code}"/portals-jenkins-library'
 alias theirlib='cd "${code}"/jenkins_shared_library'
 alias dsl='cd "${code}"/jenkins-job-dsl'
-alias tutorial='cd "${code}"/portals-onboarding-tutorial'
-alias swag='cd "${code}"/spc-swagger-doc'
-alias hosts='cd "${code}"/spc-dev-toolbox/hosts'
 alias box='cd "${code}"/spc-dev-toolbox'
 alias teams='cd "${code}"/spc-dev-toolbox/teams'
 alias dp='cd "${code}"/docker-provisioning'
-alias scripts='cd "${code}"/jenkins-pipeline-scripts'
-alias codegen='cd "${code}"/spc-swagger-codegen'
-alias gen='cd "${code}"/spc-swagger-codegen'
+alias swag='cd "${code}"/spc-swagger-doc'
 alias ticket='cd "$HOME/Documents/projects/charter/ticket"'
 alias pipelines='cd "${gcode}"/sspp/portals-backend/pipelines'
 alias mario='cd "${gcode}"/sspp/portals-backend/pipelines'
@@ -144,6 +147,14 @@ function decrypter() {
   rm result.tmp
 }
 
+function cleanup_telepresence() {
+  echo "found deployments if any:"
+  kubectl get deployments | grep 'telepresence-' | cut -f1 -d' '
+  echo "Continue?"
+  read
+  kubectl delete deployment $(kubectl get deployments | grep 'telepresence-' | cut -f1 -d' ')
+}
+
 # Kenzan/Amdocs VPNs
 function vpn() {
   local base=~/.anyconnect.vpn.
@@ -166,6 +177,7 @@ function charter_sso() {
   # echo -n "$(cat ~/secrets/charter-sso)$1" | pbcopy
   echo -n "$(cat ~/secrets/charter-sso)$(bash ~/secrets/print-charter-sso-security-code.sh)" | pbcopy
   echo "Copied to clipboard"
+  echo 'New password did not work? Use password without token about twice to be prompted to enter timed token.'
 }
 alias sso='charter_sso'
 
@@ -178,6 +190,18 @@ alias docker-charter-gitlab-login='cat "$HOME/secrets/charter-gitlab-personal-ac
   docker login --password-stdin \
   -u c-curtis.fleming@charter.com \
   panamax.spectrumxg.com'
+
+# Git squashing authorship utility
+as_alee_author() {
+  git config --global user.name 'Alee Khang'
+  git config --global user.email 'C-Alee.Khang@charter.com'
+}
+
+# Git squashing authorship utility
+as_curtis_author() {
+  git config --global user.name 'Curtis Fleming'
+  git config --global user.email 'C-Curtis.Fleming@charter.com'
+}
 
 # Clears annoying Iterm2 introduction
 clear

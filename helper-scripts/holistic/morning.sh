@@ -20,5 +20,5 @@ run_git() {
 refresh_repos "${gcode}"
 
 # Globally works
-refresh_repos "${code}"
+# refresh_repos "${code}" # Trying to not use non-gitlab charter files
 

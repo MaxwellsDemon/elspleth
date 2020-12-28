@@ -10,7 +10,7 @@ source "${code}/elspleth-charter/scripts/website-library.sh"
 alias sow='open ${HOME}/Documents/projects/charter/gitlab-migration/kickoff-docs/FINAL\ Charter-Kenzan\ -\ Statement\ of\ Work\ No.\ 7\ \(Legacy\ Decomission\)\ \(05.20.20\)\ Clean\ v2.docx'
 
 export_gitlab() {
-  export API_V4_TOKEN="$(cat "${HOME}/secrets/charter-gitlab-personal-access-token")"
+  export API_V4_TOKEN="$(cat "${HOME}"/secrets/charter-gitlab-personal-access-token)"
   export CI_API_V4_URL='https://gitlab.spectrumflow.net/api/v4'
   echo "exported API_V4_TOKEN"
   echo "exported CI_API_V4_URL"
@@ -18,7 +18,7 @@ export_gitlab() {
 
 export_artifactory() {
   export ARTIFACTORY_EMAIL='sspp-ci'
-  export ARTIFACTORY_API_KEY='AKCp5emG3cqe8M2cwHZHYpnrY7xzW8n1aSmy7MXjMuwjSszSsVvYVYkD6YHoCR6h8kjxJ4a8Z'
+  export ARTIFACTORY_API_KEY="$(cat "${HOME}"/secrets/charter-artifactory-sspp-ci-key)"
   echo "exported ARTIFACTORY_EMAIL"
   echo "exported ARTIFACTORY_API_KEY"
 }

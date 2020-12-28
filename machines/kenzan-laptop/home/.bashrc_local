@@ -7,8 +7,6 @@ PATH="/usr/local/opt/node@10/bin:$PATH"
 
 source "${code}/elspleth-charter/scripts/website-library.sh"
 
-alias pirate='cd "${code}"/cnet_helm'
-alias graphql='cd "${gcode}"/sspp/portals-backend/application/services/graphql'
 alias sow='open ${HOME}/Documents/projects/charter/gitlab-migration/kickoff-docs/FINAL\ Charter-Kenzan\ -\ Statement\ of\ Work\ No.\ 7\ \(Legacy\ Decomission\)\ \(05.20.20\)\ Clean\ v2.docx'
 
 export_gitlab() {
@@ -18,40 +16,32 @@ export_gitlab() {
   echo "exported CI_API_V4_URL"
 }
 
-# Gitlab mirroring
-mirror() {
-  if [ $# -ne 2 ]; then
-    echo "usage: $0 <spc/spclib/etc> <repo name or resolvable directory of name>"
-    return 1
-  fi
-  local project_name="$2"
-  if [ -d "$2" ]; then
-    local project_name="$(realpath "$2")"
-    local project_name="$(basename "${project_name}")"
-  fi
-  local project_name="${project_name%/}"
-  local pw="$(cat "$HOME/secrets/charter-stash-user-gitlab-integration-token")"
-  echo "https://gitlab-integration@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
-  # echo "https://gitlab-integration:${pw}@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
-  echo -e 'HTTP clone url copied\n'
-  sleep 6
-  # read -p 'enter for copy of password'
-  echo "${pw}" | pbcopy
-  echo -e 'Password copied\n'
-  sleep 5
-  # read -p 'enter for copy of project name'
-  echo "${project_name}" | pbcopy
-  echo -e 'Project name copied\n'
+export_artifactory() {
+  export ARTIFACTORY_EMAIL='sspp-ci'
+  export ARTIFACTORY_API_KEY='AKCp5emG3cqe8M2cwHZHYpnrY7xzW8n1aSmy7MXjMuwjSszSsVvYVYkD6YHoCR6h8kjxJ4a8Z'
+  echo "exported ARTIFACTORY_EMAIL"
+  echo "exported ARTIFACTORY_API_KEY"
 }
-
-function zuul_ssh() {
-  echo -e "set -o vi; \n cd /usr/share/tomcat7/; \n sudo vi -R logs/catalina.out" | pbcopy
-  ssh $@; clear
-}
-
 _kube_envs=($(kubectx))
 for kube_env in "${_kube_envs[@]}"; do
   alias "${kube_env}=kubectx ${kube_env}"
+done
+
+_projects_to_alias=(
+$(find "${gcode}"/sspp/portals-backend/application/services -maxdepth 1)
+$(find "${gcode}"/sspp/portals-backend/application/libraries -maxdepth 1)
+$(find "${gcode}"/sspp/portals-backend/application/sidecars -maxdepth 1)
+$(find "${gcode}"/sspp/portals-backend -maxdepth 1)
+$(find "${gcode}"/sspp -maxdepth 1)
+$(find "${gcode}"/CurtisFleming -maxdepth 1)
+"${gcode}"/sspp/portals-backend/release-plan/spectrummobile-release-plan/spectrummobile-release-plan
+"${gcode}"/sspp/portals-backend/release-plan/myspectrumapp-release-plan/myspectrumapp-release-plan
+"${gcode}"/sspp/portals-backend/release-plan/spectrum-release-plan/spectrum-release-plan
+"${gcode}"/sspp/portals-backend/release-plan/spectrumbusiness-release-plan/spectrumbusiness-release-plan
+"${gcode}"/sspp/platforms/pirate-helm
+)
+for _project_to_alias in "${_projects_to_alias[@]}"; do
+  alias "${_project_to_alias##*/}=cd '${_project_to_alias}'"
 done
 
 # Incubating ideas for helper functions
@@ -62,7 +52,7 @@ alias PR='bitbucket 2'
 alias PRs='bitbucket 3'
 alias prs='bitbucket 3'
 
-alias release='"${code}"/spc-dev-toolbox/teams/innovation/release.sh'
+alias release='"${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/innovation/release.sh'
 
 # References
 alias curl_notes='open ~/Documents/projects/charter/curl-to-end-all-curls.md'
@@ -72,31 +62,24 @@ alias cassandra_notes='open ~/Documents/projects/charter/efforts/cassandra/cassa
 alias node6='bash "${code}"/developer-machine-setup/developer_tools.bash node6'
 alias node10='bash "${code}"/developer-machine-setup/developer_tools.bash node10'
 
-# Current project - short lived
-alias telepresence='telepresence --logfile /dev/null'
-
 # Mac
 alias json='pbpaste | jq | pbcopy'
 
-# Places
+# Stash Places
+alias ourlib='cd "${code}"/portals-jenkins-library'
+alias theirlib='cd "${code}"/jenkins_shared_library'
+alias dsl='cd "${code}"/jenkins-job-dsl'
+alias dp='cd "${code}"/docker-provisioning'
+alias cnethelm='cd "${code}"/cnet_helm'
+
+# Gitlab Places
 alias gcode='cd "${gcode}"'
 alias sspp='cd "${gcode}"/sspp'
 alias services='cd "${gcode}"/sspp/portals-backend/application/services'
 alias libs='cd "${gcode}"/sspp/portals-backend/application/libraries'
-alias releaseplan='cd "${gcode}"/sspp/portals-backend/release-plan'
 alias notes='cd "${notes}"'
 alias projects='cd ~/Documents/projects'
 alias charter='cd "${HOME}"/Documents/projects/charter'
-alias ourlib='cd "${code}"/portals-jenkins-library'
-alias theirlib='cd "${code}"/jenkins_shared_library'
-alias dsl='cd "${code}"/jenkins-job-dsl'
-alias box='cd "${code}"/spc-dev-toolbox'
-alias teams='cd "${code}"/spc-dev-toolbox/teams'
-alias dp='cd "${code}"/docker-provisioning'
-alias swag='cd "${code}"/spc-swagger-doc'
-alias ticket='cd "$HOME/Documents/projects/charter/ticket"'
-alias pipelines='cd "${gcode}"/sspp/portals-backend/pipelines'
-alias mario='cd "${gcode}"/sspp/portals-backend/pipelines'
 
 # Apps
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
@@ -122,7 +105,7 @@ alias accounts="vi '${notes}/accounts.txt'"
 alias todo="vi '${notes}/todo.txt'"
 alias gather='"${code}"/elspleth/machines/scripts/gather-machine-rc.sh kenzan-laptop'
 
-# Charter
+# Charter scripting
 alias forwardcreds='ssh-add -K /Users/curtisf/.ssh/charter_id_rsa &>/dev/null'
 alias monday='"${code}"/elspleth-charter/jumpboxes/bastion/deploy-bastion-home.sh rekey'
 alias exercisedockerprovisioning='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning.sh'
@@ -180,6 +163,41 @@ function charter_sso() {
   echo 'New password did not work? Use password without token about twice to be prompted to enter timed token.'
 }
 alias sso='charter_sso'
+
+# Gitlab mirroring
+mirror() {
+  if [ $# -ne 2 ]; then
+    echo "usage: $0 <spc/spclib/etc> <repo name or resolvable directory of name>"
+    return 1
+  fi
+  local project_name="$2"
+  if [ -d "$2" ]; then
+    local project_name="$(realpath "$2")"
+    local project_name="$(basename "${project_name}")"
+  fi
+  local project_name="${project_name%/}"
+  local pw="$(cat "$HOME/secrets/charter-stash-user-gitlab-integration-token")"
+  echo "https://gitlab-integration@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
+  # echo "https://gitlab-integration:${pw}@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
+  echo -e 'HTTP clone url copied\n'
+  sleep 6
+  # read -p 'enter for copy of password'
+  export ARTIFACTORY_EMAIL='sspp-ci'
+  export ARTIFACTORY_API_KEY='AKCp5emG3cqe8M2cwHZHYpnrY7xzW8n1aSmy7MXjMuwjSszSsVvYVYkD6YHoCR6h8kjxJ4a8Z'
+}
+
+here() {
+  local where='.'
+  if [ $# -eq 1 ]; then
+    local where="$1"
+  fi
+  echo -n "$(realpath "${where}")" | pbcopy
+}
+
+function zuul_ssh() {
+  echo -e "set -o vi; \n cd /usr/share/tomcat7/; \n sudo vi -R logs/catalina.out" | pbcopy
+  ssh $@; clear
+}
 
 alias docker-charter-artifactory-login='cat "$HOME/secrets/charter-artifactory-api-key" | \
   docker login --password-stdin \

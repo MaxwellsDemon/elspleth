@@ -21,8 +21,10 @@ alias code='cd "${code}"'
 alias down='cd ~/Downloads'
 alias desk='cd ~/Desktop'
 alias helper='cd "${code}"/elspleth/helper-scripts'
+alias learning='cd "${code}"/elspleth/helper-scripts/learning'
 alias tmp='mkdir -p ~/tmp; cd ~/tmp'
 alias elspleth='cd "${code}"/elspleth'
+alias m2='cd "${HOME}"/.m2'
 
 # rc files
 alias bashrc='vi ~/.bashrc; source ~/.bashrc'
@@ -153,7 +155,14 @@ alias dl='docker container ls -a'
 alias dex='docker exec -it'
 alias start_swagger='docker run --rm -d -p 80:8080 swaggerapi/swagger-editor'
 alias imagebuild='docker build -t foo:bar .'
-alias imagerun='docker run --rm -it foo:bar'
+
+function imagerun() {
+  if [ $# -eq 0 ]; then
+    docker run --rm -it foo:bar bash
+  else
+    docker run --rm -it foo:bar "$@"
+  fi
+}
 
 # Holistic
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
@@ -349,6 +358,11 @@ bounce() {
   kubectl patch deployment "$1" -p '{"spec":{"template":{"metadata":{"labels":{"date":"'$(date +'%s')'"}}}}}'
 }
 
+replicas1() {
+  if [ $# -ne 1 ]; then echo "usage: ${FUNCNAME[0]} <k8s deployment>"; return 1; fi
+  kubectl patch deployment "$1" -p '{"spec":{"replicas": 1 }}'
+}
+
 imgver() {
   if [ $# -ne 1 ]; then echo "usage: ${FUNCNAME[0]} <k8s deployment>"; return 1; fi
   kubectl describe pods -l app="$1" | grep Image: | tr -s ' ' | sed -E 's/Image: +//g' | sort | uniq
@@ -393,10 +407,10 @@ place() {
     echo "alias aliases='vi aliases.sh; source aliases.sh'" >> aliases.sh
     echo "alias a='aliases'" >> aliases.sh
     echo >> aliases.sh
-    echo "alias run='./foo.sh'" >> aliases.sh
+    echo "alias run='./main.sh'" >> aliases.sh
     echo "alias r='run'" >> aliases.sh
     echo >> aliases.sh
-    echo "alias edit='vi'" >> aliases.sh
+    echo "alias edit='vi main.sh'" >> aliases.sh
     echo "alias e='edit'" >> aliases.sh
     echo "Created starter aliases.sh"
   fi

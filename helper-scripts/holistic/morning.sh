@@ -16,9 +16,6 @@ run_git() {
   "${code}"/elspleth/helper-scripts/git/staggered-git.sh "$@"
 }
 
-# Local to Kenzan laptop
 refresh_repos "${gcode}"
-
-# Globally works
-# refresh_repos "${code}" # Trying to not use non-gitlab charter files
+refresh_repos "${code}"
 

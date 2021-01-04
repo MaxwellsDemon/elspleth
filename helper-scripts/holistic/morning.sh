@@ -16,6 +16,6 @@ run_git() {
   "${code}"/elspleth/helper-scripts/git/staggered-git.sh "$@"
 }
 
-refresh_repos "${gcode}"
 refresh_repos "${code}"
+refresh_repos "${gcode}"
 

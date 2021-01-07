@@ -105,6 +105,10 @@ alias accounts="vi '${notes}/accounts.txt'"
 alias todo="vi '${notes}/todo.txt'"
 alias gather='"${code}"/elspleth/machines/scripts/gather-machine-rc.sh kenzan-laptop'
 
+# Charter navigation
+alias config='sibling -config'
+alias lifecycle='cd ../release-lifecycle'
+
 # Charter scripting
 alias forwardcreds='ssh-add -K /Users/curtisf/.ssh/charter_id_rsa &>/dev/null'
 alias monday='"${code}"/elspleth-charter/jumpboxes/bastion/deploy-bastion-home.sh rekey'
@@ -178,12 +182,11 @@ mirror() {
   local project_name="${project_name%/}"
   local pw="$(cat "$HOME/secrets/charter-stash-user-gitlab-integration-token")"
   echo "https://gitlab-integration@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
-  # echo "https://gitlab-integration:${pw}@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
-  echo -e 'HTTP clone url copied\n'
-  sleep 6
-  # read -p 'enter for copy of password'
-  export ARTIFACTORY_EMAIL='sspp-ci'
-  export ARTIFACTORY_API_KEY='AKCp5emG3cqe8M2cwHZHYpnrY7xzW8n1aSmy7MXjMuwjSszSsVvYVYkD6YHoCR6h8kjxJ4a8Z'
+  echo -e 'HTTP clone url copied\n'; sleep 6
+  echo "${pw}" | pbcopy
+  echo -e 'Password copied\n'; sleep 4
+  echo "${project_name}" | pbcopy
+  echo -e 'Project name copied\n'
 }
 
 here() {

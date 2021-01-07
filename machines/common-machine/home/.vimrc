@@ -2,8 +2,8 @@ inoremap jk <ESC>
 let mapleader = " "
 
 " Bash
-" autocmd Filetype sh setlocal softtabstop=2 shiftwidth=2 expandtab
-autocmd Filetype sh setlocal softtabstop=4 shiftwidth=4 expandtab
+autocmd Filetype sh setlocal softtabstop=2 shiftwidth=2 expandtab
+" autocmd Filetype sh setlocal softtabstop=4 shiftwidth=4 expandtab
 
 " Scripting
 autocmd Filetype groovy setlocal softtabstop=2 shiftwidth=2 expandtab
@@ -14,12 +14,15 @@ autocmd Filetype java setlocal softtabstop=4 shiftwidth=4 expandtab
 " HTML
 autocmd Filetype html setlocal softtabstop=4 shiftwidth=4 expandtab
 
+" xml
+autocmd Filetype xml setlocal softtabstop=4 shiftwidth=4 expandtab
+
 " NodeJS
 autocmd Filetype javascript setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
 autocmd Filetype yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
-set smartindent
+set autoindent
 set number
 syntax enable
 set belloff=all

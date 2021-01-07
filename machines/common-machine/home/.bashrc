@@ -137,6 +137,7 @@ alias mcds="mvn ${_mvn_opts} clean deploy -DskipTests"
 alias mcdss="mvn ${_mvn_opts} clean deploy -Dmaven.test.skip=true -DskipTests"
 alias shallowmvn='"${code}"/elspleth/helper-scripts/maven/shallowmvn.sh'
 alias deepmvn='"${code}"/elspleth/helper-scripts/maven/deepmvn.sh'
+alias tree='mvn dependency:tree'
 
 function deptree() {
   mvn dependency:tree > ${1:-tree}
@@ -225,7 +226,6 @@ function sibling() {
     cd "../$1"
   fi
 }
-alias config='sibling -config'
 
 function ..() {
   if [ $# -gt 1 ]; then 
@@ -374,6 +374,10 @@ copy_script_dir() {
   if type pbcopy &> /dev/null; then
     echo "${cmd}" | pbcopy
   fi
+}
+
+copy_maven_version_properties() {
+  echo -e "        <maven.compiler.source>1.8</maven.compiler.source>\n        <maven.compiler.target>1.8</maven.compiler.target>" | pbcopy
 }
 
 place() {

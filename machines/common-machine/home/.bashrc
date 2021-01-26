@@ -125,6 +125,7 @@ function initialcommit() {
 # Maven
 _mvn_opts='-Dmaven.artifact.threads=20'
 alias maven="mvn ${_mvn_opts}"
+alias mct="mvn ${_mvn_opts} clean test"
 alias mcv="mvn ${_mvn_opts} clean verify"
 alias mcp="mvn ${_mvn_opts} clean package"
 alias mcps="mvn ${_mvn_opts} clean package -DskipTests"
@@ -300,27 +301,29 @@ FIN
 }
 
 replace_text() {
-  if [ $# -ne 2 ]; then echo 'usage: <slashy sed target pattern> <slashy sed replace>'; echo 'Recursively updates files'; return 1; fi
+  if [ $# -ne 2 ]; then echo 'usage: <directory root> <sed pattern>'; echo 'Recursively updates files'; return 1; fi
+  local directory_root="$1"
+  shift
   if sed --version > /dev/null 2>&1 ; then
     # GNU sed
-    find . \
+    find "${directory_root}" \
       -name .git -type d -prune -o \
       -name .svn -type d -prune -o \
       -name .idea -type d -prune -o \
       -name target -type d -prune -o \
       -name node_modules -type d -prune -o \
       -type f \
-      -exec sed -E -i -e "s/$1/$2/g" {} +
+      -exec sed -E -i "$@" {} +
   else
     # BSD (mac) sed
-    find . \
+    find "${directory_root}" \
       -name .git -type d -prune -o \
       -name .svn -type d -prune -o \
       -name .idea -type d -prune -o \
       -name target -type d -prune -o \
       -name node_modules -type d -prune -o \
       -type f \
-      -exec sed -E -i '' -e "s/$1/$2/g" {} +
+      -exec sed -E -i '' "$@" {} +
   fi
 }
 

@@ -18,7 +18,7 @@ export_gitlab() {
 
 export_artifactory() {
   export ARTIFACTORY_EMAIL='sspp-ci'
-  export ARTIFACTORY_API_KEY="$(cat "${HOME}"/secrets/charter-artifactory-sspp-ci-key)"
+  export ARTIFACTORY_API_KEY="$(cat "${HOME}"/secrets/charter-artifactory-sspp-ci-token)"
   echo "exported ARTIFACTORY_EMAIL"
   echo "exported ARTIFACTORY_API_KEY"
 }
@@ -194,15 +194,73 @@ here() {
   if [ $# -eq 1 ]; then
     local where="$1"
   fi
-  echo -n "$(realpath "${where}")" | pbcopy
+  echo -n "$(realpath "${where}")/" | pbcopy
 }
 
-function zuul_ssh() {
+zuul_ssh() {
   echo -e "set -o vi; \n cd /usr/share/tomcat7/; \n sudo vi -R logs/catalina.out" | pbcopy
   ssh $@; clear
 }
 
-alias docker-charter-artifactory-login='cat "$HOME/secrets/charter-artifactory-api-key" | \
+# ---- Sketch temporary logic for Charter Tooling Migration --------------------------------------------
+
+refresh_develop() {
+  slowgit stash
+  slowgit merge
+  slowgit stash pop
+}
+
+abandon_changes_refresh_develop() {
+  slowgit stash
+  slowgit merge
+  slowgit stash drop
+  slowgit stash drop
+}
+
+checkout_develop() {
+  slowgit checkout develop
+}
+
+contiguouscode() {
+  if [ $# -ne 1 ]; then echo "usage: $0 <command e.g. refresh_develop>"; return 1; fi
+  local dirs=(
+  "${gcode}"/sspp/portals-backend/application/sidecars
+  "${gcode}"/sspp/portals-backend/application/services
+  "${gcode}"/sspp/portals-backend/application/libraries
+  )
+  for dir in "${dirs[@]}"; do
+    (
+    cd "${dir}"
+    "$@"
+    )
+  done
+}
+
+before_and_after_maven_dependency_tree() {
+  if [ ! -d .git ]; then
+    echo "Change directory to a git project root"
+    return 1
+  fi
+  if [ ! -f pom.xml ]; then
+    echo "Change directory to a maven project root"
+    return 1
+  fi
+  mvn dependency:tree &> /dev/null
+  mvn dependency:tree > "$HOME/downloads/after"
+  git add .
+  git stash
+  mvn dependency:tree &> /dev/null
+  mvn dependency:tree > "$HOME/downloads/before"
+  git stash pop
+  (
+  cd "$HOME/downloads"
+  git diff before after
+  )
+}
+
+# ---- -------------------------------------------------------------------------------------------------
+
+alias docker-charter-artifactory-login='cat "$HOME/secrets/charter-artifactory-api-token" | \
   docker login --password-stdin \
   -u c-curtis.fleming@charter.com \
   docker-artifactory.spectrumflow.net'

@@ -2,8 +2,8 @@ inoremap jk <ESC>
 let mapleader = " "
 
 " Bash
-" autocmd Filetype sh setlocal softtabstop=2 shiftwidth=2 expandtab
-autocmd Filetype sh setlocal softtabstop=4 shiftwidth=4 expandtab
+autocmd Filetype sh setlocal softtabstop=2 shiftwidth=2 expandtab
+" autocmd Filetype sh setlocal softtabstop=4 shiftwidth=4 expandtab
 
 " Scripting
 autocmd Filetype groovy setlocal softtabstop=2 shiftwidth=2 expandtab

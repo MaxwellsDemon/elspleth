@@ -79,7 +79,7 @@ alias list='git config --list'
 alias gall='git add --all .'
 alias gd='git diff'
 alias gds='git diff --staged'
-alias fetch='git fetch --prune --all --tags; echo REMOTE:; git branch --remotes; echo LOCAL:; git branch; echo STATUS:; git status'
+alias fetch='git fetch --prune --all --tags --prune-tags; echo REMOTE:; git branch --remotes; echo LOCAL:; git branch; echo STATUS:; git status'
 alias list='git config --list'
 alias master='git checkout master'
 alias dev='git checkout develop'
@@ -109,10 +109,6 @@ function gitp() {
 
 function newbranch() {
   git checkout -b "$1" && push
-}
-
-function gitk() {
-  (/usr/local/bin/gitk $@ > /dev/null 2>&1 &)
 }
 
 function initialcommit() {

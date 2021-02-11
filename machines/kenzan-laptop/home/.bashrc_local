@@ -31,6 +31,7 @@ _projects_to_alias=(
 $(find "${gcode}"/sspp/portals-backend/application/services -maxdepth 1)
 $(find "${gcode}"/sspp/portals-backend/application/libraries -maxdepth 1)
 $(find "${gcode}"/sspp/portals-backend/application/sidecars -maxdepth 1)
+$(find "${gcode}"/sspp/platforms -maxdepth 1)
 $(find "${gcode}"/sspp/portals-backend -maxdepth 1)
 $(find "${gcode}"/sspp -maxdepth 1)
 $(find "${gcode}"/CurtisFleming -maxdepth 1)
@@ -38,11 +39,18 @@ $(find "${gcode}"/CurtisFleming -maxdepth 1)
 "${gcode}"/sspp/portals-backend/release-plan/myspectrumapp-release-plan/myspectrumapp-release-plan
 "${gcode}"/sspp/portals-backend/release-plan/spectrum-release-plan/spectrum-release-plan
 "${gcode}"/sspp/portals-backend/release-plan/spectrumbusiness-release-plan/spectrumbusiness-release-plan
-"${gcode}"/sspp/platforms/pirate-helm
+"${gcode}"/sspp/portals-backend/release-plan/active-release-plan-report
 )
 for _project_to_alias in "${_projects_to_alias[@]}"; do
   alias "${_project_to_alias##*/}=cd '${_project_to_alias}'"
 done
+
+# Often enough
+clone_sspp() {
+  "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/turquoise/gitlab-cloning/clone-gitlab-repos.sh "${gcode}" sspp "$HOME/secrets/charter-gitlab-personal-access-token"
+}
+alias cloner='cd "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/turquoise/gitlab-cloning'
+alias switch='/Users/curtisf/.m2/switch.sh'
 
 # Incubating ideas for helper functions
 alias both='jenkins docker 1 && jenkins puppet 1'
@@ -59,8 +67,8 @@ alias curl_notes='open ~/Documents/projects/charter/curl-to-end-all-curls.md'
 alias cassandra_notes='open ~/Documents/projects/charter/efforts/cassandra/cassandra-notes.md'
 
 # Node
-alias node6='bash "${code}"/developer-machine-setup/developer_tools.bash node6'
-alias node10='bash "${code}"/developer-machine-setup/developer_tools.bash node10'
+alias node6='bash "${gcode}"/sspp/portals-backend/developer-machine-setup/developer_tools.bash node6'
+alias node10='bash "${gcode}"/sspp/portals-backend/developer-machine-setup/developer_tools.bash node10'
 
 # Mac
 alias json='pbpaste | jq | pbcopy'
@@ -123,6 +131,12 @@ alias run_config_aware_tomcat_container='"${code}"/elspleth-charter/scripts/run-
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
 . $(brew --prefix)/etc/bash_completion
 fi
+
+function gitk() {
+  # The 'zoomed' state causes gitk to crash and zoomed reappears regularly
+  sed -Ei 's/set geometry\(state\) zoomed/set geometry\(state\) normal/g' "$HOME/.config/git/gitk"
+  (/usr/local/bin/gitk $@ > /dev/null 2>&1 &)
+}
 
 # From Walter maybe
 function decrypter() {
@@ -199,42 +213,10 @@ here() {
 
 zuul_ssh() {
   echo -e "set -o vi; \n cd /usr/share/tomcat7/; \n sudo vi -R logs/catalina.out" | pbcopy
-  ssh $@; clear
+  ssh $@
 }
 
 # ---- Sketch temporary logic for Charter Tooling Migration --------------------------------------------
-
-refresh_develop() {
-  slowgit stash
-  slowgit merge
-  slowgit stash pop
-}
-
-abandon_changes_refresh_develop() {
-  slowgit stash
-  slowgit merge
-  slowgit stash drop
-  slowgit stash drop
-}
-
-checkout_develop() {
-  slowgit checkout develop
-}
-
-contiguouscode() {
-  if [ $# -ne 1 ]; then echo "usage: $0 <command e.g. refresh_develop>"; return 1; fi
-  local dirs=(
-  "${gcode}"/sspp/portals-backend/application/sidecars
-  "${gcode}"/sspp/portals-backend/application/services
-  "${gcode}"/sspp/portals-backend/application/libraries
-  )
-  for dir in "${dirs[@]}"; do
-    (
-    cd "${dir}"
-    "$@"
-    )
-  done
-}
 
 before_and_after_maven_dependency_tree() {
   if [ ! -d .git ]; then
@@ -256,6 +238,37 @@ before_and_after_maven_dependency_tree() {
   cd "$HOME/downloads"
   git diff before after
   )
+}
+
+contiguouscode() {
+  if [ $# -ne 1 ]; then echo "usage: $0 <command e.g. refresh_develop>"; return 1; fi
+  local dirs=(
+  "${gcode}"/sspp/portals-backend/application/sidecars
+  "${gcode}"/sspp/portals-backend/application/services
+  "${gcode}"/sspp/portals-backend/application/libraries
+  )
+  echo "This will affect these directories. Are you sure?"
+  echo -e "${dirs[@]/#/\\n - }"
+  echo
+  read
+  for dir in "${dirs[@]}"; do
+    (
+    cd "${dir}"
+    "$@"
+    )
+  done
+}
+
+abandon_changes_refresh_develop() {
+  contiguouscode _abandon_changes_refresh_develop
+}
+
+_abandon_changes_refresh_develop() {
+  slowgit stash
+  slowgit stash drop
+  slowgit stash drop
+  slowgit checkout develop
+  slowgit merge
 }
 
 # ---- -------------------------------------------------------------------------------------------------

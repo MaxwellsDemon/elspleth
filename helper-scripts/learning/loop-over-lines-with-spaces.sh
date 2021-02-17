@@ -5,13 +5,8 @@
 myContent="$(find . -type f -name "*helloworld*" -print)"
 while read entry
 do
-  echo "Found: $entry"
+  if [ -n "${entry}" ]; then
+    echo "Found: $entry"
+  fi
 done <<< "${myContent}"
-
-# PROBLEMATIC VERSION: while-loop runs in subshell, so variable modifications are not visible outside loop
-
-find . -type f -name "*helloworld*" -print | while read entry
-do
-  echo "Found: $entry"
-done
 

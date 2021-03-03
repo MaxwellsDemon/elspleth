@@ -13,3 +13,4 @@ export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Ho
 
 export NODE_ENV=development
 
+export PATH="/usr/local/opt/yq@3/bin:$PATH"

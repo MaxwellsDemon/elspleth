@@ -16,12 +16,25 @@ export_gitlab() {
   echo "exported CI_API_V4_URL"
 }
 
-export_artifactory() {
+export_personal_artifactory() {
+  export ARTIFACTORY_EMAIL='c-curtis.fleming@charter.com'
+  export ARTIFACTORY_API_KEY="$(cat "${HOME}"/secrets/charter-artifactory-api-token)"
+  _common_export_artifactory
+}
+
+export_sspp_ci_artifactory() {
   export ARTIFACTORY_EMAIL='sspp-ci'
   export ARTIFACTORY_API_KEY="$(cat "${HOME}"/secrets/charter-artifactory-sspp-ci-token)"
-  echo "exported ARTIFACTORY_EMAIL"
-  echo "exported ARTIFACTORY_API_KEY"
+  _common_export_artifactory
 }
+
+_common_export_artifactory() {
+  export BASE_ARTIFACTORY_DOCKER_URL="docker-artifactory.spectrumflow.net/docker/sspp/portals/"
+  echo "exported ARTIFACTORY_EMAIL=${ARTIFACTORY_EMAIL}"
+  echo "exported ARTIFACTORY_API_KEY"
+  echo "exported BASE_ARTIFACTORY_DOCKER_URL=${BASE_ARTIFACTORY_DOCKER_URL}"
+}
+
 _kube_envs=($(kubectx))
 for kube_env in "${_kube_envs[@]}"; do
   alias "${kube_env}=kubectx ${kube_env}"
@@ -49,7 +62,8 @@ done
 clone_sspp() {
   "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/turquoise/gitlab-cloning/clone-gitlab-repos.sh "${gcode}" sspp "$HOME/secrets/charter-gitlab-personal-access-token"
 }
-alias cloner='cd "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/turquoise/gitlab-cloning'
+alias cloner='cd "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/platform/gitlab-cloning'
+alias tiny='cd "${gcode}"/CurtisFleming/tiny-projects'
 alias switch='/Users/curtisf/.m2/switch.sh'
 
 # Incubating ideas for helper functions

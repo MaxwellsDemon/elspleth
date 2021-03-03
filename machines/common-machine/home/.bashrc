@@ -134,7 +134,9 @@ alias mcds="mvn ${_mvn_opts} clean deploy -DskipTests"
 alias mcdss="mvn ${_mvn_opts} clean deploy -Dmaven.test.skip=true -DskipTests"
 alias shallowmvn='"${code}"/elspleth/helper-scripts/maven/shallowmvn.sh'
 alias deepmvn='"${code}"/elspleth/helper-scripts/maven/deepmvn.sh'
-alias tree='mvn dependency:tree'
+alias tree='mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:tree'
+alias treelist='mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:list'
+alias list_repositories='mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:list-repositories'
 
 function deptree() {
   mvn dependency:tree > ${1:-tree}
@@ -367,6 +369,11 @@ imgver() {
   kubectl describe pods -l app="$1" | grep Image: | tr -s ' ' | sed -E 's/Image: +//g' | sort | uniq
 }
 
+format_pom() {
+  xmlstarlet fo --indent-spaces 4 pom.xml > pom.xml.tmp
+  mv pom.xml.tmp pom.xml
+}
+
 copy_script_dir() {
   local cmd='script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)'
   echo "${cmd}"
@@ -403,22 +410,22 @@ place() {
     echo "Saves absolute directory path in file [${place_file}]"
     echo
     echo "Changes directory to the saved location"
-    echo "Then sources file [aliases.sh] if present"
+    echo "Then sources file [sourceable-aliases.sh] if present"
   fi
-  if [ ! -f aliases.sh ]; then
-    touch aliases.sh
-    echo "alias aliases='vi aliases.sh; source aliases.sh'" >> aliases.sh
-    echo "alias a='aliases'" >> aliases.sh
-    echo >> aliases.sh
-    echo "alias run='./main.sh'" >> aliases.sh
-    echo "alias r='run'" >> aliases.sh
-    echo >> aliases.sh
-    echo "alias edit='vi main.sh'" >> aliases.sh
-    echo "alias e='edit'" >> aliases.sh
-    echo "Created starter aliases.sh"
+  if [ ! -f sourceable-aliases.sh ]; then
+    touch sourceable-aliases.sh
+    echo "alias aliases='vi sourceable-aliases.sh; source sourceable-aliases.sh'" >> sourceable-aliases.sh
+    echo "alias a='aliases'" >> sourceable-aliases.sh
+    echo >> sourceable-aliases.sh
+    echo "alias run='./main.sh'" >> sourceable-aliases.sh
+    echo "alias r='run'" >> sourceable-aliases.sh
+    echo >> sourceable-aliases.sh
+    echo "alias edit='vi main.sh'" >> sourceable-aliases.sh
+    echo "alias e='edit'" >> sourceable-aliases.sh
+    echo "Created starter sourceable-aliases.sh"
   fi
-  source aliases.sh
-  echo "sourced aliases.sh"
+  source sourceable-aliases.sh
+  echo "sourced sourceable-aliases.sh"
 }
 
 # Alter PS1 AFTER the local script, since some /etc/bashrc check if PS1 is set

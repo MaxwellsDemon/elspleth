@@ -8,6 +8,7 @@ PATH="/usr/local/opt/node@10/bin:$PATH"
 source "${code}/elspleth-charter/scripts/website-library.sh"
 
 alias sow='open ${HOME}/Documents/projects/charter/gitlab-migration/kickoff-docs/FINAL\ Charter-Kenzan\ -\ Statement\ of\ Work\ No.\ 7\ \(Legacy\ Decomission\)\ \(05.20.20\)\ Clean\ v2.docx'
+alias finish="git add . && git commit -m 'PORTALS-4667: Migrate library to Artifactory' && git push"
 
 export_gitlab() {
   export API_V4_TOKEN="$(cat "${HOME}"/secrets/charter-gitlab-personal-access-token)"
@@ -62,6 +63,7 @@ done
 clone_sspp() {
   "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/turquoise/gitlab-cloning/clone-gitlab-repos.sh "${gcode}" sspp "$HOME/secrets/charter-gitlab-personal-access-token"
 }
+alias teams='cd "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams'
 alias cloner='cd "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/platform/gitlab-cloning'
 alias tiny='cd "${gcode}"/CurtisFleming/tiny-projects'
 alias switch='/Users/curtisf/.m2/switch.sh'
@@ -278,8 +280,7 @@ abandon_changes_refresh_develop() {
 }
 
 _abandon_changes_refresh_develop() {
-  slowgit stash
-  slowgit stash drop
+  slowgit clean -d -f
   slowgit stash drop
   slowgit checkout develop
   slowgit merge

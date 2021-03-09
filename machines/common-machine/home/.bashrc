@@ -51,7 +51,6 @@ alias cast='git add .; git commit -m "Intermediate commit for testing"; git push
 alias lab='vi .gitlab-ci.yml'
 alias pom='vi pom.xml'
 alias vilab='lab'
-alias u='sort | uniq'
 
 # Basic typos
 alias xit='exit'
@@ -76,9 +75,11 @@ alias b='git branch'
 alias br='git branch'
 alias cb='git rev-parse --abbrev-ref HEAD'
 alias list='git config --list'
+alias add='git add .'
 alias gall='git add --all .'
 alias gd='git diff'
 alias gds='git diff --staged'
+alias restore='git restore --staged'
 alias fetch='git fetch --prune --all --tags --prune-tags; echo REMOTE:; git branch --remotes; echo LOCAL:; git branch; echo STATUS:; git status'
 alias list='git config --list'
 alias master='git checkout master'
@@ -94,6 +95,22 @@ alias push='git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)'
 alias deletebranch='"${code}"/elspleth/helper-scripts/git/delete-branch.sh'
 alias summary='git shortlog --summary --numbered --email'
 alias foreach_repo='"${code}"/elspleth/helper-scripts/git/foreach-repo.sh'
+
+snapshot_me() {
+  local version="$(xmlstarlet sel -N a='http://maven.apache.org/POM/4.0.0' -t -v '/a:project/a:version' pom.xml)"
+  local minor="$(echo "${version}" | sed -E 's,[0-9]+\.([0-9]+)\.[0-9]+.*,\1,g')"
+  ((minor++)) || true
+  local new_version="$(echo "${version}" | sed -E 's,([0-9]+\.)[0-9]+(\.[0-9]+).*,\1'"${minor}"'.0-SNAPSHOT,g')"
+  xmlstarlet ed --ps --inplace -N a='http://maven.apache.org/POM/4.0.0' -u '/a:project/a:version' -v "${new_version}" pom.xml
+  git diff
+  echo
+  echo "Latest tag: $(git tag --list --sort=-version:refname | head -n1)"
+  echo "Good?"
+  read
+  git add pom.xml
+  git commit -m "Opening ${new_version}"
+  git push
+}
 
 alias lines='sed "s/ /\n/g"'
 
@@ -379,6 +396,14 @@ copy_script_dir() {
   echo "${cmd}"
   if type pbcopy &> /dev/null; then
     echo "${cmd}" | pbcopy
+  fi
+}
+
+copy_pom_namespace() {
+  local ns='http://maven.apache.org/POM/4.0.0'
+  echo "${ns}"
+  if type pbcopy &> /dev/null; then
+    echo -n "${ns}" | pbcopy
   fi
 }
 

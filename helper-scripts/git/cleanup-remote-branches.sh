@@ -183,8 +183,8 @@ list_action() {
 
 delete_action() {
   echo "Deleting branch: $1"
-  mute git checkout "$1"
-  mute git checkout "${core_branch}"
+  mute git checkout "$1" --
+  mute git checkout "${core_branch}" --
   # Extra safe deletion check with '-d' instead of '-D' before remote delete
   if git branch -d "$1" ; then
     git push origin :"$1"

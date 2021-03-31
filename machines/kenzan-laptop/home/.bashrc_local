@@ -8,7 +8,65 @@ PATH="/usr/local/opt/node@10/bin:$PATH"
 source "${code}/elspleth-charter/scripts/website-library.sh"
 
 alias sow='open ${HOME}/Documents/projects/charter/gitlab-migration/kickoff-docs/FINAL\ Charter-Kenzan\ -\ Statement\ of\ Work\ No.\ 7\ \(Legacy\ Decomission\)\ \(05.20.20\)\ Clean\ v2.docx'
-alias finish="git add . && git commit -m 'PORTALS-4667: Migrate library to Artifactory' && git push"
+
+# migration
+# alias finishlib="git add . && git commit -m 'PORTALS-4667: Migrate library to Artifactory' && git push"
+alias finishserviceandorch="git add . && git commit -m 'PORTALS-4668: Migrate services and orchestrators to Artifactory' && git push && add_finish_entry"
+alias finishconfig="git add . && git commit -m 'PORTALS-4669: Migrate configs to Artifactory' && git push && add_finish_entry"
+alias finishsidecar="git add . && git commit -m 'PORTALS-4669: Migrate sidecars to Artifactory' && git push && add_finish_entry"
+alias why='./print-unfinished-deps.sh'
+
+# migration
+add_finish_entries() {
+  local pom_paths
+  mapfile -t pom_paths < <(print_pom_paths "${1:-.}")
+  local pom_path
+  for pom_path in "${pom_paths[@]}"; do
+    add_finish_entry "${pom_path}"
+  done
+}
+
+# migration
+add_finish_entry() {
+  local pom_path="${1:-pom.xml}"
+  local group_id="$(xmlstarlet sel -N a="${pom_namespace}" -t -m '/a:project' \
+    --if 'a:groupId' -v 'a:groupId' \
+    --else -v 'a:parent/a:groupId' \
+    "${pom_path}")"
+  local artifact_id="$(xmlstarlet sel -N a="${pom_namespace}" -t -v '/a:project/a:artifactId' "${pom_path}")"
+  local version="$(xmlstarlet sel -N a="${pom_namespace}" -t -v '/a:project/a:version' "${pom_path}")"
+  echo "${group_id} ${artifact_id} ${version}" | tee -a "${gcode}/sspp/portals-backend/maintenance-and-upgrades/maven-artifactory-migration/finished-artifacts.list"
+  git -C "${gcode}/sspp/portals-backend/maintenance-and-upgrades/maven-artifactory-migration" add "finished-artifacts.list"
+}
+
+# migration
+print_direct_summary() {
+  local pom_path="pom.xml"
+  echo "===POM IDS==="
+  print_pom_ids .
+  echo
+  echo "===NEXUS HITS==="
+  g nexus || true
+  echo
+  echo "===TOOLBOX HITS==="
+  g 'artifactory.spectrumtoolbox' || true
+  echo
+  echo "===DIRECT DEPENDENCIES==="
+  local deps
+  mapfile -t deps < <(xmlstarlet sel -N a="${pom_namespace}" -t -m '//a:*[local-name()="dependency" or local-name()="parent"]' -v 'concat(a:groupId,":",a:artifactId," ")' "${pom_path}"  | sed -E 's/ /\n/g' | sort | uniq || true)
+  printf '%s\n' "${deps[@]}"
+  echo
+  echo "===CHARTER DEPENDENCIES==="
+  local charter_deps
+  mapfile -t charter_deps < <(printf '%s\n' "${deps[@]}" | grep -Po '.*(charter|spectrum|aesd).*' || true)
+  printf '%s\n' "${charter_deps[@]}"
+  echo
+  local charter_dep
+  for charter_dep in "${charter_deps[@]}"; do
+    /opt/code-gitlab/sspp/portals-backend/maintenance-and-upgrades/maven-artifactory-migration/print-unfinished-deps.sh "${charter_dep}"
+  done
+}
+alias yall='print_direct_summary'
 
 export_gitlab() {
   export API_V4_TOKEN="$(cat "${HOME}"/secrets/charter-gitlab-personal-access-token)"
@@ -48,6 +106,7 @@ $(find "${gcode}"/sspp/portals-backend/application/sidecars -maxdepth 1)
 $(find "${gcode}"/sspp/platforms -maxdepth 1)
 $(find "${gcode}"/sspp/portals-backend -maxdepth 1)
 $(find "${gcode}"/sspp -maxdepth 1)
+$(find "${gcode}"/sspp/portals-backend/maintenance-and-upgrades -maxdepth 1)
 $(find "${gcode}"/CurtisFleming -maxdepth 1)
 "${gcode}"/sspp/portals-backend/release-plan/spectrummobile-release-plan/spectrummobile-release-plan
 "${gcode}"/sspp/portals-backend/release-plan/myspectrumapp-release-plan/myspectrumapp-release-plan
@@ -64,8 +123,9 @@ clone_sspp() {
   "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/turquoise/gitlab-cloning/clone-gitlab-repos.sh "${gcode}" sspp "$HOME/secrets/charter-gitlab-personal-access-token"
 }
 alias teams='cd "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams'
-alias cloner='cd "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/platform/gitlab-cloning'
+alias cloner='cd "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/turquoise/gitlab-cloning'
 alias tiny='cd "${gcode}"/CurtisFleming/tiny-projects'
+# migration
 alias switch='/Users/curtisf/.m2/switch.sh'
 
 # Incubating ideas for helper functions
@@ -164,12 +224,20 @@ function decrypter() {
   rm result.tmp
 }
 
-function cleanup_telepresence() {
+function cleanup_telepresence_deployments() {
   echo "found deployments if any:"
   kubectl get deployments | grep 'telepresence-' | cut -f1 -d' '
   echo "Continue?"
   read
   kubectl delete deployment $(kubectl get deployments | grep 'telepresence-' | cut -f1 -d' ')
+}
+
+function cleanup_telepresence_pods() {
+  echo "found pods if any:"
+  kubectl get pods | grep 'telepresence-' | cut -f1 -d' '
+  echo "Continue?"
+  read
+  kubectl delete pod $(kubectl get pod | grep 'telepresence-' | cut -f1 -d' ')
 }
 
 # Kenzan/Amdocs VPNs
@@ -191,10 +259,11 @@ function vpn() {
 }
 
 function charter_sso() {
-  # echo -n "$(cat ~/secrets/charter-sso)$1" | pbcopy
-  echo -n "$(cat ~/secrets/charter-sso)$(bash ~/secrets/print-charter-sso-security-code.sh)" | pbcopy
+  local token="$(bash ~/secrets/print-charter-sso-security-code.sh)"
+  echo -n "$(cat ~/secrets/charter-sso)${token}" | pbcopy
   echo "Copied to clipboard"
   echo 'New password did not work? Use password without token about twice to be prompted to enter timed token.'
+  echo "token: ${token}"
 }
 alias sso='charter_sso'
 
@@ -281,6 +350,7 @@ abandon_changes_refresh_develop() {
 
 _abandon_changes_refresh_develop() {
   slowgit clean -d -f
+  slowgit checkout .
   slowgit stash drop
   slowgit checkout develop
   slowgit merge

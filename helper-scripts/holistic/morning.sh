@@ -16,6 +16,6 @@ run_git() {
   "${code}"/elspleth/helper-scripts/git/staggered-git.sh "$@"
 }
 
-refresh_repos "${code}"
+# refresh_repos "${code}" # comment out to not require customer VPN for legacy stash projects in order to use this script
 refresh_repos "${gcode}"
 

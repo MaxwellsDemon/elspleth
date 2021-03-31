@@ -12,6 +12,8 @@ if [ -f ~/.bashrc_local_temporaries ]; then
   source ~/.bashrc_local_temporaries
 fi
 
+pom_namespace='http://maven.apache.org/POM/4.0.0'
+
 # History scrolling is aware of partially typed command for filtering
 bind '"\e[A":history-search-backward'
 bind '"\e[B":history-search-forward'
@@ -25,6 +27,7 @@ alias learning='cd "${code}"/elspleth/helper-scripts/learning'
 alias tmp='mkdir -p ~/tmp; cd ~/tmp'
 alias elspleth='cd "${code}"/elspleth'
 alias m2='cd "${HOME}"/.m2'
+alias secrets='cd "${HOME}"/secrets'
 
 # rc files
 alias bashrc='vi ~/.bashrc; source ~/.bashrc'
@@ -97,11 +100,11 @@ alias summary='git shortlog --summary --numbered --email'
 alias foreach_repo='"${code}"/elspleth/helper-scripts/git/foreach-repo.sh'
 
 snapshot_me() {
-  local version="$(xmlstarlet sel -N a='http://maven.apache.org/POM/4.0.0' -t -v '/a:project/a:version' pom.xml)"
+  local version="$(xmlstarlet sel -N a="${pom_namespace}" -t -v '/a:project/a:version' pom.xml)"
   local minor="$(echo "${version}" | sed -E 's,[0-9]+\.([0-9]+)\.[0-9]+.*,\1,g')"
   ((minor++)) || true
   local new_version="$(echo "${version}" | sed -E 's,([0-9]+\.)[0-9]+(\.[0-9]+).*,\1'"${minor}"'.0-SNAPSHOT,g')"
-  xmlstarlet ed --ps --inplace -N a='http://maven.apache.org/POM/4.0.0' -u '/a:project/a:version' -v "${new_version}" pom.xml
+  xmlstarlet ed --ps --inplace -N a="${pom_namespace}" -u '/a:project/a:version' -v "${new_version}" pom.xml
   git diff
   echo
   echo "Latest tag: $(git tag --list --sort=-version:refname | head -n1)"
@@ -110,6 +113,54 @@ snapshot_me() {
   git add pom.xml
   git commit -m "Opening ${new_version}"
   git push
+}
+
+copy_pom_id() {
+  local pom_path="./pom.xml"
+  local pom_id="$(print_pom_id "${pom_path}")"
+  echo "${pom_id}"
+  echo -n "${pom_id}" | copy_string
+}
+
+print_pom_id() {
+  local pom_path="${1:-pom.xml}"
+  xmlstarlet sel -N a="${pom_namespace}" -t -m '/a:project' \
+    --if 'a:groupId' -v 'concat(a:groupId, ":", a:artifactId)' \
+    --else -v 'concat(a:parent/a:groupId, ":", a:artifactId)' \
+    --break -n \
+    "${pom_path}"
+}
+
+print_pom_paths() {
+  local directory="$1"
+  find -E "${directory}" \
+      -name .git -type d -prune -o \
+      -name .svn -type d -prune -o \
+      -name .idea -type d -prune -o \
+      -name target -type d -prune -o \
+      -name node_modules -type d -prune -o \
+      -name pom.xml -print
+}
+
+print_pom_ids() {
+  mapfile -t pom_paths < <(print_pom_paths .)
+  local pom_path
+  for pom_path in "${pom_paths[@]}"; do
+    if [ -f "${pom_path}" ]; then
+      print_pom_id "${pom_path}"
+    fi
+  done
+}
+
+print_direct_deps() {
+  local pom_path="${1:-pom.xml}"
+  local deps
+  mapfile -t deps < <(xmlstarlet sel -N a="${pom_namespace}" -t -m '//a:dependency' -v 'concat(a:groupId,":",a:artifactId," ")' "${pom_path}"  | sed -E 's/ /\n/g')
+  echo "===DIRECT DEPENDENCIES==="
+  printf '%s\n' "${deps[@]}"
+  echo
+  echo "===MENTIONS CHARTER RESOURCES==="
+  printf '%s\n' "${deps[@]}" | grep -Po '.*(charter|spectrum|aesd).*' || true
 }
 
 alias lines='sed "s/ /\n/g"'
@@ -152,6 +203,8 @@ alias mcdss="mvn ${_mvn_opts} clean deploy -Dmaven.test.skip=true -DskipTests"
 alias shallowmvn='"${code}"/elspleth/helper-scripts/maven/shallowmvn.sh'
 alias deepmvn='"${code}"/elspleth/helper-scripts/maven/deepmvn.sh'
 alias tree='mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:tree'
+alias before='tree > ~/Downloads/before'
+alias after='tree > ~/Downloads/after'
 alias treelist='mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:list'
 alias list_repositories='mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:list-repositories'
 
@@ -394,21 +447,16 @@ format_pom() {
 copy_script_dir() {
   local cmd='script_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)'
   echo "${cmd}"
-  if type pbcopy &> /dev/null; then
-    echo "${cmd}" | pbcopy
-  fi
+  echo "${cmd}" | copy_string
 }
 
 copy_pom_namespace() {
-  local ns='http://maven.apache.org/POM/4.0.0'
-  echo "${ns}"
-  if type pbcopy &> /dev/null; then
-    echo -n "${ns}" | pbcopy
-  fi
+  echo "${pom_namespace}"
+  echo -n "${pom_namespace}" | copy_string
 }
 
-copy_maven_version_properties() {
-  echo -e "        <maven.compiler.source>1.8</maven.compiler.source>\n        <maven.compiler.target>1.8</maven.compiler.target>" | pbcopy
+copy_string() {
+  pbcopy
 }
 
 place() {

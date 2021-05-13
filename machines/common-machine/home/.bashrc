@@ -83,7 +83,7 @@ alias gall='git add --all .'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias restore='git restore --staged'
-alias fetch='git fetch --prune --all --tags --prune-tags; echo REMOTE:; git branch --remotes; echo LOCAL:; git branch; echo STATUS:; git status'
+alias fetch='git fetch --prune --all --tags --prune-tags -f; echo REMOTE:; git branch --remotes; echo LOCAL:; git branch; echo STATUS:; git status'
 alias list='git config --list'
 alias master='git checkout master'
 alias dev='git checkout develop'
@@ -236,12 +236,6 @@ function imagerun() {
 
 # Holistic
 alias morning='bash "${code}"/elspleth/helper-scripts/holistic/morning.sh'
-
-# `v` repeats the most recent vi command
-# `v 3` repeats the third most recent unique vi command, etc.
-function v() {
-  vi $(history | grep -oP ' vi[ ].+' | uniq | tail -${1:-1} | head -n 1 | sed -E 's/vi (.+)/\1/g')
-}
 
 function compare() {
   if [ $# -ne 2 ]; then echo 'usage: compare <file a> <file b>'; return 1; fi

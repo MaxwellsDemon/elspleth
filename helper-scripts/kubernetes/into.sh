@@ -43,4 +43,4 @@ if [ -z "${pod}" ]; then
   echo "pod:       ${pod}"
 fi
 set -x
-kubectl ${ns} exec -it ${pod} bash
+kubectl ${ns} exec -it ${pod} -- bash

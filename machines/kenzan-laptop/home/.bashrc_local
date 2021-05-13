@@ -5,83 +5,24 @@ PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 PATH="/usr/local/opt/node@10/bin:$PATH"
 
-source "${code}/elspleth-charter/scripts/website-library.sh"
+source "${gcode}/CurtisFleming/elspleth-charter/scripts/website-library.sh"
 
 alias sow='open ${HOME}/Documents/projects/charter/gitlab-migration/kickoff-docs/FINAL\ Charter-Kenzan\ -\ Statement\ of\ Work\ No.\ 7\ \(Legacy\ Decomission\)\ \(05.20.20\)\ Clean\ v2.docx'
 
-# migration
-# alias finishlib="git add . && git commit -m 'PORTALS-4667: Migrate library to Artifactory' && git push"
-alias finishserviceandorch="git add . && git commit -m 'PORTALS-4668: Migrate services and orchestrators to Artifactory' && git push && add_finish_entry"
-alias finishconfig="git add . && git commit -m 'PORTALS-4669: Migrate configs to Artifactory' && git push && add_finish_entry"
-alias finishsidecar="git add . && git commit -m 'PORTALS-4669: Migrate sidecars to Artifactory' && git push && add_finish_entry"
-alias why='./print-unfinished-deps.sh'
-
-# migration
-add_finish_entries() {
-  local pom_paths
-  mapfile -t pom_paths < <(print_pom_paths "${1:-.}")
-  local pom_path
-  for pom_path in "${pom_paths[@]}"; do
-    add_finish_entry "${pom_path}"
-  done
-}
-
-# migration
-add_finish_entry() {
-  local pom_path="${1:-pom.xml}"
-  local group_id="$(xmlstarlet sel -N a="${pom_namespace}" -t -m '/a:project' \
-    --if 'a:groupId' -v 'a:groupId' \
-    --else -v 'a:parent/a:groupId' \
-    "${pom_path}")"
-  local artifact_id="$(xmlstarlet sel -N a="${pom_namespace}" -t -v '/a:project/a:artifactId' "${pom_path}")"
-  local version="$(xmlstarlet sel -N a="${pom_namespace}" -t -v '/a:project/a:version' "${pom_path}")"
-  echo "${group_id} ${artifact_id} ${version}" | tee -a "${gcode}/sspp/portals-backend/maintenance-and-upgrades/maven-artifactory-migration/finished-artifacts.list"
-  git -C "${gcode}/sspp/portals-backend/maintenance-and-upgrades/maven-artifactory-migration" add "finished-artifacts.list"
-}
-
-# migration
-print_direct_summary() {
-  local pom_path="pom.xml"
-  echo "===POM IDS==="
-  print_pom_ids .
-  echo
-  echo "===NEXUS HITS==="
-  g nexus || true
-  echo
-  echo "===TOOLBOX HITS==="
-  g 'artifactory.spectrumtoolbox' || true
-  echo
-  echo "===DIRECT DEPENDENCIES==="
-  local deps
-  mapfile -t deps < <(xmlstarlet sel -N a="${pom_namespace}" -t -m '//a:*[local-name()="dependency" or local-name()="parent"]' -v 'concat(a:groupId,":",a:artifactId," ")' "${pom_path}"  | sed -E 's/ /\n/g' | sort | uniq || true)
-  printf '%s\n' "${deps[@]}"
-  echo
-  echo "===CHARTER DEPENDENCIES==="
-  local charter_deps
-  mapfile -t charter_deps < <(printf '%s\n' "${deps[@]}" | grep -Po '.*(charter|spectrum|aesd).*' || true)
-  printf '%s\n' "${charter_deps[@]}"
-  echo
-  local charter_dep
-  for charter_dep in "${charter_deps[@]}"; do
-    /opt/code-gitlab/sspp/portals-backend/maintenance-and-upgrades/maven-artifactory-migration/print-unfinished-deps.sh "${charter_dep}"
-  done
-}
-alias yall='print_direct_summary'
-
-export_gitlab() {
+export_charter_personal_gitlab() {
   export API_V4_TOKEN="$(cat "${HOME}"/secrets/charter-gitlab-personal-access-token)"
   export CI_API_V4_URL='https://gitlab.spectrumflow.net/api/v4'
   echo "exported API_V4_TOKEN"
   echo "exported CI_API_V4_URL"
 }
 
-export_personal_artifactory() {
+export_charter_personal_artifactory() {
   export ARTIFACTORY_EMAIL='c-curtis.fleming@charter.com'
   export ARTIFACTORY_API_KEY="$(cat "${HOME}"/secrets/charter-artifactory-api-token)"
   _common_export_artifactory
 }
 
-export_sspp_ci_artifactory() {
+export_charter_sspp_ci_artifactory() {
   export ARTIFACTORY_EMAIL='sspp-ci'
   export ARTIFACTORY_API_KEY="$(cat "${HOME}"/secrets/charter-artifactory-sspp-ci-token)"
   _common_export_artifactory
@@ -103,10 +44,12 @@ _projects_to_alias=(
 $(find "${gcode}"/sspp/portals-backend/application/services -maxdepth 1)
 $(find "${gcode}"/sspp/portals-backend/application/libraries -maxdepth 1)
 $(find "${gcode}"/sspp/portals-backend/application/sidecars -maxdepth 1)
+$(find "${gcode}"/sspp/portals-backend/maintenance-and-upgrades -maxdepth 1)
 $(find "${gcode}"/sspp/platforms -maxdepth 1)
 $(find "${gcode}"/sspp/portals-backend -maxdepth 1)
 $(find "${gcode}"/sspp -maxdepth 1)
-$(find "${gcode}"/sspp/portals-backend/maintenance-and-upgrades -maxdepth 1)
+$(find "${gcode}"/spectrumflow/shared/platform-components -maxdepth 1)
+$(find "${gcode}"/spectrumflow/shared/platform-e2e-pipelines -maxdepth 1)
 $(find "${gcode}"/CurtisFleming -maxdepth 1)
 "${gcode}"/sspp/portals-backend/release-plan/spectrummobile-release-plan/spectrummobile-release-plan
 "${gcode}"/sspp/portals-backend/release-plan/myspectrumapp-release-plan/myspectrumapp-release-plan
@@ -117,6 +60,10 @@ $(find "${gcode}"/CurtisFleming -maxdepth 1)
 for _project_to_alias in "${_projects_to_alias[@]}"; do
   alias "${_project_to_alias##*/}=cd '${_project_to_alias}'"
 done
+alias cnet='kubens cnet'
+alias smb='kubens smb'
+alias msa='kubens msa'
+alias specmob='kubens specmob'
 
 # Often enough
 clone_sspp() {
@@ -124,7 +71,6 @@ clone_sspp() {
 }
 alias teams='cd "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams'
 alias cloner='cd "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/turquoise/gitlab-cloning'
-alias tiny='cd "${gcode}"/CurtisFleming/tiny-projects'
 # migration
 alias switch='/Users/curtisf/.m2/switch.sh'
 
@@ -241,7 +187,7 @@ function cleanup_telepresence_pods() {
 }
 
 # Kenzan/Amdocs VPNs
-function vpn() {
+function vpn_anyconnect() {
   local base=~/.anyconnect.vpn.
   local vpn_name="$1"
   local config="${base}${vpn_name}"
@@ -258,10 +204,49 @@ function vpn() {
   # open 'https://docs.google.com/spreadsheets/d/1kMdYYT7OedjSuj-9fokntYB5kvlBq6WnZjW2vJmtlJY/edit#gid=0'
 }
 
+# Charter VPN script. A replacement for GlobalProtectVPN.
+function vpn() {
+  "${gcode}/CurtisFleming/elspleth-charter/scripts/vpn.sh" "$@"
+}
+
+charter_token() {
+  # if [[ $# -ne 1 ]]; then echo "usage: ${FUNCNAME[0]} <token file suffix>"; return 1; fi
+  # local which_one="$1" # e.g. '2' for charter-sso-token-key-2
+  local which_one="${1:-3}"
+  local token_file="/Users/curtisf/secrets/charter-sso-token-key-${which_one}"
+  if ! [[ -f "${token_file}" ]]; then echo "No token file ${token_file}"; return 1; fi
+  local token="$(oathtool -b --totp "$(cat "${token_file}")")"
+  echo "${token}"
+  echo -n "${token}" | pbcopy
+  echo "Copied." 1>&2
+}
+alias token="charter_token"
+
 function charter_sso() {
-  local token="$(bash ~/secrets/print-charter-sso-security-code.sh)"
-  echo -n "$(cat ~/secrets/charter-sso)${token}" | pbcopy
-  echo "Copied to clipboard"
+  # if [[ $# -ne 1 ]]; then echo "usage: ${FUNCNAME[0]} <token file suffix>"; return 1; fi
+  # local which_one="$1" # e.g. '2' for charter-sso-token-key-2
+  local which_one="${1:-3}"
+  local token_file="/Users/curtisf/secrets/charter-sso-token-key-${which_one}"
+  if ! [[ -f "${token_file}" ]]; then echo "No token file ${token_file}"; return 1; fi
+
+  echo -n "P2820029" | pbcopy
+  echo "Copied username to clipboard"
+  echo "4..."
+  sleep 1
+  echo "3..."
+  sleep 1
+  echo "2..."
+  sleep 1
+  echo "1..."
+  sleep 1
+  echo -n "$(cat ~/secrets/charter-sso)" | pbcopy
+  echo "Copied password to clipboard"
+  echo "2..."
+  sleep 1
+  echo "1..."
+  sleep 1
+  local token="$(oathtool -b --totp "$(cat "${token_file}")")"
+  echo -n "${token}" | pbcopy
   echo 'New password did not work? Use password without token about twice to be prompted to enter timed token.'
   echo "token: ${token}"
 }
@@ -326,7 +311,6 @@ before_and_after_maven_dependency_tree() {
 }
 
 contiguouscode() {
-  if [ $# -ne 1 ]; then echo "usage: $0 <command e.g. refresh_develop>"; return 1; fi
   local dirs=(
   "${gcode}"/sspp/portals-backend/application/sidecars
   "${gcode}"/sspp/portals-backend/application/services
@@ -344,8 +328,9 @@ contiguouscode() {
   done
 }
 
-abandon_changes_refresh_develop() {
+abandon_changes_and_caches_and_refresh_develop() {
   contiguouscode _abandon_changes_refresh_develop
+  contiguouscode _abandon_caches
 }
 
 _abandon_changes_refresh_develop() {
@@ -354,6 +339,18 @@ _abandon_changes_refresh_develop() {
   slowgit stash drop
   slowgit checkout develop
   slowgit merge
+}
+
+_abandon_caches() {
+  local projects
+  local project
+  mapfile -t projects < <(find "$(pwd)" -type d -maxdepth 1)
+  echo "Cleaning target and node_modules for:"
+  echo
+  for project in "${projects[@]}"; do
+     echo "${project}"
+     rm -rf "${project}"/target "${project}"/node_modules
+  done
 }
 
 # ---- -------------------------------------------------------------------------------------------------
@@ -378,6 +375,24 @@ as_alee_author() {
 as_curtis_author() {
   git config --global user.name 'Curtis Fleming'
   git config --global user.email 'C-Curtis.Fleming@charter.com'
+}
+
+# Git squashing authorship utility
+as_yogesh_author() {
+  git config --global user.name 'Janakiraman'
+  git config --global user.email 'yogesh.janakiraman@charter.com'
+}
+
+# Git squashing authorship utility
+as_andrew_author() {
+  git config --global user.name 'Andrew VanLoo'
+  git config --global user.email 'c-andrew.vanloo1@charter.com'
+}
+
+# Git squashing authorship utility
+as_dan_perron_author() {
+  git config --global user.name 'Dan Perron'
+  git config --global user.email 'dan.perron@charter.com'
 }
 
 # Clears annoying Iterm2 introduction

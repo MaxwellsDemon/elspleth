@@ -3,4 +3,5 @@ set -eo pipefail
 
 echo ⚠️
 echo ✅ 
+echo ✨
 

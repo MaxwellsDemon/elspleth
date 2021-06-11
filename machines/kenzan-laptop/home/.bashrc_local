@@ -9,6 +9,9 @@ source "${gcode}/CurtisFleming/elspleth-charter/scripts/website-library.sh"
 
 alias sow='open ${HOME}/Documents/projects/charter/gitlab-migration/kickoff-docs/FINAL\ Charter-Kenzan\ -\ Statement\ of\ Work\ No.\ 7\ \(Legacy\ Decomission\)\ \(05.20.20\)\ Clean\ v2.docx'
 
+# Typos
+piplines=pipelines
+
 export_charter_personal_gitlab() {
   export API_V4_TOKEN="$(cat "${HOME}"/secrets/charter-gitlab-personal-access-token)"
   export CI_API_V4_URL='https://gitlab.spectrumflow.net/api/v4'
@@ -33,6 +36,7 @@ _common_export_artifactory() {
   echo "exported ARTIFACTORY_EMAIL=${ARTIFACTORY_EMAIL}"
   echo "exported ARTIFACTORY_API_KEY"
   echo "exported BASE_ARTIFACTORY_DOCKER_URL=${BASE_ARTIFACTORY_DOCKER_URL}"
+  echo 'copy/paste for curl: -u "$ARTIFACTORY_EMAIL:$ARTIFACTORY_API_KEY"'
 }
 
 _kube_envs=($(kubectx))
@@ -50,6 +54,7 @@ $(find "${gcode}"/sspp/portals-backend -maxdepth 1)
 $(find "${gcode}"/sspp -maxdepth 1)
 $(find "${gcode}"/spectrumflow/shared/platform-components -maxdepth 1)
 $(find "${gcode}"/spectrumflow/shared/platform-e2e-pipelines -maxdepth 1)
+$(find "${gcode}"/spectrumflow/shared/platform-e2e-pipelines/portals-backend -maxdepth 1)
 $(find "${gcode}"/CurtisFleming -maxdepth 1)
 "${gcode}"/sspp/portals-backend/release-plan/spectrummobile-release-plan/spectrummobile-release-plan
 "${gcode}"/sspp/portals-backend/release-plan/myspectrumapp-release-plan/myspectrumapp-release-plan
@@ -206,7 +211,7 @@ function vpn_anyconnect() {
 
 # Charter VPN script. A replacement for GlobalProtectVPN.
 function vpn() {
-  "${gcode}/CurtisFleming/elspleth-charter/scripts/vpn.sh" "$@"
+  "${gcode}/CurtisFleming/tiny-projects/vpn/vpn.sh" "$@"
 }
 
 charter_token() {
@@ -221,6 +226,15 @@ charter_token() {
   echo "Copied." 1>&2
 }
 alias token="charter_token"
+alias toekn="token"
+
+function nap() {
+  local seconds="$1"
+  for (( i=$seconds; i>0; i-- )); do
+    echo "${i}.."
+    sleep 1
+  done
+}
 
 function charter_sso() {
   # if [[ $# -ne 1 ]]; then echo "usage: ${FUNCNAME[0]} <token file suffix>"; return 1; fi
@@ -231,23 +245,13 @@ function charter_sso() {
 
   echo -n "P2820029" | pbcopy
   echo "Copied username to clipboard"
-  echo "4..."
-  sleep 1
-  echo "3..."
-  sleep 1
-  echo "2..."
-  sleep 1
-  echo "1..."
-  sleep 1
+  nap 6
   echo -n "$(cat ~/secrets/charter-sso)" | pbcopy
   echo "Copied password to clipboard"
-  echo "2..."
-  sleep 1
-  echo "1..."
-  sleep 1
+  nap 8
   local token="$(oathtool -b --totp "$(cat "${token_file}")")"
   echo -n "${token}" | pbcopy
-  echo 'New password did not work? Use password without token about twice to be prompted to enter timed token.'
+  echo "Copied token to clipboard"
   echo "token: ${token}"
 }
 alias sso='charter_sso'

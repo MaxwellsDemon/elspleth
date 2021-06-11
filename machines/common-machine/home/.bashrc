@@ -65,6 +65,7 @@ alias vii='vi'
 alias gti='git'
 alias gi='git'
 alias vm='mv'
+alias vo='vi'
 
 # Git
 alias status='rm -f .DS_Store; git status'
@@ -225,6 +226,7 @@ alias dl='docker container ls -a'
 alias dex='docker exec -it'
 alias start_swagger='docker run --rm -d -p 80:8080 swaggerapi/swagger-editor'
 alias imagebuild='docker build -t foo:bar .'
+alias dinto='docker run --rm -it --entrypoint /bin/bash'
 
 function imagerun() {
   if [ $# -eq 0 ]; then
@@ -509,3 +511,4 @@ fi
 PS1="\n${_ps1_fragment}"'\e[0;32m\t $? \u \w\n\$\[\e[m\] '
 unset _ps1_fragment
 
+source "/Users/curtisf/.rover/env"

@@ -9,7 +9,7 @@ refresh_repos() {
   echo 
   echo "                             Fetching and pruning $1"
   echo
-  time run_git fetch --prune --all --tags
+  time run_git fetch --prune --all --tags --prune-tags -f
 }
 
 run_git() {

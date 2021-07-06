@@ -50,7 +50,7 @@ _grep_exclusions='--exclude-dir=target --exclude-dir=.git --exclude-dir=.svn --e
 # Cannot use --exclude="*.iml
 alias g="grep --recursive --ignore-case --binary-files=without-match --color --perl-regexp ${_grep_exclusions}"
 alias gf="grep --recursive --ignore-case --binary-files=without-match --color --fixed-strings ${_grep_exclusions}" # 'f' for fixed-string
-alias cast='git add .; git commit -m "Intermediate commit for testing"; git push'
+alias cast='git add .; git commit -m "Intermediate commit for testing"; push'
 alias lab='vi .gitlab-ci.yml'
 alias pom='vi pom.xml'
 alias vilab='lab'
@@ -178,6 +178,12 @@ function gitp() {
 
 function newbranch() {
   git checkout -b "$1" && push
+}
+
+function newpipelinebranch() {
+  git checkout -b "$1" && \
+  yq w -i .gitlab-ci.yml --style=single include.ref "$1" && \
+  cast
 }
 
 function initialcommit() {
@@ -422,7 +428,7 @@ function sadpods() {
 
 bounce() {
   if [ $# -ne 1 ]; then echo "usage: ${FUNCNAME[0]} <k8s deployment>"; return 1; fi
-  kubectl patch deployment "$1" -p '{"spec":{"template":{"metadata":{"labels":{"date":"'$(date +'%s')'"}}}}}'
+  kubectl rollout restart deployment "$1"
 }
 
 replicas1() {

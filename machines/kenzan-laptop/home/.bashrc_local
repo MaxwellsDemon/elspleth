@@ -60,7 +60,7 @@ $(find "${gcode}"/CurtisFleming -maxdepth 1)
 "${gcode}"/sspp/portals-backend/release-plan/myspectrumapp-release-plan/myspectrumapp-release-plan
 "${gcode}"/sspp/portals-backend/release-plan/spectrum-release-plan/spectrum-release-plan
 "${gcode}"/sspp/portals-backend/release-plan/spectrumbusiness-release-plan/spectrumbusiness-release-plan
-"${gcode}"/sspp/portals-backend/release-plan/active-release-plan-report
+"${gcode}"/sspp/portals-backend/release-plan/active-helm-chart-report
 )
 for _project_to_alias in "${_projects_to_alias[@]}"; do
   alias "${_project_to_alias##*/}=cd '${_project_to_alias}'"

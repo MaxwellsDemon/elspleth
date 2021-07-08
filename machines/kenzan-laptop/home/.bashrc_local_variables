@@ -4,6 +4,8 @@
 code="/opt/code"
 gcode='/opt/code-gitlab'
 
+export sspp="${gcode}/sspp"
+
 # Local
 notes=~/Documents/notes
 # Kubernetes common flag

@@ -41,7 +41,9 @@ _common_export_artifactory() {
 
 _kube_envs=($(kubectx))
 for kube_env in "${_kube_envs[@]}"; do
-  alias "${kube_env}=kubectx ${kube_env}"
+  if ! alias -p | grep -Pq '^alias '"${kube_env}"'='; then
+      alias "${kube_env}=kubectx ${kube_env}"
+  fi
 done
 
 _projects_to_alias=(

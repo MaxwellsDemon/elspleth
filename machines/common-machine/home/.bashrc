@@ -342,10 +342,6 @@ else
   echo 'Please create file ~/.bashrc_local'
 fi
 
-if [ -f ~/.bashrc_kube ]; then
-  source ~/.bashrc_kube
-fi
-
 function newscript() {
   local name='foo.sh'
   if [ $# -eq 1 ]; then local name="$1"; fi
@@ -517,4 +513,3 @@ fi
 PS1="\n${_ps1_fragment}"'\e[0;32m\t $? \u \w\n\$\[\e[m\] '
 unset _ps1_fragment
 
-source "/Users/curtisf/.rover/env"

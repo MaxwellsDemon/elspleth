@@ -39,38 +39,58 @@ _common_export_artifactory() {
   echo 'copy/paste for curl: -u "$ARTIFACTORY_EMAIL:$ARTIFACTORY_API_KEY"'
 }
 
-_kube_envs=($(kubectx))
-for kube_env in "${_kube_envs[@]}"; do
-  if ! alias -p | grep -Pq '^alias '"${kube_env}"'='; then
-      alias "${kube_env}=kubectx ${kube_env}"
-  fi
-done
+bootstrap_tmp="${HOME}/bootstrap_tmp"
+mkdir -p "${bootstrap_tmp}"
 
-_projects_to_alias=(
-$(find "${gcode}"/sspp/portals-backend/application/services -maxdepth 1)
-$(find "${gcode}"/sspp/portals-backend/application/libraries -maxdepth 1)
-$(find "${gcode}"/sspp/portals-backend/application/sidecars -maxdepth 1)
-$(find "${gcode}"/sspp/portals-backend/maintenance-and-upgrades -maxdepth 1)
-$(find "${gcode}"/sspp/platforms -maxdepth 1)
-$(find "${gcode}"/sspp/portals-backend -maxdepth 1)
-$(find "${gcode}"/sspp -maxdepth 1)
-$(find "${gcode}"/spectrumflow/shared/platform-components -maxdepth 1)
-$(find "${gcode}"/spectrumflow/shared/platform-e2e-pipelines -maxdepth 1)
-$(find "${gcode}"/spectrumflow/shared/platform-e2e-pipelines/portals-backend -maxdepth 1)
-$(find "${gcode}"/CurtisFleming -maxdepth 1)
-"${gcode}"/sspp/portals-backend/release-plan/spectrummobile-release-plan/spectrummobile-release-plan
-"${gcode}"/sspp/portals-backend/release-plan/myspectrumapp-release-plan/myspectrumapp-release-plan
-"${gcode}"/sspp/portals-backend/release-plan/spectrum-release-plan/spectrum-release-plan
-"${gcode}"/sspp/portals-backend/release-plan/spectrumbusiness-release-plan/spectrumbusiness-release-plan
-"${gcode}"/sspp/portals-backend/release-plan/active-helm-chart-report
-)
-for _project_to_alias in "${_projects_to_alias[@]}"; do
-  alias "${_project_to_alias##*/}=cd '${_project_to_alias}'"
-done
+_async_start() {
+  (
+  local _kube_envs=($(kubectx))
+  for kube_env in "${_kube_envs[@]}"; do
+    if ! alias -p | grep -Pq '^alias '"${kube_env}"'='; then
+      echo "${kube_env}"
+    fi
+  done
+  ) >"${bootstrap_tmp}/kubectx_aliases" &
+  (
+  find "${gcode}"/sspp/portals-backend/application/services -maxdepth 1
+  find "${gcode}"/sspp/portals-backend/application/libraries -maxdepth 1
+  find "${gcode}"/sspp/portals-backend/application/sidecars -maxdepth 1
+  find "${gcode}"/sspp/portals-backend/maintenance-and-upgrades -maxdepth 1
+  find "${gcode}"/sspp/platforms -maxdepth 1
+  find "${gcode}"/sspp/portals-backend -maxdepth 1
+  find "${gcode}"/sspp -maxdepth 1
+  find "${gcode}"/spectrumflow/shared/platform-components -maxdepth 1
+  find "${gcode}"/spectrumflow/shared/platform-e2e-pipelines -maxdepth 1
+  find "${gcode}"/spectrumflow/shared/platform-e2e-pipelines/portals-backend -maxdepth 1
+  find "${gcode}"/CurtisFleming -maxdepth 1
+  echo "${gcode}"/sspp/portals-backend/release-plan/spectrummobile-release-plan/spectrummobile-release-plan
+  echo "${gcode}"/sspp/portals-backend/release-plan/myspectrumapp-release-plan/myspectrumapp-release-plan
+  echo "${gcode}"/sspp/portals-backend/release-plan/spectrum-release-plan/spectrum-release-plan
+  echo "${gcode}"/sspp/portals-backend/release-plan/spectrumbusiness-release-plan/spectrumbusiness-release-plan
+  echo "${gcode}"/sspp/portals-backend/release-plan/active-helm-chart-report
+  ) >"${bootstrap_tmp}/project_path_aliases" &
+}
+
+_async_join() {
+  wait
+  local kubectx_aliases
+  local kube_env
+  mapfile -t kubectx_aliases < <(cat "${bootstrap_tmp}/kubectx_aliases")
+  for kube_env in "${kubectx_aliases[@]}"; do
+    alias "${kube_env}=kubectx ${kube_env}"
+  done
+  local project_path_aliases
+  local project_to_alias
+  mapfile -t project_path_aliases < <(cat "${bootstrap_tmp}/project_path_aliases")
+  for project_to_alias in "${project_path_aliases[@]}"; do
+    alias "${project_to_alias##*/}=cd '${project_to_alias}'"
+  done
+}
+
+_async_start
+_async_join 2>/dev/null
+
 alias cnet='kubens cnet'
-alias smb='kubens smb'
-alias msa='kubens msa'
-alias specmob='kubens specmob'
 
 # Often enough
 clone_sspp() {
@@ -78,26 +98,11 @@ clone_sspp() {
 }
 alias teams='cd "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams'
 alias cloner='cd "${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/turquoise/gitlab-cloning'
-# migration
-alias switch='/Users/curtisf/.m2/switch.sh'
-
-# Incubating ideas for helper functions
-alias both='jenkins docker 1 && jenkins puppet 1'
-alias j='jenkins'
-
-alias PR='bitbucket 2'
-alias PRs='bitbucket 3'
-alias prs='bitbucket 3'
-
 alias release='"${gcode}"/sspp/portals-backend/application/services/spc-dev-toolbox/teams/innovation/release.sh'
 
 # References
 alias curl_notes='open ~/Documents/projects/charter/curl-to-end-all-curls.md'
 alias cassandra_notes='open ~/Documents/projects/charter/efforts/cassandra/cassandra-notes.md'
-
-# Node
-alias node6='bash "${gcode}"/sspp/portals-backend/developer-machine-setup/developer_tools.bash node6'
-alias node10='bash "${gcode}"/sspp/portals-backend/developer-machine-setup/developer_tools.bash node10'
 
 # Mac
 alias json='pbpaste | jq | pbcopy'
@@ -126,11 +131,7 @@ alias fleye='grapher'
 
 alias vscoderc='vi "$HOME/Library/Application Support/Code/User/settings.json"'
 
-# Usage: java -jar decrypter.jar <path_to_pem_file> <key_to_decrypt>
-alias decrypt="java -jar ~/Documents/tools/decrypter.jar"
 alias jarscan="java -jar ~/Documents/tools/jarscan.jar"
-alias splunk='chrome https://charter.splunkcloud.com'
-alias swagbuild='mvn clean install -pl'
 
 # Clear IntelliJ 'ignored files' list that's created when deleting an Intellij Maven module
 function restore_intellij_modules() {
@@ -139,42 +140,22 @@ function restore_intellij_modules() {
 
 # Early days at Kenzan
 alias accounts="vi '${notes}/accounts.txt'"
-alias todo="vi '${notes}/todo.txt'"
 alias gather='"${code}"/elspleth/machines/scripts/gather-machine-rc.sh kenzan-laptop'
 
 # Charter navigation
 alias config='sibling -config'
-alias lifecycle='cd ../release-lifecycle'
 
 # Charter scripting
 alias forwardcreds='ssh-add -K /Users/curtisf/.ssh/charter_id_rsa &>/dev/null'
 alias monday='"${code}"/elspleth-charter/jumpboxes/bastion/deploy-bastion-home.sh rekey'
-alias exercisedockerprovisioning='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning.sh'
-alias exercisedockerprovisioningundo='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning-undo.sh'
-alias exercisedockerprovisioninglist='"${code}"/elspleth-charter/scripts/exercise-docker-provisioning-list.sh'
 alias clean_remote_branches_jira='"${code}"/elspleth-charter/scripts/cleanup-remote-branches.sh'
 alias pull_charter_container_config='"${code}"/elspleth-charter/scripts/pull-charter-container-config.sh'
 alias run_config_aware_tomcat_container='"${code}"/elspleth-charter/scripts/run-config-aware-tomcat-container.sh'
-
-# auto-complete
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-. $(brew --prefix)/etc/bash_completion
-fi
 
 function gitk() {
   # The 'zoomed' state causes gitk to crash and zoomed reappears regularly
   sed -Ei 's/set geometry\(state\) zoomed/set geometry\(state\) normal/g' "$HOME/.config/git/gitk"
   (/usr/local/bin/gitk $@ > /dev/null 2>&1 &)
-}
-
-# From Walter maybe
-function decrypter() {
-  echo 'Looks like shared-lib-config grabs privateKey.pem from a S3 client :sadparrot:'
-  echo 'Search all of Slack for `-u` to find a curl that has service account creds!'
-  if [ $# -ne 2 ]; then echo "Usage: decrypter <key file> <encoded content file>"; return 1; fi
-  base64 -D -i $2 | openssl rsautl -decrypt -inkey $1  -out result.tmp
-  cat result.tmp
-  rm result.tmp
 }
 
 function cleanup_telepresence_deployments() {
@@ -191,24 +172,6 @@ function cleanup_telepresence_pods() {
   echo "Continue?"
   read
   kubectl delete pod $(kubectl get pod | grep 'telepresence-' | cut -f1 -d' ')
-}
-
-# Kenzan/Amdocs VPNs
-function vpn_anyconnect() {
-  local base=~/.anyconnect.vpn.
-  local vpn_name="$1"
-  local config="${base}${vpn_name}"
-  if [ ! -f "${config}" ]; then echo "usage: vpn <vpn short name>";  echo "VPN config file not found: ${config}"; echo "Options are:"; ls "${base}"* | sed -E 's/.+\.([^.]+)/\1/g'; return 1; fi
-  /opt/cisco/anyconnect/bin/vpn disconnect || :
-  killall "Cisco AnyConnect Secure Mobility Client"
-  sleep 2
-  # (echo -n "$(cat ~/secrets/machine-secret)" | pbcopy) || true
-  # (cd "${code}/spc-dev-toolbox/hosts" && ./apply_hosts_file.sh "${vpn_name}-vpn-hosts")
-  (echo -n "$(cat ~/secrets/vpn.${vpn_name}-secret)" | pbcopy) || true
-  cp "${config}" ~/.anyconnect
-  open -a "Cisco AnyConnect Secure Mobility Client"
-  # echo "Opening Charter VPN usage spreadsheet..."
-  # open 'https://docs.google.com/spreadsheets/d/1kMdYYT7OedjSuj-9fokntYB5kvlBq6WnZjW2vJmtlJY/edit#gid=0'
 }
 
 # Charter VPN script. A replacement for GlobalProtectVPN.
@@ -258,62 +221,12 @@ function charter_sso() {
 }
 alias sso='charter_sso'
 
-# Gitlab mirroring
-mirror() {
-  if [ $# -ne 2 ]; then
-    echo "usage: $0 <spc/spclib/etc> <repo name or resolvable directory of name>"
-    return 1
-  fi
-  local project_name="$2"
-  if [ -d "$2" ]; then
-    local project_name="$(realpath "$2")"
-    local project_name="$(basename "${project_name}")"
-  fi
-  local project_name="${project_name%/}"
-  local pw="$(cat "$HOME/secrets/charter-stash-user-gitlab-integration-token")"
-  echo "https://gitlab-integration@stash.dev-charter.net/stash/scm/${1%/}/${project_name}.git" | pbcopy
-  echo -e 'HTTP clone url copied\n'; sleep 6
-  echo "${pw}" | pbcopy
-  echo -e 'Password copied\n'; sleep 4
-  echo "${project_name}" | pbcopy
-  echo -e 'Project name copied\n'
-}
-
 here() {
   local where='.'
   if [ $# -eq 1 ]; then
     local where="$1"
   fi
   echo -n "$(realpath "${where}")/" | pbcopy
-}
-
-zuul_ssh() {
-  echo -e "set -o vi; \n cd /usr/share/tomcat7/; \n sudo vi -R logs/catalina.out" | pbcopy
-  ssh $@
-}
-
-# ---- Sketch temporary logic for Charter Tooling Migration --------------------------------------------
-
-before_and_after_maven_dependency_tree() {
-  if [ ! -d .git ]; then
-    echo "Change directory to a git project root"
-    return 1
-  fi
-  if [ ! -f pom.xml ]; then
-    echo "Change directory to a maven project root"
-    return 1
-  fi
-  mvn dependency:tree &> /dev/null
-  mvn dependency:tree > "$HOME/downloads/after"
-  git add .
-  git stash
-  mvn dependency:tree &> /dev/null
-  mvn dependency:tree > "$HOME/downloads/before"
-  git stash pop
-  (
-  cd "$HOME/downloads"
-  git diff before after
-  )
 }
 
 contiguouscode() {

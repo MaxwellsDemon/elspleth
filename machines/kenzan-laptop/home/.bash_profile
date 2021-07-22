@@ -15,11 +15,10 @@ export NODE_ENV=development
 
 export PATH="/usr/local/opt/yq@3/bin:$PATH"
 
-
 # Charter AWS-IAM Authenticator
 export SSO_USER='P2820029'
 export PATH="/opt/code-gitlab/sspp/platforms/sspp-infrastructure/cmd_line/:$PATH"
-# export SSO_ROLE_PRECEDENCE='chartersso-AP-PDM-AWS-SSPPBE-Admin,chartersso-AP-PDM-AWS-SSPPBE-User'
+export SSO_ROLE_PRECEDENCE='chartersso-AP-PDM-AWS-SSPPBE-Admin,chartersso-AP-PDM-AWS-SSPPBE-User'
 # python managed by pyenv, `pyenv global 3.9.2`
 if command -v pyenv 1>/dev/null 2>&1; then
   export PYENV_ROOT="$HOME/.pyenv"

@@ -12,6 +12,24 @@ alias sow='open ${HOME}/Documents/projects/charter/gitlab-migration/kickoff-docs
 # Typos
 piplines=pipelines
 
+# temporary
+as_aws_admin() {
+    _change_aws_role 'chartersso-AP-PDM-AWS-SSPPBE-Admin,chartersso-AP-PDM-AWS-SSPPBE-User'
+}
+as_aws_commoner() {
+    _change_aws_role 'chartersso-AP-PDM-AWS-SSPPBE-User'
+}
+
+_change_aws_role() {
+    local role_order="$1"
+    rm -f ~/.aws/DPPortalsDev.expiration
+    sed -Ei "s/export SSO_ROLE_PRECEDENCE=.+/export SSO_ROLE_PRECEDENCE='${role_order}'/g" "$HOME/.bash_profile"
+    source "$HOME/.bash_profile"
+    echo $SSO_ROLE_PRECEDENCE
+    kubens
+    echo "Context: $(kubectx -c)"
+}
+
 export_charter_personal_gitlab() {
   export API_V4_TOKEN="$(cat "${HOME}"/secrets/charter-gitlab-personal-access-token)"
   export CI_API_V4_URL='https://gitlab.spectrumflow.net/api/v4'
@@ -43,14 +61,7 @@ bootstrap_tmp="${HOME}/bootstrap_tmp"
 mkdir -p "${bootstrap_tmp}"
 
 _async_start() {
-  (
-  local _kube_envs=($(kubectx))
-  for kube_env in "${_kube_envs[@]}"; do
-    if ! alias -p | grep -Pq '^alias '"${kube_env}"'='; then
-      echo "${kube_env}"
-    fi
-  done
-  ) >"${bootstrap_tmp}/kubectx_aliases" &
+  # Add more cases here
   (
   find "${gcode}"/sspp/portals-backend/application/services -maxdepth 1
   find "${gcode}"/sspp/portals-backend/application/libraries -maxdepth 1
@@ -58,6 +69,7 @@ _async_start() {
   find "${gcode}"/sspp/portals-backend/maintenance-and-upgrades -maxdepth 1
   find "${gcode}"/sspp/platforms -maxdepth 1
   find "${gcode}"/sspp/portals-backend -maxdepth 1
+  find "${gcode}"/sspp/gitlab-proof-of-concepts -maxdepth 1
   find "${gcode}"/sspp -maxdepth 1
   find "${gcode}"/spectrumflow/shared/platform-components -maxdepth 1
   find "${gcode}"/spectrumflow/shared/platform-e2e-pipelines -maxdepth 1
@@ -73,12 +85,6 @@ _async_start() {
 
 _async_join() {
   wait
-  local kubectx_aliases
-  local kube_env
-  mapfile -t kubectx_aliases < <(cat "${bootstrap_tmp}/kubectx_aliases")
-  for kube_env in "${kubectx_aliases[@]}"; do
-    alias "${kube_env}=kubectx ${kube_env}"
-  done
   local project_path_aliases
   local project_to_alias
   mapfile -t project_path_aliases < <(cat "${bootstrap_tmp}/project_path_aliases")
@@ -315,5 +321,5 @@ as_dan_perron_author() {
 }
 
 # Clears annoying Iterm2 introduction
-clear
+#clear
 
